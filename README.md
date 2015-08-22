@@ -30,6 +30,8 @@ However, the Towards Reusable Charts pattern does not specify any particular way
 
 There are many existing solutions for managing mutable state, events, and computed properties, however there is no clear concensus as to which solution is "the best". **One of the main goals of this project is to establish a simple and well defined API specification for exposing mutable state to consumers of the component APIs.** It should be possible to implement this specification using straightforward JavaScript patterns, using D3 utilities (such as dispatch and rebind), or using additional libraries such as Backbone, Angular, or React.
 
+Another goal is to specify an API structure that transcends D3. It should be possible to implement interactive visualizations that conform to this API specification but do not use D3 with SVG to implement the graphics. For example, Leaflet may be used to implement a choropleth map, or Three.js may be used to implement a three dimensional scatter plot. It may also make sense to use Canvas to implement the graphics for a visualization. All of these options should remain open with this component API specification.
+
 # API Specification
 
 **A module that defines a component must export a component constructor function.**
