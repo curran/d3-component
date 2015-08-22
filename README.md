@@ -3,7 +3,7 @@ An idiomatic D3 component API specification.
 
 [![](https://imgs.xkcd.com/comics/standards.png)](https://xkcd.com/927/)
 
-This is an attempt to express a baseline API structure for interactive data visualizations.
+This is an attempt to express a baseline API structure for interactive data visualizations. The main purpose for this is to enable **interoperability** between reusable visualization components.
 
 In addition to an API specification, this project aims to provide:
 
@@ -28,7 +28,7 @@ The merits of these patterns are numerous, and are quite well explained in the o
 
 However, the Towards Reusable Charts pattern does not specify any particular way to deal with mutable state, events, and computed properties. For example, how should the visualization respond when the browser window is resized? To implement resizing visualization, one needs to establish some means by which to update the state of the visualization (width and height) **and** re-render the visualization.
 
-There are many existing solutions for managing mutable state, events, and computed properties. However there is no clear concensus as to which solution is "the best".
+There are many existing solutions for managing mutable state, events, and computed properties, however there is no clear concensus as to which solution is "the best". **One of the main goals of this project is to establish a simple and well defined API specification for exposing mutable state to consumers of the component APIs.** It should be possible to implement this specification using straightforward JavaScript patterns, using D3 utilities (such as dispatch and rebind), or using additional libraries such as Backbone, Angular, or React.
 
 # API Specification
 
