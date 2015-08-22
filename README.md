@@ -71,6 +71,25 @@ d3.select("#chart")
   .call(component);
 ```
 
+**In this invocation, the selected element must be a `<div>`.**
+
+The HTML for the page in which this is invoked might look something like this:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>D3 Component Use</title>
+    <script src="my-component.js"></script>
+  </head>
+  <body>
+    <div id="chart"></div>
+    <script> // invocation goes here. </script>
+  </body>
+</html>
+```
+
 # Validation
 
 # Utilities
