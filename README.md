@@ -1,7 +1,7 @@
 # d3-component
 An idiomatic D3 component API specification.
 
-![](https://imgs.xkcd.com/comics/standards.png)
+[![](https://imgs.xkcd.com/comics/standards.png)](https://xkcd.com/927/)
 
 This is an attempt to express a baseline API structure for interactive data visualizations.
 
