@@ -26,7 +26,9 @@ The Towards Reusable Charts approach comprises of two fundamental patterns:
 
 The merits of these patterns are numerous, and are quite well explained in the original Towards Reusable Charts piece. The chainable getter-setter pattern provides a clean and flexible API for constructing and manipulating objects. Constructing a function that gets called with a D3 selection provides the "rubber stamp" nature of the D3 Enter, Update, Exit paradigm. This makes it straightforward to, for example, implement [small multiples](https://en.wikipedia.org/wiki/Small_multiple) for any visualization technique.
 
-However, the Towards Reusable Charts pattern does not specify any particular way to deal with mutable state and handling events. For example, how should the visualization respond when the browser window is resized? To implement resizing visualization, one needs to establish some means by which to update the state of the visualization (width and height) **and** re-render the visualization.
+However, the Towards Reusable Charts pattern does not specify any particular way to deal with mutable state, events, and computed properties. For example, how should the visualization respond when the browser window is resized? To implement resizing visualization, one needs to establish some means by which to update the state of the visualization (width and height) **and** re-render the visualization.
+
+There are many existing solutions for managing mutable state, events, and computed properties. However there is no clear concensus as to which solution is "the best".
 
 # API Specification
 
