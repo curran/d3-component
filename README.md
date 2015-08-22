@@ -7,7 +7,7 @@ This is an attempt to express a baseline API structure for interactive data visu
 
 In addition to an API specification, this project aims to provide:
 
- * A library that can validate that components conform to the specification.
+ * A library that can validate whether or not a given implementation conform to the specification.
  * A library that provides utilities that make it easier to implement the specification.
 
 # Introduction
