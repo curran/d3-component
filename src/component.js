@@ -1,30 +1,29 @@
-import local from "d3-local";
+import local from "d3-selection";
 export default function (Component){
   var className = Component.className,
       tagName = Component.tagName,
       componentLocal = local();
 
-  return function (context, props){
+  return function (context, data){
     var components = context
       .selectAll(className ? "." + className : tagName)
-      .data(Array.isArray(props) ? props : [props]);
+      .data(Array.isArray(data) ? data : [data]);
     components
       .exit()
         .each(function (){
-          var componentInstance = componentLocal.get(this);
-          if(componentInstance.destroy){ componentInstance.destroy(); }
+          var instance = componentLocal.get(this);
+          if(instance.destroy){ instance.destroy(); }
         })
         .remove();
     components
-      .enter()
-      .append(Component.tagName)
-        .attr("class", 
+      .enter().append(tagName)
+        .attr("class", className)
         .each(function (){
           componentLocal.set(this, Component());
         })
       .merge(components)
-        .each(function (props){
-          d3.select(this).call(componentLocal.get(this), props);
+        .each(function (data){
+          d3.select(this).call(componentLocal.get(this), data);
         });
   };
 };

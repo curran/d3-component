@@ -1,28 +1,32 @@
 {
-  "name": "d3-foo",
+  "name": "d3-component",
   "version": "0.0.1",
-  "description": "{DESCRIPTION}",
+  "description": "A D3 component module.",
   "keywords": [
     "d3",
     "d3-module"
   ],
   "license": "BSD-3-Clause",
-  "main": "build/d3-foo.js",
+  "main": "build/d3-component.js",
   "jsnext:main": "index",
-  "homepage": "https://github.com/{USERNAME}/d3-foo",
+  "module": "index",
+  "homepage": "https://github.com/curran/d3-component",
   "repository": {
     "type": "git",
-    "url": "https://github.com/{USERNAME}/d3-foo.git"
+    "url": "https://github.com/curran/d3-component.git"
   },
   "scripts": {
-    "pretest": "rm -rf build && mkdir build && rollup -f umd -n d3 -o build/d3-foo.js -- index.js",
+    "pretest": "rm -rf build && mkdir build && rollup -f umd -n d3 -o build/d3-component.js -- index.js",
     "test": "tape 'test/**/*-test.js'",
-    "prepublish": "npm run test && uglifyjs build/d3-foo.js -c -m -o build/d3-foo.min.js",
-    "postpublish": "zip -j build/d3-foo.zip -- LICENSE README.md build/d3-foo.js build/d3-foo.min.js"
+    "prepublish": "npm run test && uglifyjs build/d3-component.js -c -m -o build/d3-component.min.js",
+    "postpublish": "git push; git push --tags"
   },
   "devDependencies": {
     "rollup": "0.27",
     "tape": "4",
     "uglify-js": "2"
+  },
+  "dependencies": {
+    "d3-selection": "^1.0.3"
   }
 }
