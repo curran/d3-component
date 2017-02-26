@@ -1,7 +1,7 @@
 {
   "name": "d3-component",
   "version": "0.0.1",
-  "description": "A D3 component module.",
+  "description": "A D3 component system.",
   "keywords": [
     "d3",
     "d3-module"
