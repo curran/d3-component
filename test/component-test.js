@@ -1,7 +1,7 @@
 var tape = require("tape"),
-    component = require("../");
+    d3 = require("../");
 
 tape("component()", function(test) {
-  test.equal(component(function(){}), 42);
+  test.equal(d3.component(function(){}), 42);
   test.end();
 });

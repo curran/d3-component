@@ -1,4 +1,4 @@
-import local from "d3-selection";
+import { local } from "d3-selection";
 export default function (Component){
   var className = Component.className,
       tagName = Component.tagName,
