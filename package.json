@@ -16,14 +16,14 @@
     "url": "https://github.com/curran/d3-component.git"
   },
   "scripts": {
-    "pretest": "rm -rf build && mkdir build && rollup -f umd -n d3 -o build/d3-component.js -- index.js",
+    "pretest": "rm -rf build && mkdir build && rollup -f umd -g d3-selection:d3 -n d3 -o build/d3-component.js -- index.js",
     "test": "tape 'test/**/*-test.js'",
     "prepublish": "npm run test && uglifyjs build/d3-component.js -c -m -o build/d3-component.min.js",
     "postpublish": "git push; git push --tags"
   },
   "devDependencies": {
     "jsdom": "^9.11.0",
-    "rollup": "0.27",
+    "rollup": "0.41",
     "tape": "4",
     "uglify-js": "2"
   },
