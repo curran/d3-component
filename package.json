@@ -22,6 +22,7 @@
     "postpublish": "git push; git push --tags"
   },
   "devDependencies": {
+    "jsdom": "^9.11.0",
     "rollup": "0.27",
     "tape": "4",
     "uglify-js": "2"

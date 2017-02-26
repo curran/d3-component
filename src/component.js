@@ -1,4 +1,4 @@
-import { local } from "d3-selection";
+import { select, local } from "d3-selection";
 export default function (Component){
   var className = Component.className,
       tagName = Component.tagName,
@@ -23,7 +23,7 @@ export default function (Component){
         })
       .merge(components)
         .each(function (data){
-          d3.select(this).call(componentLocal.get(this), data);
+          select(this).call(componentLocal.get(this), data);
         });
   };
 };
