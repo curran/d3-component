@@ -55,3 +55,15 @@ tape("Nested components.", function(test) {
   test.equal(div.html(), "<div><h>Title</h><p>Content here.</p></div>");
   test.end();
 });
+
+tape("Nested components multiple instances.", function(test) {
+  var div = d3.select(jsdom.jsdom().body).append("div");
+  var post = d3.component(Post);
+  div.call(post, [
+    { title: "A", content: "a" },
+    { title: "B", content: "b" },
+    { title: "C", content: "c" },
+  ]);
+  test.equal(div.html(), "<div><h>A</h><p>a</p></div><div><h>B</h><p>b</p></div><div><h>C</h><p>c</p></div>");
+  test.end();
+});
