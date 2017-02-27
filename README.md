@@ -18,14 +18,71 @@ Creates a new component generator that manages and renders into DOM elements of 
 
 Sets the render function of this component generator to the specified *function*. This function will be invoked for each instance of the component, passing the *selection* (a D3 selection that contains a single DOM element) and *datum* (the object that determines what will be rendered, similar to `props` in React components). If a *function* is not specified, returns the  render function of this component generator, which defaults to a no-op.
 
+For example, here are some components that create `<h1>` and `<p>` elements, and set their text.
+
+```js
+var heading = d3.component("h1")
+  .render(function (selection, d){ selection.text(d); });
+
+var paragraph = d3.component("p")
+  .render(function (selection, d){ selection.text(d); });
+```
+
+Components can be easily composed. Here's an example of a component that renders `<div>` elements that contain `<h1>` and `<p>` elements.
+
+```js
+var post = d3.component("div")
+  .render(function (selection, d){
+    selection
+      .call(heading, d.title)
+      .call(paragraph, d.content);
+  });
+```
+
 <a href="#component_invoke" name="component_invoke" >#</a> <i>component</i>(<i>selection</i>[,<i>data</i>])
 
-Renders the component to the given *selection*, a D3 selection.
+Renders the component to the given *selection*, a D3 selection. If *data* is specified as an array, one component instance will be rendered for each element of the *data* array and the *[render function](component_render)* will receive a single element of the *data* array as its *datum* argument. If *data* is specified and is not an array, exactly one component instance will be rendered and the *[render function](component_render)* will receive the *data* value as its *datum* argument. It *data* is not specified, exactly one component instance will be rendered and the *[render function](component_render)* will receive `undefined` as its *datum* argument. If *data* is specified as an empty array `[]`, then all previously rendered component instances will be removed from the DOM.
 
-If *data* is specified as an array, one component instance will be rendered for each element of the *data* array and the *[render function](component_render)* will receive a single element of the *data* array as its *datum* argument.
+For example, here's how we would render an instance of the `post` component.
 
-If *data* is specified and is not an array, exactly one component instance will be rendered and the *[render function](component_render)* will receive the *data* value as its *datum* argument.
+```js
+var container = d3.select("#some-container-div");
+container.call(post, {
+  title: "Title",
+  content: "Content here."
+});
+console.log(container.html());
+```
 
-It *data* is not specified, exactly one component instance will be rendered and the *[render function](component_render)* will receive `undefined` as its *datum* argument.
+The following HTML structure will be printed.
 
-If *data* is specified as an empty array `[]`, then all previously rendered component instances will be removed from the DOM.
+```html
+<div>
+  <h1>Title</h1>
+  <p>Content here.</p>
+</div>
+```
+
+Here's an example of rendering multiple component instances.
+
+```js
+var container = d3.select("#some-container-div");
+container.call(post, [
+  { title: "A Title", content: "a content" },
+  { title: "B Title", content: "b content" },
+]);
+console.log(container.html());
+```
+
+The following HTML structure will be printed.
+
+```html
+<div>
+  <h1>A Title</h1>
+  <p>a content</p>
+</div>
+<div>
+  <h1>B Title</h1>
+  <p>b content</p>
+</div>
+```

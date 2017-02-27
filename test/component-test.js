@@ -9,10 +9,10 @@ var tape = require("tape"),
  ************ Components *************
  *************************************/
 
-var paragraph = d3.component("p")
+var heading = d3.component("h1")
   .render(function (selection, d){ selection.text(d); });
 
-var heading = d3.component("h1")
+var paragraph = d3.component("p")
   .render(function (selection, d){ selection.text(d); });
 
 var post = d3.component("div")
