@@ -54,13 +54,6 @@ var fruitBasket = d3.component({
   tagName: "div"
 });
 
-/*************************************
- ************ Utilities **************
- *************************************/
-function createDiv(){
-  return d3.select(jsdom.jsdom().body).append("div");
-}
-
 
 /*************************************
  ************** Tests ****************
@@ -185,5 +178,36 @@ tape("Multiple nested component types.", function(test) {
     "</div>"
   ].join(""));
 
+  // Update + Enter + Exit
+  div.call(fruitBasket, [
+    {
+      apples: ["Red Delicious", "Honeycrisp", "Granny Nice"],
+      oranges: ["Navel", "Pomelo"]
+    },
+    {
+      oranges: ["Mandarin"]
+    }
+  ]);
+  test.equal(div.html(), [
+    "<div>",
+      '<span class="apple">Red Delicious</span>',
+      '<span class="apple">Honeycrisp</span>',
+      '<span class="orange">Navel</span>',
+      '<span class="orange">Pomelo</span>',
+      '<span class="apple">Granny Nice</span>',
+    "</div>",
+    "<div>",
+      '<span class="orange">Mandarin</span>',
+    "</div>"
+  ].join(""));
+
   test.end();
 });
+
+
+/*************************************
+ ************ Utilities **************
+ *************************************/
+function createDiv(){
+  return d3.select(jsdom.jsdom().body).append("div");
+}
