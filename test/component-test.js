@@ -9,22 +9,22 @@ var tape = require("tape"),
  ************ Components *************
  *************************************/
 function Paragraph(){
-  return function (context, d){ context.text(d); };
+  return function (selection, d){ selection.text(d); };
 }
 Paragraph.tagName = "p";
 var paragraph = d3.component(Paragraph);
 
 
 function Heading(){
-  return function (context, d){ context.text(d); };
+  return function (selection, d){ selection.text(d); };
 }
 Heading.tagName = "h";
 var heading = d3.component(Heading);
 
 
 function Post(){
-  return function (context, d){
-    context
+  return function (selection, d){
+    selection
       .call(heading, d.title)
       .call(paragraph, d.content);
   };
