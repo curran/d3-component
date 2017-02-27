@@ -4,10 +4,10 @@ export default function (Component){
       tagName = Component.tagName,
       componentLocal = local();
 
-  return function (context, data){
-    var components = context
+  return function (selection, props){
+    var components = selection
       .selectAll(className ? "." + className : tagName)
-      .data(Array.isArray(data) ? data : [data]);
+      .props(Array.isArray(props) ? props : [props]);
     components
       .exit()
         .each(function (){
@@ -22,8 +22,8 @@ export default function (Component){
           componentLocal.set(this, Component());
         })
       .merge(components)
-        .each(function (data){
-          select(this).call(componentLocal.get(this), data);
+        .each(function (props){
+          select(this).call(componentLocal.get(this), props);
         });
   };
 };
