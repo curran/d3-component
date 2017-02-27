@@ -10,7 +10,7 @@ If you use NPM, `npm install d3-component`. Otherwise, download the [latest rele
 
 ## API Reference
 
-For usage examples, please have a look at the [tests](test/component-test.js);
+For usage examples, please have a look at the [tests](test/component-test.js).
 
 <a href="#component" name="component">#</a> <b>component</b>(<i>tagName</i>[, <i>className</i>])
 
