@@ -33,6 +33,28 @@ Post.tagName = "div";
 var post = d3.component(Post);
 
 
+function Apple(){ return function (){}; }
+Apple.tagName = "span";
+Apple.className = "apple";
+var apple = d3.component(Apple);
+
+
+function Orange(){ return function (){}; }
+Orange.tagName = "span";
+Orange.className = "orange";
+var orange = d3.component(Orange);
+
+
+function Fruit(){
+  return function (selection, d){
+    selection
+      .call(apple, d === "apple" || [])
+      .call(orange, d === "orange" || []);
+  };
+}
+Fruit.tagName = "div";
+var fruit = d3.component(Fruit);
+
 /*************************************
  ************ Utilities **************
  *************************************/
@@ -118,6 +140,30 @@ tape("Nested components multiple instances.", function(test) {
   // Exit
   div.call(post, []);
   test.equal(div.html(), "");
+
+  test.end();
+});
+
+tape("Conditional components with classes.", function(test) {
+  var div = createDiv();
+
+  // Enter
+  div.call(fruit, ["apple", "orange", "apple", "apple", "orange"]);
+  test.equal(div.html(), [
+    '<div><span class="apple"></span></div>',
+    '<div><span class="orange"></span></div>',
+    '<div><span class="apple"></span></div>',
+    '<div><span class="apple"></span></div>',
+    '<div><span class="orange"></span></div>'
+  ].join(""));
+
+  // Update + Exit
+  div.call(fruit, ["orange", "apple", "apple"]);
+  test.equal(div.html(), [
+    '<div><span class="orange"></span></div>',
+    '<div><span class="apple"></span></div>',
+    '<div><span class="apple"></span></div>'
+  ].join(""));
 
   test.end();
 });
