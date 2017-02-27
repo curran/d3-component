@@ -8,8 +8,6 @@ If you use NPM, `npm install d3-component`. Otherwise, download the [latest rele
 
 ## API Reference
 
-YOUR API DOCUMENTATION HERE. Use bold for symbols (such as constructor and method names) and italics for instances. See the other D3 modules for examples.
+<a href="#component" name="component">#</a> <b>component</b>(<i>tagName</i>[, <i>className</i>])
 
-<a href="#component" name="component">#</a> <b>component</b>(Component)
-
-Creates a component instance manager from the given Component constructor.
+Creates a new component generator that manages DOM elements of the specified *tagName*. Optionally, for more specificity, you may specify a *className*, which will determine the value of the `class` attribute on the DOM elements managed.
