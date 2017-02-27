@@ -1,29 +1,19 @@
 import { select, local } from "d3-selection";
-export default function (Component){
-  var className = Component.className,
-      tagName = Component.tagName,
-      componentLocal = local();
+export default function (component){
+  var className = component.className,
+      tagName = component.tagName,
+      render = component.render || function(){};
 
   return function (selection, props){
     var components = selection
       .selectAll(className ? "." + className : tagName)
       .data(Array.isArray(props) ? props : [props]);
+    components.exit().remove();
     components
-      .exit()
-        .each(function (){
-          var instance = componentLocal.get(this);
-          if(instance.destroy){ instance.destroy(); }
-        })
-        .remove();
-    components
-      .enter().append(tagName)
-        .attr("class", className)
-        .each(function (){
-          componentLocal.set(this, Component());
-        })
+      .enter().append(tagName).attr("class", className)
       .merge(components)
         .each(function (props){
-          select(this).call(componentLocal.get(this), props);
+          select(this).call(render, props);
         });
   };
 };
