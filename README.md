@@ -8,9 +8,11 @@ If you use NPM, `npm install d3-component`. Otherwise, download the [latest rele
 
 ## API Reference
 
+For usage examples, please have a look at the [tests](test/component-test.js);
+
 <a href="#component" name="component">#</a> <b>component</b>(<i>tagName</i>[, <i>className</i>])
 
-Creates a new component generator that manages DOM elements of the specified *tagName*. Optionally, for more specificity, you may specify a *className*, which will determine the value of the `class` attribute on the DOM elements managed.
+Creates a new component generator that manages and renders into DOM elements of the specified *tagName*. Optionally, for more specificity, you may specify a *className*, which will determine the value of the `class` attribute on the DOM elements managed.
 
 <a href="#component_render" name="component_render" >#</a> <i>component</i>.<b>render</b>([<i>function</i>])
 
