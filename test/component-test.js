@@ -43,7 +43,8 @@ var fruit = d3.component({
       .call(apple, d === "apple" || [])
       .call(orange, d === "orange" || []);
   },
-  tagName: "div"
+  tagName: "div",
+  className: "fruit"
 });
 var fruitBasket = d3.component({
   render: function (selection, d){
@@ -51,7 +52,8 @@ var fruitBasket = d3.component({
       .call(apple, d.apples || [])
       .call(orange, d.oranges || []);
   },
-  tagName: "div"
+  tagName: "div",
+  className: "fruit-basket"
 });
 
 
@@ -142,19 +144,19 @@ tape("Conditional components with classes.", function(test) {
   // Enter
   div.call(fruit, ["apple", "orange", "apple", "apple", "orange"]);
   test.equal(div.html(), [
-    '<div><span class="apple">true</span></div>',
-    '<div><span class="orange">true</span></div>',
-    '<div><span class="apple">true</span></div>',
-    '<div><span class="apple">true</span></div>',
-    '<div><span class="orange">true</span></div>'
+    '<div class="fruit"><span class="apple">true</span></div>',
+    '<div class="fruit"><span class="orange">true</span></div>',
+    '<div class="fruit"><span class="apple">true</span></div>',
+    '<div class="fruit"><span class="apple">true</span></div>',
+    '<div class="fruit"><span class="orange">true</span></div>'
   ].join(""));
 
   // Update + Exit
   div.call(fruit, ["orange", "apple", "apple"]);
   test.equal(div.html(), [
-    '<div><span class="orange">true</span></div>',
-    '<div><span class="apple">true</span></div>',
-    '<div><span class="apple">true</span></div>'
+    '<div class="fruit"><span class="orange">true</span></div>',
+    '<div class="fruit"><span class="apple">true</span></div>',
+    '<div class="fruit"><span class="apple">true</span></div>'
   ].join(""));
 
   test.end();
@@ -169,7 +171,7 @@ tape("Multiple nested component types.", function(test) {
     oranges: ["Navel", "Mandarin", "Pomelo"]
   });
   test.equal(div.html(), [
-    "<div>",
+    '<div class="fruit-basket">',
       '<span class="apple">Red Delicious</span>',
       '<span class="apple">Honeycrisp</span>',
       '<span class="orange">Navel</span>',
@@ -189,14 +191,14 @@ tape("Multiple nested component types.", function(test) {
     }
   ]);
   test.equal(div.html(), [
-    "<div>",
+    '<div class="fruit-basket">',
       '<span class="apple">Red Delicious</span>',
       '<span class="apple">Honeycrisp</span>',
       '<span class="orange">Navel</span>',
       '<span class="orange">Pomelo</span>',
       '<span class="apple">Granny Nice</span>',
     "</div>",
-    "<div>",
+    '<div class="fruit-basket">',
       '<span class="orange">Mandarin</span>',
     "</div>"
   ].join(""));
