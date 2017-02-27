@@ -2,6 +2,8 @@
 
 A D3 component system.
 
+Conceptually similar to stateless functional components in React, this component system makes it easy to encapsulate and compose components. Components created using this system are stateless, and their rendering behavior is idempotent with respect to the data passed into them.
+
 ## Installing
 
 If you use NPM, `npm install d3-component`. Otherwise, download the [latest release](https://github.com/curran/d3-component/releases/latest).
