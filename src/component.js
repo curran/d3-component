@@ -7,7 +7,7 @@ export default function (Component){
   return function (selection, props){
     var components = selection
       .selectAll(className ? "." + className : tagName)
-      .props(Array.isArray(props) ? props : [props]);
+      .data(Array.isArray(props) ? props : [props]);
     components
       .exit()
         .each(function (){

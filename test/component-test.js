@@ -93,17 +93,31 @@ tape("Nested components.", function(test) {
 tape("Nested components multiple instances.", function(test) {
   var div = createDiv();
 
+  // Enter
   div.call(post, [
     { title: "A", content: "a" },
     { title: "B", content: "b" },
-    { title: "C", content: "c" },
   ]);
-
   test.equal(div.html(), [
     "<div><h>A</h><p>a</p></div>",
-    "<div><h>B</h><p>b</p></div>",
-    "<div><h>C</h><p>c</p></div>"
+    "<div><h>B</h><p>b</p></div>"
   ].join(""));
+
+  // Enter + Update
+  div.call(post, [
+    { title: "D", content: "d" },
+    { title: "E", content: "e" },
+    { title: "F", content: "f" },
+  ]);
+  test.equal(div.html(), [
+    "<div><h>D</h><p>d</p></div>",
+    "<div><h>E</h><p>e</p></div>",
+    "<div><h>F</h><p>f</p></div>"
+  ].join(""));
+
+  // Exit
+  div.call(post, []);
+  test.equal(div.html(), "");
 
   test.end();
 });
