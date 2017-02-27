@@ -8,53 +8,39 @@ var tape = require("tape"),
 /*************************************
  ************ Components *************
  *************************************/
-var paragraph = d3.component({
-  render: function (selection, d){ selection.text(d); },
-  tagName: "p"
-});
 
-var heading = d3.component({
-  render: function (selection, d){ selection.text(d); },
-  tagName: "h"
-});
+var paragraph = d3.component("p")
+  .render(function (selection, d){ selection.text(d); });
 
-var post = d3.component({
-  render: function (selection, d){
+var heading = d3.component("h")
+  .render(function (selection, d){ selection.text(d); });
+
+var post = d3.component("div")
+  .render(function (selection, d){
     selection
       .call(heading, d.title)
       .call(paragraph, d.content);
-  },
-  tagName: "div"
-});
+  });
 
-var apple = d3.component({
-  render: function (selection, d){ selection.text(d); },
-  tagName:"span",
-  className: "apple"
-});
-var orange = d3.component({
-  render: function (selection, d){ selection.text(d); },
-  tagName:"span",
-  className: "orange"
-});
-var fruit = d3.component({
-  render: function (selection, d){
+var apple = d3.component("span", "apple")
+  .render(function (selection, d){ selection.text(d); });
+
+var orange = d3.component("span", "orange")
+  .render(function (selection, d){ selection.text(d); });
+
+var fruit = d3.component("div", "fruit")
+  .render(function (selection, d){
     selection
       .call(apple, d === "apple" || [])
       .call(orange, d === "orange" || []);
-  },
-  tagName: "div",
-  className: "fruit"
-});
-var fruitBasket = d3.component({
-  render: function (selection, d){
+  });
+
+var fruitBasket = d3.component("div", "fruit-basket")
+  .render(function (selection, d){
     selection
       .call(apple, d.apples || [])
       .call(orange, d.oranges || []);
-  },
-  tagName: "div",
-  className: "fruit-basket"
-});
+  });
 
 
 /*************************************
