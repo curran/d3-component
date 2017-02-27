@@ -27,8 +27,16 @@ var post = d3.component({
   tagName: "div"
 });
 
-var apple = d3.component({ tagName:"span", className: "apple" });
-var orange = d3.component({ tagName:"span", className: "orange" });
+var apple = d3.component({
+  render: function (selection, d){ selection.text(d); },
+  tagName:"span",
+  className: "apple"
+});
+var orange = d3.component({
+  render: function (selection, d){ selection.text(d); },
+  tagName:"span",
+  className: "orange"
+});
 var fruit = d3.component({
   render: function (selection, d){
     selection
@@ -141,19 +149,19 @@ tape("Conditional components with classes.", function(test) {
   // Enter
   div.call(fruit, ["apple", "orange", "apple", "apple", "orange"]);
   test.equal(div.html(), [
-    '<div><span class="apple"></span></div>',
-    '<div><span class="orange"></span></div>',
-    '<div><span class="apple"></span></div>',
-    '<div><span class="apple"></span></div>',
-    '<div><span class="orange"></span></div>'
+    '<div><span class="apple">true</span></div>',
+    '<div><span class="orange">true</span></div>',
+    '<div><span class="apple">true</span></div>',
+    '<div><span class="apple">true</span></div>',
+    '<div><span class="orange">true</span></div>'
   ].join(""));
 
   // Update + Exit
   div.call(fruit, ["orange", "apple", "apple"]);
   test.equal(div.html(), [
-    '<div><span class="orange"></span></div>',
-    '<div><span class="apple"></span></div>',
-    '<div><span class="apple"></span></div>'
+    '<div><span class="orange">true</span></div>',
+    '<div><span class="apple">true</span></div>',
+    '<div><span class="apple">true</span></div>'
   ].join(""));
 
   test.end();
@@ -164,16 +172,16 @@ tape("Multiple nested component types.", function(test) {
 
   // Enter
   div.call(fruitBasket, {
-    apples: [1, 2],
-    oranges: [1, 2, 3]
+    apples: ["Red Delicious", "Honeycrisp"],
+    oranges: ["Navel", "Mandarin", "Pomelo"]
   });
   test.equal(div.html(), [
     "<div>",
-      '<span class="apple"></span>',
-      '<span class="apple"></span>',
-      '<span class="orange"></span>',
-      '<span class="orange"></span>',
-      '<span class="orange"></span>',
+      '<span class="apple">Red Delicious</span>',
+      '<span class="apple">Honeycrisp</span>',
+      '<span class="orange">Navel</span>',
+      '<span class="orange">Mandarin</span>',
+      '<span class="orange">Pomelo</span>',
     "</div>"
   ].join(""));
 
