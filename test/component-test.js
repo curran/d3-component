@@ -83,7 +83,7 @@ tape("Nested components.", function(test) {
 
   test.equal(div.html(), [
     "<div>",
-      "<h>Title</h>",
+      "<h1>Title</h1>",
       "<p>Content here.</p>",
     "</div>"
   ].join(""));
@@ -101,8 +101,8 @@ tape("Nested components multiple instances.", function(test) {
     { title: "B", content: "b" },
   ]);
   test.equal(div.html(), [
-    "<div><h>A</h><p>a</p></div>",
-    "<div><h>B</h><p>b</p></div>"
+    "<div><h1>A</h1><p>a</p></div>",
+    "<div><h1>B</h1><p>b</p></div>"
   ].join(""));
 
   // Enter + Update
@@ -112,9 +112,9 @@ tape("Nested components multiple instances.", function(test) {
     { title: "F", content: "f" },
   ]);
   test.equal(div.html(), [
-    "<div><h>D</h><p>d</p></div>",
-    "<div><h>E</h><p>e</p></div>",
-    "<div><h>F</h><p>f</p></div>"
+    "<div><h1>D</h1><p>d</p></div>",
+    "<div><h1>E</h1><p>e</p></div>",
+    "<div><h1>F</h1><p>f</p></div>"
   ].join(""));
 
   // Exit
