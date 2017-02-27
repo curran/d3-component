@@ -6,7 +6,17 @@ Conceptually similar to pure functional components in React, this component syst
 
 ## Installing
 
-If you use NPM, `npm install d3-component`. Otherwise, download the [latest release](https://github.com/curran/d3-component/releases/latest).
+If you use NPM, `npm install d3-component`. Otherwise, download the [latest release](https://github.com/curran/d3-component/releases/latest). You can also load directly from [unpkg.com](https://unpkg.com) as a [standalone library](https://unpkg.com/d3-component@0.1). AMD, CommonJS, and vanilla environments are supported. In vanilla, a `d3` global is exported:
+
+```html
+<script src="https://unpkg.com/d3-selection@1.0"></script>
+<script src="https://unpkg.com/d3-component@0.1"></script>
+<script>
+
+var apple = d3.component("div", "apple");
+
+</script>
+```
 
 ## API Reference
 
