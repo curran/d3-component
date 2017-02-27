@@ -37,6 +37,14 @@ var fruit = d3.component({
   },
   tagName: "div"
 });
+var fruitBasket = d3.component({
+  render: function (selection, d){
+    selection
+      .call(apple, d.apples || [])
+      .call(orange, d.oranges || []);
+  },
+  tagName: "div"
+});
 
 /*************************************
  ************ Utilities **************
@@ -146,6 +154,27 @@ tape("Conditional components with classes.", function(test) {
     '<div><span class="orange"></span></div>',
     '<div><span class="apple"></span></div>',
     '<div><span class="apple"></span></div>'
+  ].join(""));
+
+  test.end();
+});
+
+tape("Multiple nested component types.", function(test) {
+  var div = createDiv();
+
+  // Enter
+  div.call(fruitBasket, {
+    apples: [1, 2],
+    oranges: [1, 2, 3]
+  });
+  test.equal(div.html(), [
+    "<div>",
+      '<span class="apple"></span>',
+      '<span class="apple"></span>',
+      '<span class="orange"></span>',
+      '<span class="orange"></span>',
+      '<span class="orange"></span>',
+    "</div>"
   ].join(""));
 
   test.end();
