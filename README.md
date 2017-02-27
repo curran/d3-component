@@ -33,7 +33,7 @@ var paragraph = d3.component("p")
 Components can be easily composed. Here's an example of a component that renders `<div>` elements that contain `<h1>` and `<p>` elements.
 
 ```js
-var post = d3.component("div")
+var post = d3.component("div", "post")
   .render(function (selection, d){
     selection
       .call(heading, d.title)
@@ -53,15 +53,16 @@ container.call(post, {
   title: "Title",
   content: "Content here."
 });
-console.log(container.html());
 ```
 
-The following HTML structure will be printed.
+The following DOM structure will be rendered.
 
 ```html
-<div>
-  <h1>Title</h1>
-  <p>Content here.</p>
+<div id="some-container-div">
+  <div class="post">
+    <h1>Title</h1>
+    <p>Content here.</p>
+  </div>
 </div>
 ```
 
@@ -73,18 +74,19 @@ container.call(post, [
   { title: "A Title", content: "a content" },
   { title: "B Title", content: "b content" },
 ]);
-console.log(container.html());
 ```
 
-The following HTML structure will be printed.
+The following HTML structure will be rendered.
 
 ```html
-<div>
-  <h1>A Title</h1>
-  <p>a content</p>
-</div>
-<div>
-  <h1>B Title</h1>
-  <p>b content</p>
+<div id="some-container-div">
+  <div class="post">
+    <h1>A Title</h1>
+    <p>a content</p>
+  </div>
+  <div class="post">
+    <h1>B Title</h1>
+    <p>b content</p>
+  </div>
 </div>
 ```
