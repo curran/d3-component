@@ -8,59 +8,53 @@ var tape = require("tape"),
 /*************************************
  ************ Components *************
  *************************************/
-function Paragraph(){
-  return function (selection, d){ selection.text(d); };
-}
-Paragraph.tagName = "p";
-var paragraph = d3.component(Paragraph);
+var paragraph = d3.component({
+  render: function (selection, d){ selection.text(d); },
+  tagName: "p"
+});
 
+var heading = d3.component({
+  render: function (selection, d){ selection.text(d); },
+  tagName: "h"
+});
 
-function Heading(){
-  return function (selection, d){ selection.text(d); };
-}
-Heading.tagName = "h";
-var heading = d3.component(Heading);
-
-
-function Post(){
-  return function (selection, d){
+var post = d3.component({
+  render: function (selection, d){
     selection
       .call(heading, d.title)
       .call(paragraph, d.content);
-  };
-}
-Post.tagName = "div";
-var post = d3.component(Post);
+  },
+  tagName: "div"
+});
 
-
-function Apple(){ return function (){}; }
-Apple.tagName = "span";
-Apple.className = "apple";
-var apple = d3.component(Apple);
-
-
-function Orange(){ return function (){}; }
-Orange.tagName = "span";
-Orange.className = "orange";
-var orange = d3.component(Orange);
-
-
-function Fruit(){
-  return function (selection, d){
+var apple = d3.component({
+  render: function (selection, d){ selection.text(d); },
+  tagName:"span",
+  className: "apple"
+});
+var orange = d3.component({
+  render: function (selection, d){ selection.text(d); },
+  tagName:"span",
+  className: "orange"
+});
+var fruit = d3.component({
+  render: function (selection, d){
     selection
       .call(apple, d === "apple" || [])
       .call(orange, d === "orange" || []);
-  };
-}
-Fruit.tagName = "div";
-var fruit = d3.component(Fruit);
-
-/*************************************
- ************ Utilities **************
- *************************************/
-function createDiv(){
-  return d3.select(jsdom.jsdom().body).append("div");
-}
+  },
+  tagName: "div",
+  className: "fruit"
+});
+var fruitBasket = d3.component({
+  render: function (selection, d){
+    selection
+      .call(apple, d.apples || [])
+      .call(orange, d.oranges || []);
+  },
+  tagName: "div",
+  className: "fruit-basket"
+});
 
 
 /*************************************
@@ -150,20 +144,72 @@ tape("Conditional components with classes.", function(test) {
   // Enter
   div.call(fruit, ["apple", "orange", "apple", "apple", "orange"]);
   test.equal(div.html(), [
-    '<div><span class="apple"></span></div>',
-    '<div><span class="orange"></span></div>',
-    '<div><span class="apple"></span></div>',
-    '<div><span class="apple"></span></div>',
-    '<div><span class="orange"></span></div>'
+    '<div class="fruit"><span class="apple">true</span></div>',
+    '<div class="fruit"><span class="orange">true</span></div>',
+    '<div class="fruit"><span class="apple">true</span></div>',
+    '<div class="fruit"><span class="apple">true</span></div>',
+    '<div class="fruit"><span class="orange">true</span></div>'
   ].join(""));
 
   // Update + Exit
   div.call(fruit, ["orange", "apple", "apple"]);
   test.equal(div.html(), [
-    '<div><span class="orange"></span></div>',
-    '<div><span class="apple"></span></div>',
-    '<div><span class="apple"></span></div>'
+    '<div class="fruit"><span class="orange">true</span></div>',
+    '<div class="fruit"><span class="apple">true</span></div>',
+    '<div class="fruit"><span class="apple">true</span></div>'
   ].join(""));
 
   test.end();
 });
+
+tape("Multiple nested component types.", function(test) {
+  var div = createDiv();
+
+  // Enter
+  div.call(fruitBasket, {
+    apples: ["Red Delicious", "Honeycrisp"],
+    oranges: ["Navel", "Mandarin", "Pomelo"]
+  });
+  test.equal(div.html(), [
+    '<div class="fruit-basket">',
+      '<span class="apple">Red Delicious</span>',
+      '<span class="apple">Honeycrisp</span>',
+      '<span class="orange">Navel</span>',
+      '<span class="orange">Mandarin</span>',
+      '<span class="orange">Pomelo</span>',
+    "</div>"
+  ].join(""));
+
+  // Update + Enter + Exit
+  div.call(fruitBasket, [
+    {
+      apples: ["Red Delicious", "Honeycrisp", "Granny Nice"],
+      oranges: ["Navel", "Pomelo"]
+    },
+    {
+      oranges: ["Mandarin"]
+    }
+  ]);
+  test.equal(div.html(), [
+    '<div class="fruit-basket">',
+      '<span class="apple">Red Delicious</span>',
+      '<span class="apple">Honeycrisp</span>',
+      '<span class="orange">Navel</span>',
+      '<span class="orange">Pomelo</span>',
+      '<span class="apple">Granny Nice</span>',
+    "</div>",
+    '<div class="fruit-basket">',
+      '<span class="orange">Mandarin</span>',
+    "</div>"
+  ].join(""));
+
+  test.end();
+});
+
+
+/*************************************
+ ************ Utilities **************
+ *************************************/
+function createDiv(){
+  return d3.select(jsdom.jsdom().body).append("div");
+}
