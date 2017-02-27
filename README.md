@@ -2,7 +2,7 @@
 
 A D3 component system.
 
-Conceptually similar to pure functional components in React, this component system makes it easy to encapsulate and compose components. Components created using this system are stateless, and their rendering behavior is idempotent with respect to the data passed into them. This allows you to easily define deeply nested, heterogeneous, and data-driven DOM structures to power your interactive applications (beyond only the visualization parts).
+Conceptually similar to pure functional components in React, this component system makes it easy to encapsulate and compose components. Components created using this system are stateless, and their rendering behavior is idempotent with respect to the data passed into them. This allows you to leverage D3 to define deeply nested, heterogeneous, and data-driven DOM structures to power your interactive applications (beyond only the visualization parts).
 
 ## Installing
 
