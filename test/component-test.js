@@ -33,7 +33,7 @@ var fruit = d3.component("div", "fruit")
     selection
       .call(apple, d === "apple" || [])
       .call(orange, d === "orange" || []);
-  })'
+  });
 
 var fruitBasket = d3.component("div", "fruit-basket")
   .render(function (selection, d){
