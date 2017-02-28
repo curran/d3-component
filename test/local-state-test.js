@@ -38,5 +38,21 @@ var spinnerCreated= false,
 tape("Local state.", function(test) {
   var div = d3.select(jsdom.jsdom().body).append("div");
 
+  // Create.
+  div.call(spinner);
+  test.equal(spinnerCreated, true);
+  test.equal(spinnerDestroyed, false);
+  test.equal(spinnerTimerState = "running");
+  test.equal(spinnerText = "Timer is running");
+  test.equal(div.html(), "<div>Timer is running</div>");
+
+  // Destroy.
+  div.call(spinner, []);
+  test.equal(spinnerCreated, true);
+  test.equal(spinnerDestroyed, true);
+  test.equal(spinnerTimerState = "stopped");
+  test.equal(spinnerText = "Timer is running");
+  test.equal(div.html(), "");
+
   test.end();
 });
