@@ -1,5 +1,4 @@
 import { select, local } from "d3-selection";
-
 var stateLocal = local(),
     renderLocal = local(),
     noop = function (){};
@@ -9,8 +8,8 @@ export default function (tagName, className){
       selector = className ? "." + className : tagName;
 
   function component(selection, props){
-    var data = Array.isArray(props) ? props : [props],
-        update = selection.selectAll(selector).data(data),
+    var update = selection.selectAll(selector)
+          .data(Array.isArray(props) ? props : [props]),
         exit = update.exit(),
         enter = update.enter().append(tagName).attr("class", className),
         all = enter.merge(update);
@@ -42,6 +41,7 @@ export default function (tagName, className){
     }
     exit.remove();
   }
+
   component.render = function(_) { return (render = _, component); };
   component.create = function(_) { return (create = _, component); };
   component.destroy = function(_) { return (destroy = _, component); };
