@@ -16,39 +16,31 @@ export default function (tagName, className){
         enter = update.enter().append(tagName).attr("class", className);
 
     enter.each(function (){
-      componentLocal.set(this, {
-        selection: select(this)
+      var local = componentLocal.set(this, {
+        selection: select(this),
+        state: {},
+        render: noop
       });
-    });
-
-    if(create){
-      enter.each(function (){
-        var local = componentLocal.get(this);
-        local.state = {};
-        local.render = noop;
+      if(create){
         create(function setState(state){
           Object.assign(local.state, state);
           local.render();
         });
-      });
-      enter.merge(update).each(function (props){
-        var local = componentLocal.get(this);
-        if(local.render === noop){
-          local.render = function (){
-            render(local.selection, local.props, local.state);
-          };
-        }
-        local.props = props;
-        local.render();
-      });
-      exit.each(function (){
-        destroy(componentLocal.get(this).state);
-      });
-    } else {
-      enter.merge(update).each(function (props){
-        render(componentLocal.get(this).selection, props);
-      });
-    }
+      }
+    });
+    enter.merge(update).each(function (props){
+      var local = componentLocal.get(this);
+      if(local.render === noop){
+        local.render = function (){
+          render(local.selection, local.props, local.state);
+        };
+      }
+      local.props = props;
+      local.render();
+    });
+    exit.each(function (){
+      destroy(componentLocal.get(this).state);
+    });
     exit.remove();
   }
 
