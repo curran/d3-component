@@ -2,8 +2,6 @@
 
 A D3 component system.
 
-Conceptually similar to pure functional components in React, this component system makes it easy to encapsulate and compose components. Components created using this system are stateless, and their rendering behavior is idempotent with respect to the data passed into them. This allows you to leverage D3 to define deeply nested, heterogeneous, and data-driven DOM structures to power your interactive applications (beyond only the visualization parts).
-
 ## Installing
 
 If you use NPM, `npm install d3-component`. Otherwise, download the [latest release](https://github.com/curran/d3-component/releases/latest). You can also load directly from [unpkg.com](https://unpkg.com) as a [standalone library](https://unpkg.com/d3-component@0.1). AMD, CommonJS, and vanilla environments are supported. In vanilla, a `d3` global is exported:
@@ -24,11 +22,11 @@ For usage examples, please have a look at the [tests](test/component-test.js).
 
 <a href="#component" name="component">#</a> <b>component</b>(<i>tagName</i>[, <i>className</i>])
 
-Creates a new component generator that manages and renders into DOM elements of the specified *tagName*. Optionally, for more specificity, you may specify a *className*, which will determine the value of the `class` attribute on the DOM elements managed.
+Creates a new component generator that manages and renders into DOM elements of the specified *tagName*. Optionally, you may specify a *className*, which will determine the value of the `class` attribute on the DOM elements managed.
 
 <a href="#component_render" name="component_render" >#</a> <i>component</i>.<b>render</b>([<i>function</i>])
 
-Sets the render function of this component generator to the specified *function*. This function will be invoked for each instance of the component, passing the *selection* (a D3 selection that contains a single DOM element) and *datum* (the object that determines what will be rendered, similar to `props` in React components). If a *function* is not specified, returns the  render function of this component generator, which defaults to a no-op.
+Sets the render function of this component generator to the specified *function*. This function will be invoked for each instance of the component, passing the *selection* (a D3 selection that contains a single DOM element) and *props* (the object that determines what will be rendered, similar to `props` in React components). If a *function* is not specified, returns the  render function of this component generator, which defaults to a no-op.
 
 For example, here are some components that create `<h1>` and `<p>` elements, and set their text.
 
@@ -38,6 +36,25 @@ var heading = d3.component("h1")
 
 var paragraph = d3.component("p")
   .render(function (selection, d){ selection.text(d); });
+```
+
+<a href="#component_invoke" name="component_invoke" >#</a> <i>component</i>(<i>selection</i>[,<i>data</i>])
+
+Renders the component to the given *selection*, a D3 selection. If *data* is specified as an array, one component instance will be rendered for each element of the *data* array and the *[render function](component_render)* will receive a single element of the *data* array as its *datum* argument. If *data* is specified and is not an array, exactly one component instance will be rendered and the *[render function](component_render)* will receive the *data* value as its *datum* argument. It *data* is not specified, exactly one component instance will be rendered and the *[render function](component_render)* will receive `undefined` as its *datum* argument. If *data* is specified as an empty array `[]`, then all previously rendered component instances will be removed from the DOM.
+
+For example, here's what it looks like to render an instance of our `heading` component defined above.
+
+```js
+d3.select("#some-container-div")
+  .call(heading, "Hello Component");
+```
+
+The following DOM structure will be rendered.
+
+```html
+<div id="some-container-div">
+  <h1>Hello Component</h1>
+</div>
 ```
 
 Components can be easily composed. Here's an example of a component that renders `<div>` elements that contain `<h1>` and `<p>` elements.
@@ -51,11 +68,7 @@ var post = d3.component("div", "post")
   });
 ```
 
-<a href="#component_invoke" name="component_invoke" >#</a> <i>component</i>(<i>selection</i>[,<i>data</i>])
-
-Renders the component to the given *selection*, a D3 selection. If *data* is specified as an array, one component instance will be rendered for each element of the *data* array and the *[render function](component_render)* will receive a single element of the *data* array as its *datum* argument. If *data* is specified and is not an array, exactly one component instance will be rendered and the *[render function](component_render)* will receive the *data* value as its *datum* argument. It *data* is not specified, exactly one component instance will be rendered and the *[render function](component_render)* will receive `undefined` as its *datum* argument. If *data* is specified as an empty array `[]`, then all previously rendered component instances will be removed from the DOM.
-
-For example, here's how we would render an instance of the `post` component.
+Here's how we would render an instance of the `post` component.
 
 ```js
 var container = d3.select("#some-container-div");
