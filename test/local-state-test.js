@@ -60,8 +60,13 @@ tape("Local state.", function(test) {
   test.equal(spinnerCreated, true);
   test.equal(spinnerDestroyed, true);
   test.equal(spinnerTimerState, "stopped");
-  test.equal(spinnerText, "Timer is running");
+  test.equal(spinnerText, "Timer is running well");
   test.equal(div.html(), "");
+
+  // Undefined destroy method.
+  spinner.destroy(undefined);
+  div.call(spinner);
+  div.call(spinner, []);
 
   test.end();
 });

@@ -32,15 +32,18 @@ export default function (tagName, className){
         renderLocal.set(this, noop);
         create(setState.bind(this));
       });
+      if(destroy){
+        exit.each(function (){
+          renderLocal.set(this, noop);
+          destroy(stateLocal.get(this));
+        });
+      }
       all.each(function (props){
-        renderLocal.set(this, function (){
+        var rerender = function (){
           select(this).call(render, props, stateLocal.get(this));
-        }.bind(this));
-        renderLocal.get(this)();
-      });
-      exit.each(function (){
-        renderLocal.set(this, noop);
-        destroy(stateLocal.get(this));
+        }.bind(this);
+        renderLocal.set(this, rerender);
+        rerender();
       });
     } else {
       all.each(function (props){
@@ -49,7 +52,6 @@ export default function (tagName, className){
     }
 
     exit.remove();
-
   }
 
   component.render = function(_) { return (render = _, component); };
