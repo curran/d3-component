@@ -1,6 +1,5 @@
 import { select, local } from "d3-selection";
-var stateLocal = local(),
-    renderLocal = local(),
+var componentLocal = local(),
     noop = function (){};
 
 export default function (tagName, className){
@@ -16,23 +15,25 @@ export default function (tagName, className){
 
     if(create){
       enter.each(function (){
-        renderLocal.set(this, noop);
-        stateLocal.set(this, {});
+        componentLocal.set(this, { state: {}, render: noop });
         create(function (state){
-          Object.assign(stateLocal.get(this), state);
-          renderLocal.get(this)();
+          var local = componentLocal.get(this);
+          Object.assign(local.state, state);
+          local.render();
         }.bind(this));
       });
       all.each(function (props){
-        renderLocal.set(this, function (){
-          select(this).call(render, props, stateLocal.get(this));
-        }.bind(this));
-        renderLocal.get(this)();
+        var local = componentLocal.get(this);
+        local.render = function (){
+          select(this).call(render, props, local.state);
+        }.bind(this);
+        local.render();
       });
       if(destroy){
         exit.each(function (){
-          renderLocal.set(this, noop);
-          destroy(stateLocal.get(this));
+          var local = componentLocal.get(this);
+          local.render = noop;
+          destroy(local.state);
         });
       }
     } else {
@@ -42,10 +43,8 @@ export default function (tagName, className){
     }
     exit.remove();
   }
-
   component.render = function(_) { return (render = _, component); };
   component.create = function(_) { return (create = _, component); };
   component.destroy = function(_) { return (destroy = _, component); };
-
   return component;
 };
