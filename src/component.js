@@ -1,17 +1,17 @@
 import { select, local } from "d3-selection";
 var componentLocal = local(),
     noop = function (){};
-
 export default function (tagName, className){
-  var render = noop, create, destroy,
+  var render = noop,
+      create,
+      destroy,
       selector = className ? "." + className : tagName;
 
   function component(selection, props){
     var update = selection.selectAll(selector)
           .data(Array.isArray(props) ? props : [props]),
         exit = update.exit(),
-        enter = update.enter().append(tagName).attr("class", className),
-        all = enter.merge(update);
+        enter = update.enter().append(tagName).attr("class", className);
 
     if(create){
       enter.each(function (){
@@ -22,7 +22,7 @@ export default function (tagName, className){
           local.render();
         }.bind(this));
       });
-      all.each(function (props){
+      enter.merge(update).each(function (props){
         var local = componentLocal.get(this);
         local.render = function (){
           select(this).call(render, props, local.state);
@@ -37,7 +37,7 @@ export default function (tagName, className){
         });
       }
     } else {
-      all.each(function (props){
+      enter.merge(update).each(function (props){
         select(this).call(render, props);
       });
     }
