@@ -8,19 +8,22 @@ export default function (tagName, className){
       destroy = noop,
       selector = className ? "." + className : tagName;
 
-  function component(selection, data){
-    var components = selection
-      .selectAll(selector)
-      .data(Array.isArray(data) ? data : [data]);
+  function component(selection, props){
+    var data = Array.isArray(props) ? props : [props],
+        update = selection.selectAll(selector).data(data),
+        exit = update.exit(),
+        enter = update.enter().append(tagName)
+        all = enter.merge(update);
 
-    components
-      .exit().remove();
+    if(className){
+      enter.attr("class", className);
+    }
 
-    components
-      .enter().append(tagName)
-        .attr("class", className)
-      .merge(components)
-        .each(function (d){ select(this).call(render, d); });
+    exit.remove();
+
+    all.each(function (d){
+      select(this).call(render, d);
+    });
   }
 
   component.render = function(_) { return (render = _, component); };
