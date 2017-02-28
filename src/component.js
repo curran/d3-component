@@ -23,11 +23,11 @@ export default function (tagName, className){
         }.bind(this));
       });
       enter.merge(update).each(function (props){
-        var local = componentLocal.get(this);
-        local.render = function (){
-          select(this).call(render, props, local.state);
-        }.bind(this);
-        local.render();
+        var local = componentLocal.get(this),
+            selection = select(this);
+        (local.render = function (){
+          selection.call(render, props, local.state);
+        })();
       });
       if(destroy){
         exit.each(function (){
