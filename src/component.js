@@ -4,7 +4,7 @@ var componentLocal = local(),
     noop = function (){};
 
 export default function (tagName, className){
-  var create,
+  var create = noop,
       render = noop,
       destroy = noop,
       selector = className ? "." + className : tagName;
@@ -24,12 +24,10 @@ export default function (tagName, className){
             state: {},
             render: noop
           });
-          if(create){
-            create(function setState(state){
-              Object.assign(local.state, state);
-              local.render();
-            });
-          }
+          create(function setState(state){
+            Object.assign(local.state, state);
+            local.render();
+          });
         })
       .merge(components)
         .each(function (props){
