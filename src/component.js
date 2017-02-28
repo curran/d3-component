@@ -5,14 +5,17 @@ var noop = function (){};
 export default function (tagName, className){
   var render = noop,
       create = noop,
-      destroy = noop;
+      destroy = noop,
+      selector = className ? "." + className : tagName;
 
   function component(selection, data){
     var components = selection
-      .selectAll(className ? "." + className : tagName)
+      .selectAll(selector)
       .data(Array.isArray(data) ? data : [data]);
+
     components
       .exit().remove();
+
     components
       .enter().append(tagName)
         .attr("class", className)
