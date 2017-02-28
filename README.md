@@ -8,7 +8,7 @@ If you use NPM, `npm install d3-component`. Otherwise, download the [latest rele
 
 ```html
 <script src="https://unpkg.com/d3-selection@1.0"></script>
-<script src="https://unpkg.com/d3-component@0.1"></script>
+<script src="https://unpkg.com/d3-component@0.2"></script>
 <script>
 
 var apple = d3.component("div", "apple");
