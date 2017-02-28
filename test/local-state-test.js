@@ -25,6 +25,7 @@ var spinnerCreated= false,
             });
           }
         });
+        spinnerSetState = setState;
       })
       .render(function (selection, props, state){
         spinnerText = "Timer is " + state.timer;
@@ -50,12 +51,10 @@ tape("Local state.", function(test) {
   test.equal(div.html(), "<div>Timer is running</div>");
 
   // Re-render on setState().
-  div.call(spinner);
-  test.equal(spinnerCreated, true);
-  test.equal(spinnerDestroyed, false);
-  test.equal(spinnerTimerState, "running");
-  test.equal(spinnerText, "Timer is running");
-  test.equal(div.html(), "<div>Timer is running</div>");
+  spinnerTimerState = "running well";
+  spinnerSetState({ timer: spinnerTimerState });
+  test.equal(spinnerText, "Timer is running well");
+  test.equal(div.html(), "<div>Timer is running well</div>");
 
   // Destroy.
   div.call(spinner, []);
