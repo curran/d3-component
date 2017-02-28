@@ -26,16 +26,22 @@ Creates a new component generator that manages and renders into DOM elements of 
 
 <a href="#component_render" name="component_render" >#</a> <i>component</i>.<b>render</b>([<i>function</i>])
 
-Sets the render function of this component generator to the specified *function*. This function will be invoked for each instance of the component, passing the *selection* (a D3 selection that contains a single DOM element) and *props* (the object that determines what will be rendered, similar to `props` in React components). If a *function* is not specified, returns the  render function of this component generator, which defaults to a no-op.
+Sets the render function of this component generator to the specified *function*. This function will be invoked for each instance of the component, passing the following arguments:
 
-For example, here are some components that create `<h1>` and `<p>` elements, and set their text.
+ * *selection* a D3 selection that contains a single DOM element
+ * *props* the object that determines what will be rendered (similar to `props` in React components)
+ * *state* the current local state of the component (similar to `state` in React components)
+   * *state* will be undefined unless it was set in the `[create](#component_create)` lifecycle hook.
+ 
+If a *function* is not specified, returns undefined, as this is a setter only.
+
+For example, here we define a component that creates an `<h1>` and sets its text.
 
 ```js
 var heading = d3.component("h1")
-  .render(function (selection, d){ selection.text(d); });
-
-var paragraph = d3.component("p")
-  .render(function (selection, d){ selection.text(d); });
+  .render(function (selection, props){
+    selection.text(props.text);
+  });
 ```
 
 <a href="#component_invoke" name="component_invoke" >#</a> <i>component</i>(<i>selection</i>[,<i>data</i>])
@@ -60,22 +66,27 @@ The following DOM structure will be rendered.
 Components can be easily composed. Here's an example of a component that renders `<div>` elements that contain `<h1>` and `<p>` elements.
 
 ```js
+var paragraph = d3.component("p")
+  .render(function (selection, props){
+    selection.text(props.text);
+  });
+
 var post = d3.component("div", "post")
-  .render(function (selection, d){
+  .render(function (selection, props){
     selection
-      .call(heading, d.title)
-      .call(paragraph, d.content);
+      .call(heading, { text: props.title })
+      .call(paragraph, { text: props.content });
   });
 ```
 
 Here's how we would render an instance of the `post` component.
 
 ```js
-var container = d3.select("#some-container-div");
-container.call(post, {
-  title: "Title",
-  content: "Content here."
-});
+d3.select("#some-container-div");
+  .call(post, {
+    title: "Title",
+    content: "Content here."
+  });
 ```
 
 The following DOM structure will be rendered.
@@ -92,11 +103,11 @@ The following DOM structure will be rendered.
 Here's an example of rendering multiple component instances.
 
 ```js
-var container = d3.select("#some-container-div");
-container.call(post, [
-  { title: "A Title", content: "a content" },
-  { title: "B Title", content: "b content" },
-]);
+d3.select("#some-container-div")
+  .call(post, [
+    { title: "A Title", content: "a content" },
+    { title: "B Title", content: "b content" },
+  ]);
 ```
 
 The following HTML structure will be rendered.
@@ -113,3 +124,13 @@ The following HTML structure will be rendered.
   </div>
 </div>
 ```
+
+<a href="#component_create" name="component_create" >#</a> <i>component</i>.<b>create</b>([<i>function</i>])
+
+Sets the lifecycle hook for component instance creation. Only use this if your component needs to have local state. The specified *function* will be invoked whenever a new component instance is created, and will be passed a *setState* function that can be used to set the local state of the component instance. The *setState* function accepts an object, and uses `Object.assign` internally to assign all properties present on the new state object to the previous state object. Any properties on the previous state object that are not present in the new state object will not be removed (similar to the behavior of *setState* in React components).
+
+After the initial render, whenever *setState* is invoked, the component re-renders itself, passing the new state into the render function.
+
+<a href="#component_destroy" name="component_destroy" >#</a> <i>component</i>.<b>destroy</b>([<i>function</i>])
+
+Sets the lifecycle hook for component instance destruction. Only use this if your component uses local state. The specified *function* will be invoked whenever a new component instance is destroyed, and will be passed a single argument *state*, the local state of the component instance.
