@@ -2,6 +2,17 @@
 
 A D3 component system.
 
+<table>
+  <tr>
+    <td>
+      <a href="http://bl.ocks.org/curran/fc8f6989901628e2e79d6374849453ed">
+        <div>Posts with D3 Component</div>
+        <img width="230" height="120" src="http://bl.ocks.org/curran/raw/fc8f6989901628e2e79d6374849453ed/thumbnail.png">
+      </a>
+    </td>
+  </tr>
+</table>
+
 ## Installing
 
 If you use NPM, `npm install d3-component`. Otherwise, download the [latest release](https://github.com/curran/d3-component/releases/latest). You can also load directly from [unpkg.com](https://unpkg.com) as a [standalone library](https://unpkg.com/d3-component@0.1). AMD, CommonJS, and vanilla environments are supported. In vanilla, a `d3` global is exported:
