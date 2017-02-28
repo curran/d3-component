@@ -1,7 +1,11 @@
 import { select } from "d3-selection";
 
+var noop = function (){};
+
 export default function (tagName, className){
-  var render = function(){};
+  var render = noop,
+      create = noop,
+      destroy = noop;
 
   function component(selection, data){
     var components = selection
@@ -16,9 +20,9 @@ export default function (tagName, className){
         .each(function (d){ select(this).call(render, d); });
   }
 
-  component.render = function(_) {
-    return arguments.length ? (render = _, component) : render;
-  };
+  component.render = function(_) { return (render = _, component); };
+  component.create = function(_) { return (create = _, component); };
+  component.destroy = function(_) { return (destroy = _, component); };
 
   return component;
 };
