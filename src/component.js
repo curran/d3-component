@@ -1,10 +1,12 @@
 import { select, local } from "d3-selection";
+
 var componentLocal = local(),
     noop = function (){};
+
 export default function (tagName, className){
   var render = noop,
       create,
-      destroy,
+      destroy = noop,
       selector = className ? "." + className : tagName;
 
   function component(selection, props){
@@ -15,26 +17,25 @@ export default function (tagName, className){
 
     if(create){
       enter.each(function (){
-        var local = { state: {}, render: noop };
+        var local = componentLocal.set(this, {
+          state: {},
+          render: noop
+        });
         create(function setState(state){
           Object.assign(local.state, state);
           local.render();
         });
-        componentLocal.set(this, local);
       });
       enter.merge(update).each(function (props){
         var local = componentLocal.get(this),
             selection = select(this);
-        local.render = function (){
+        (local.render = function (){
           selection.call(render, props, local.state);
-        };
-        local.render();
+        })();
       });
-      if(destroy){
-        exit.each(function (){
-          destroy(componentLocal.get(this).state);
-        });
-      }
+      exit.each(function (){
+        destroy(componentLocal.get(this).state);
+      });
     } else {
       enter.merge(update).each(function (props){
         select(this).call(render, props);
