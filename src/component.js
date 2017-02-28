@@ -39,6 +39,7 @@ export default function (tagName, className){
         renderLocal.get(this)();
       });
       exit.each(function (){
+        renderLocal.set(this, noop);
         destroy(stateLocal.get(this));
       });
     } else {
