@@ -1,47 +1,61 @@
 var tape = require("tape"),
     jsdom = require("jsdom"),
-    d3 = Object.assign(
-      require("../"),
-      require("d3-selection")
-    );
+    d3 = Object.assign(require("../"), require("d3-selection"));
 
 /*************************************
  ************ Components *************
  *************************************/
 
+// Basic components and nesting.
 var heading = d3.component("h1")
-  .render(function (selection, d){ selection.text(d); });
+      .render(function (selection, d){ selection.text(d); }),
+    paragraph = d3.component("p")
+      .render(function (selection, d){ selection.text(d); }),
+    post = d3.component("div")
+      .render(function (selection, d){
+        selection
+          .call(heading, d.title)
+          .call(paragraph, d.content);
+      });
 
-var paragraph = d3.component("p")
-  .render(function (selection, d){ selection.text(d); });
-
-var post = d3.component("div")
-  .render(function (selection, d){
-    selection
-      .call(heading, d.title)
-      .call(paragraph, d.content);
-  });
-
+// Heterogeneous component trees.
 var apple = d3.component("span", "apple")
-  .render(function (selection, d){ selection.text(d); });
+      .render(function (selection, d){ selection.text(d); }),
+    orange = d3.component("span", "orange")
+      .render(function (selection, d){ selection.text(d); }),
+    fruit = d3.component("div", "fruit")
+      .render(function (selection, d){
+        selection
+          .call(apple, d === "apple" || [])
+          .call(orange, d === "orange" || []);
+      }),
+    fruitBasket = d3.component("div", "fruit-basket")
+      .render(function (selection, d){
+        selection
+          .call(apple, d.apples || [])
+          .call(orange, d.oranges || []);
+      });
 
-var orange = d3.component("span", "orange")
-  .render(function (selection, d){ selection.text(d); });
-
-var fruit = d3.component("div", "fruit")
-  .render(function (selection, d){
-    selection
-      .call(apple, d === "apple" || [])
-      .call(orange, d === "orange" || []);
-  });
-
-var fruitBasket = d3.component("div", "fruit-basket")
-  .render(function (selection, d){
-    selection
-      .call(apple, d.apples || [])
-      .call(orange, d.oranges || []);
-  });
-
+// Local state.
+var spinnerCreated = false,
+    spinnerDestroyed = false,
+    spinner = d3.component("div")
+      .create(function (setState){
+        setState({
+          timer: "running",
+          cleanup: function (){
+            setState({
+              timer: "stopped"
+            });
+          }
+        });
+      })
+      .render(function (selection, props, state){
+        selection.text("Timer is " + state.timer);
+      }
+      .destroy(function(state){
+        state.cleanup();
+      });
 
 /*************************************
  ************** Tests ****************
@@ -188,6 +202,13 @@ tape("Multiple nested component types.", function(test) {
       '<span class="orange">Mandarin</span>',
     "</div>"
   ].join(""));
+
+  test.end();
+});
+
+
+tape("Local state.", function(test) {
+  var div = createDiv();
 
   test.end();
 });
