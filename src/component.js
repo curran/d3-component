@@ -10,38 +10,44 @@ export default function (tagName, className){
       selector = className ? "." + className : tagName;
 
   function component(selection, props){
-    var update = selection.selectAll(selector)
-          .data(Array.isArray(props) ? props : [props]),
-        exit = update.exit(),
-        enter = update.enter().append(tagName).attr("class", className);
+    var components = selection
+      .selectAll(selector)
+      .data(Array.isArray(props) ? props : [props]);
 
-    enter.each(function (){
-      var local = componentLocal.set(this, {
-        selection: select(this),
-        state: {},
-        render: noop
-      });
-      if(create){
-        create(function setState(state){
-          Object.assign(local.state, state);
+    components
+      .enter()
+      .append(tagName)
+        .attr("class", className)
+        .each(function (){
+          var local = componentLocal.set(this, {
+            selection: select(this),
+            state: {},
+            render: noop
+          });
+          if(create){
+            create(function setState(state){
+              Object.assign(local.state, state);
+              local.render();
+            });
+          }
+        })
+      .merge(components)
+        .each(function (props){
+          var local = componentLocal.get(this);
+          if(local.render === noop){
+            local.render = function (){
+              render(local.selection, local.props, local.state);
+            };
+          }
+          local.props = props;
           local.render();
         });
-      }
-    });
-    enter.merge(update).each(function (props){
-      var local = componentLocal.get(this);
-      if(local.render === noop){
-        local.render = function (){
-          render(local.selection, local.props, local.state);
-        };
-      }
-      local.props = props;
-      local.render();
-    });
-    exit.each(function (){
-      destroy(componentLocal.get(this).state);
-    });
-    exit.remove();
+    components
+      .exit()
+        .each(function (){
+          destroy(componentLocal.get(this).state);
+        })
+        .remove();
   }
 
   component.render = function(_) { return (render = _, component); };
