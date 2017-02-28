@@ -31,7 +31,7 @@ export default function (tagName, className){
       enter.merge(update).each(function (props){
         var local = componentLocal.get(this);
         (local.render = function (){
-          local.selection.call(render, props, local.state);
+          render(local.selection, props, local.state);
         })();
       });
       exit.each(function (){
@@ -39,7 +39,7 @@ export default function (tagName, className){
       });
     } else {
       enter.merge(update).each(function (props){
-        componentLocal.get(this).selection.call(render, props);
+        render(componentLocal.get(this).selection, props);
       });
     }
     exit.remove();
