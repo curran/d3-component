@@ -14,25 +14,18 @@ var spinnerCreated= false,
     spinnerSetState,
     spinner = d3.component("div")
       .create(function (setState){
+        spinnerSetState = setState;
         spinnerCreated = true;
         spinnerTimerState = "running";
         setState({
-          timer: spinnerTimerState,
-          cleanup: function (){
-            spinnerTimerState = "stopped";
-            setState({
-              timer: spinnerTimerState
-            });
-          }
+          timer: spinnerTimerState
         });
-        spinnerSetState = setState;
       })
       .render(function (selection, props, state){
         spinnerText = "Timer is " + state.timer;
         selection.text(spinnerText);
       })
       .destroy(function(state){
-        state.cleanup();
         spinnerDestroyed = true;
       });
 
@@ -59,14 +52,8 @@ tape("Local state.", function(test) {
   div.call(spinner, []);
   test.equal(spinnerCreated, true);
   test.equal(spinnerDestroyed, true);
-  test.equal(spinnerTimerState, "stopped");
   test.equal(spinnerText, "Timer is running well");
   test.equal(div.html(), "");
-
-  // Undefined destroy method.
-  spinner.destroy(undefined);
-  div.call(spinner);
-  div.call(spinner, []);
 
   test.end();
 });
