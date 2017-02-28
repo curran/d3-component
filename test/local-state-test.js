@@ -36,15 +36,7 @@ var spinnerCreated= false,
  ************** Tests ****************
  *************************************/
 tape("Local state.", function(test) {
-  var div = createDiv();
+  var div = d3.select(jsdom.jsdom().body).append("div");
 
   test.end();
 });
-
-
-/*************************************
- ************ Utilities **************
- *************************************/
-function createDiv(){
-  return d3.select(jsdom.jsdom().body).append("div");
-}

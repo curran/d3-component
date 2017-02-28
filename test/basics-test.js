@@ -22,7 +22,7 @@ var heading = d3.component("h1")
  ************** Tests ****************
  *************************************/
 tape("A component should render a single instance.", function(test) {
-  var div = createDiv();
+  var div = d3.select(jsdom.jsdom().body).append("div");
   div.call(paragraph, "foo");
   test.equal(div.html(), "<p>foo</p>");
   test.end();
@@ -30,7 +30,7 @@ tape("A component should render a single instance.", function(test) {
 
 
 tape("A component should render multiple instances.", function(test) {
-  var div = createDiv();
+  var div = d3.select(jsdom.jsdom().body).append("div");
 
   // Enter
   div.call(paragraph, [ "foo", "bar" ]);
@@ -49,7 +49,7 @@ tape("A component should render multiple instances.", function(test) {
 
 
 tape("Nested components.", function(test) {
-  var div = createDiv();
+  var div = d3.select(jsdom.jsdom().body).append("div");
 
   div.call(post, {
     title: "Title",
@@ -68,7 +68,7 @@ tape("Nested components.", function(test) {
 
 
 tape("Nested components multiple instances.", function(test) {
-  var div = createDiv();
+  var div = d3.select(jsdom.jsdom().body).append("div");
 
   // Enter
   div.call(post, [
@@ -98,11 +98,3 @@ tape("Nested components multiple instances.", function(test) {
 
   test.end();
 });
-
-
-/*************************************
- ************ Utilities **************
- *************************************/
-function createDiv(){
-  return d3.select(jsdom.jsdom().body).append("div");
-}

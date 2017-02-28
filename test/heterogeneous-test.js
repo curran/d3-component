@@ -29,7 +29,7 @@ var apple = d3.component("span", "apple")
  *************************************/
 
 tape("Conditional components with classes.", function(test) {
-  var div = createDiv();
+  var div = d3.select(jsdom.jsdom().body).append("div");
 
   // Enter
   div.call(fruit, ["apple", "orange", "apple", "apple", "orange"]);
@@ -53,7 +53,7 @@ tape("Conditional components with classes.", function(test) {
 });
 
 tape("Multiple nested component types.", function(test) {
-  var div = createDiv();
+  var div = d3.select(jsdom.jsdom().body).append("div");
 
   // Enter
   div.call(fruitBasket, {
@@ -95,11 +95,3 @@ tape("Multiple nested component types.", function(test) {
 
   test.end();
 });
-
-
-/*************************************
- ************ Utilities **************
- *************************************/
-function createDiv(){
-  return d3.select(jsdom.jsdom().body).append("div");
-}
