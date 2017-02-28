@@ -10,6 +10,12 @@ A D3 component system.
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/fc8f6989901628e2e79d6374849453ed/thumbnail.png">
       </a>
     </td>
+    <td>
+      <a href="http://bl.ocks.org/curran/685fa8300650c4324d571c6b0ecc55de">
+        <div>Spinner with D3 Component</div>
+        <img width="230" height="120" src="http://bl.ocks.org/curran/raw/685fa8300650c4324d571c6b0ecc55de/thumbnail.png">
+      </a>
+    </td>
   </tr>
 </table>
 
