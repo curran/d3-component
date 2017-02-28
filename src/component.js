@@ -14,22 +14,24 @@ export default function (tagName, className){
         exit = update.exit(),
         enter = update.enter().append(tagName).attr("class", className);
 
+    enter.each(function (){
+      componentLocal.set(this, { selection: select(this) });
+    });
+
     if(create){
       enter.each(function (){
-        var local = componentLocal.set(this, {
-          state: {},
-          render: function (){}
-        });
+        var local = componentLocal.get(this);
+        local.state = {};
+        local.render = function (){};
         create(function setState(state){
           Object.assign(local.state, state);
           local.render();
         });
       });
       enter.merge(update).each(function (props){
-        var local = componentLocal.get(this),
-            selection = select(this);
+        var local = componentLocal.get(this);
         (local.render = function (){
-          selection.call(render, props, local.state);
+          local.selection.call(render, props, local.state);
         })();
       });
       exit.each(function (){
@@ -37,7 +39,7 @@ export default function (tagName, className){
       });
     } else {
       enter.merge(update).each(function (props){
-        select(this).call(render, props);
+        componentLocal.get(this).selection.call(render, props);
       });
     }
     exit.remove();
