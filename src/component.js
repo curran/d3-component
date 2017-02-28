@@ -29,6 +29,9 @@ export default function (tagName, className){
       enter.each(function (){
         create(setState.bind(this));
       });
+      exit.each(function (){
+        destroy(stateLocal.get(this));
+      });
     }
 
     exit.remove();
