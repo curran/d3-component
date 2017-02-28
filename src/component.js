@@ -1,11 +1,13 @@
 import { select, local } from "d3-selection";
 
 var noop = function (){},
-    stateLocal = local();
+    stateLocal = local(),
+    renderLocal = local();
 
 function setState(newState){
   var oldState = stateLocal.get(this);
   stateLocal.set(this, Object.assign({}, oldState, newState));
+  renderLocal.get(this)();
 }
 
 export default function (tagName, className){
@@ -27,19 +29,26 @@ export default function (tagName, className){
 
     if(create){
       enter.each(function (){
+        renderLocal.set(this, noop);
         create(setState.bind(this));
+      });
+      all.each(function (props){
+        renderLocal.set(this, function (){
+          select(this).call(render, props, stateLocal.get(this));
+        }.bind(this));
+        renderLocal.get(this)();
       });
       exit.each(function (){
         destroy(stateLocal.get(this));
+      });
+    } else {
+      all.each(function (props){
+        select(this).call(render, props);
       });
     }
 
     exit.remove();
 
-    all.each(function (props){
-      var state = create ? stateLocal.get(this) : undefined;
-      select(this).call(render, props, state);
-    });
   }
 
   component.render = function(_) { return (render = _, component); };

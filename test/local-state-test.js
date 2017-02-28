@@ -51,8 +51,7 @@ tape("Local state.", function(test) {
   test.equal(div.html(), "<div>Timer is running</div>");
 
   // Re-render on setState().
-  spinnerTimerState = "running well";
-  spinnerSetState({ timer: spinnerTimerState });
+  spinnerSetState({ timer: "running well"});
   test.equal(spinnerText, "Timer is running well");
   test.equal(div.html(), "<div>Timer is running well</div>");
 
