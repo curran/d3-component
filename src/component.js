@@ -17,8 +17,9 @@ export default function (tagName, className){
     if(create){
       enter.each(function (){
         renderLocal.set(this, noop);
+        stateLocal.set(this, {});
         create(function (state){
-          stateLocal.set(this, Object.assign({}, stateLocal.get(this), state));
+          Object.assign(stateLocal.get(this), state);
           renderLocal.get(this)();
         }.bind(this));
       });
