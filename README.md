@@ -32,10 +32,7 @@ var apple = d3.component("div", "apple");
 
 </script>
 ```
-
 ## API Reference
-
-For usage examples, please have a look at the [tests](test/component-test.js).
 
 <a href="#component" name="component">#</a> <b>component</b>(<i>tagName</i>[, <i>className</i>])
 
@@ -77,68 +74,6 @@ The following DOM structure will be rendered.
 ```html
 <div id="some-container-div">
   <h1>Hello Component</h1>
-</div>
-```
-
-Components can be easily composed. Here's an example of a component that renders `<div>` elements that contain `<h1>` and `<p>` elements.
-
-```js
-var paragraph = d3.component("p")
-  .render(function (selection, props){
-    selection.text(props.text);
-  });
-
-var post = d3.component("div", "post")
-  .render(function (selection, props){
-    selection
-      .call(heading, { text: props.title })
-      .call(paragraph, { text: props.content });
-  });
-```
-
-Here's how we would render an instance of the `post` component.
-
-```js
-d3.select("#some-container-div");
-  .call(post, {
-    title: "Title",
-    content: "Content here."
-  });
-```
-
-The following DOM structure will be rendered.
-
-```html
-<div id="some-container-div">
-  <div class="post">
-    <h1>Title</h1>
-    <p>Content here.</p>
-  </div>
-</div>
-```
-
-Here's an example of rendering multiple component instances.
-
-```js
-d3.select("#some-container-div")
-  .call(post, [
-    { title: "A Title", content: "a content" },
-    { title: "B Title", content: "b content" },
-  ]);
-```
-
-The following HTML structure will be rendered.
-
-```html
-<div id="some-container-div">
-  <div class="post">
-    <h1>A Title</h1>
-    <p>a content</p>
-  </div>
-  <div class="post">
-    <h1>B Title</h1>
-    <p>b content</p>
-  </div>
 </div>
 ```
 
@@ -187,3 +122,70 @@ The following DOM structure will be rendered.
 <a href="#component_destroy" name="component_destroy" >#</a> <i>component</i>.<b>destroy</b>([<i>function</i>])
 
 Sets the lifecycle hook for component instance destruction. Only use this if your component uses local state. The specified *function* will be invoked whenever a new component instance is destroyed, and will be passed a single argument *state*, the local state of the component instance.
+
+## Component Composition
+
+Components can be easily composed. Here's an example of a `post` component that renders `<div>` elements that contain `<h1>` and `<p>` elements.
+
+```js
+var heading = d3.component("h1")
+      .render(function (selection, props){
+        selection.text(props.text);
+      }),
+    paragraph = d3.component("p")
+      .render(function (selection, props){
+        selection.text(props.text);
+      }),
+    post = d3.component("div", "post")
+      .render(function (selection, props){
+        selection
+          .call(heading, { text: props.title })
+          .call(paragraph, { text: props.content });
+      });
+```
+
+Here's how we would render an instance of the `post` component.
+
+```js
+d3.select("#some-container-div");
+  .call(post, {
+    title: "Title",
+    content: "Content here."
+  });
+```
+
+The following DOM structure will be rendered.
+
+```html
+<div id="some-container-div">
+  <div class="post">
+    <h1>Title</h1>
+    <p>Content here.</p>
+  </div>
+</div>
+```
+
+Here's an example of rendering multiple component instances.
+
+```js
+d3.select("#some-container-div")
+  .call(post, [
+    { title: "A Title", content: "a content" },
+    { title: "B Title", content: "b content" },
+  ]);
+```
+
+The following HTML structure will be rendered.
+
+```html
+<div id="some-container-div">
+  <div class="post">
+    <h1>A Title</h1>
+    <p>a content</p>
+  </div>
+  <div class="post">
+    <h1>B Title</h1>
+    <p>b content</p>
+  </div>
+</div>
+```
