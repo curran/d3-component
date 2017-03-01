@@ -1,6 +1,6 @@
 # d3-component
 
-A lightweight component system for use with [D3.js](d3js.org).
+A lightweight component system for building user interfaces with [D3.js](d3js.org).
 
 <table>
   <tr>
