@@ -18,6 +18,10 @@ var checkboxHTML = `
         selection.html(checkboxHTML);
       })
       .render(function (selection, props){
+        if(props && props.label){
+          selection.select(".checkbox-label-span")
+              .text(props.label);
+        }
       });
 
 
@@ -28,5 +32,12 @@ tape("Create hook should pass selection on enter.", function(test) {
   var div = d3.select(jsdom.jsdom().body).append("div");
   div.call(checkbox);
   test.equal(div.html(), `<div class="form-check">${checkboxHTML}</div>`);
+  test.end();
+});
+
+tape("Render should have access to selection content from create hook.", function(test) {
+  var div = d3.select(jsdom.jsdom().body).append("div");
+  div.call(checkbox, { label: "My Checkbox"});
+  test.equal(div.select(".checkbox-label-span").text(), "My Checkbox");
   test.end();
 });
