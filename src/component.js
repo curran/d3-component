@@ -15,7 +15,7 @@ export default function (tagName, className){
       state: {},
       render: noop
     });
-    create(function setState(state){
+    create(my.selection, function setState(state){
       Object.assign(my.state, state);
       my.render();
     });
