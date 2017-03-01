@@ -141,6 +141,8 @@ Components can use other components in their render functions. Some useful patte
 
 ### Nesting
 
+Nesting is useful when instances of one component will contain instances of other components. Nesting can be achieved by invoking child components within the render function of the parent component, possibly deriving the value of children `props` from the `props` passed into the parent component.
+
 Here's an example of a `post` component that composes two other components, `heading` and `paragraph`.
 
 ```js
@@ -210,9 +212,9 @@ For a full working example using the components above, see [Posts with d3-compon
 
 ### Containment
 
-Sometimes children components are not known in advance. This is often the case for components that serve as "boxes" that can contain arbitrary content, such as cards or dialogs.
+Sometimes children components are not known in advance. This is often the case for components that serve as "boxes" that can contain arbitrary content, such as cards or dialogs. There are no special constructs provided for achieving this, but it can be achieved by using a pattern in which the child component and its props are both passed in via the props of the parent component.
 
-Here's an example of a `card` component that can render arbitrary chilren.
+Here's an example of a `card` component that can render arbitrary children.
 
 ```js
 var card = d3.component("div", "card")
@@ -259,7 +261,7 @@ The following DOM structure will be rendered.
 
 Sometimes components should render sub-components only under certain conditions. To achieve this, the `props` passed into the sub-component can either be `[]` to render zero component instances, or any other value to render one or many component instances. Even if a sub-component is not rendered, it still needs to be invoked with its `props` as `[]`, in the case that it was rendered previously and its instances need to be removed from the DOM.
 
-Here's an example of a `fruit` component that conditionally renders either `apple` or `orange` components, depending on the value of `props.type`.
+Here's an example of a `fruit` component that conditionally renders either `apple` or `orange` components.
 
 ```js
 var apple = d3.component("span", "apple")
