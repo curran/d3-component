@@ -1,6 +1,13 @@
 # d3-component
 
-A D3 component system.
+A component system for D3.
+
+Similar in concept and behavior to React Components, this component system supports:
+
+ * Passing `props` down through component trees when rendering.
+ * Local state, using `setState` and `state`.
+ * Lifecycle hooks (create, destroy).
+ * Component composition (nesting, containment, conditional rendering).
 
 <table>
   <tr>
