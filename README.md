@@ -206,6 +206,8 @@ The following HTML structure will be rendered.
 </div>
 ```
 
+For a full working example using the components above, see [Posts with d3-component](http://bl.ocks.org/curran/fc8f6989901628e2e79d6374849453ed).
+
 ### Containment
 
 Sometimes children components are not known in advance. This is often the case for components that serve as "boxes" that can contain arbitrary content, such as cards or dialogs.
