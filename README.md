@@ -125,7 +125,11 @@ Sets the lifecycle hook for component instance destruction. Only use this if you
 
 ## Composing Components
 
-Components can refer to other components in their render functions. Two of the most common patterns for component composition are nesting and containment.
+Components can use other components in their render functions. Some useful patterns for component composition are:
+
+ * [Nesting](#nesting)
+ * [Containment](#containment)
+ * [Conditional Rendering](#conditional_rendering)
 
 ### Nesting
 
@@ -238,5 +242,47 @@ The following DOM structure will be rendered.
       </div>
     </div>
   </div>
+</div>
+```
+
+### Conditional Rendering
+
+Sometimes components should render sub-components only under certain conditions. To achieve this, the `props` passed into the sub-component can either be `[]` to render zero component instances, or any other value to render one or many component instances. Even if a sub-component is not rendered, it still needs to be invoked with its `props` as `[]`, in the case that it was rendered previously and its instances need to be removed from the DOM.
+
+Here's an example of a `fruit` component that conditionally renders either `apple` or `orange` components, depending on the value of `props.type`.
+
+```js
+var apple = d3.component("span", "apple")
+    orange = d3.component("span", "orange")
+    fruit = d3.component("div", "fruit")
+      .render(function (selection, props){
+        selection
+          .call(apple, props.type === "apple"? {} : [])
+          .call(orange, props.type === "orange"? {} : [])
+      });
+```
+
+Here's how we can use this `fruit` component.
+
+```js
+d3.select("#some-container-div")
+  .call(fruit, [
+    { type: "apple" },
+    { type: "orange" },
+    { type: "apple" },
+    { type: "apple" },
+    { type: "orange" }
+  ]);
+```
+
+The following DOM structure will be rendered.
+
+```html
+<div id="some-container-div">
+  <div class="fruit"><span class="apple"></span></div>
+  <div class="fruit"><span class="orange"></span></div>
+  <div class="fruit"><span class="apple"></span></div>
+  <div class="fruit"><span class="apple"></span></div>
+  <div class="fruit"><span class="orange"></span></div>
 </div>
 ```
