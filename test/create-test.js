@@ -7,21 +7,16 @@ var tape = require("tape"),
  *************************************/
 
 // Leveraging create hook with selection as first argument.
-var checkboxHTML = `
-      <label class="form-check-label">
-        <input type="checkbox" class="form-check-input">
-        <span class="checkbox-label-span"></span>
-      </label>
-    `,
-    checkbox = d3.component("div", "form-check")
+var card = d3.component("div", "card")
       .create(function (selection){
-        selection.html(checkboxHTML);
+        selection
+          .append("div").attr("class", "card-block")
+          .append("div").attr("class", "card-text");
       })
       .render(function (selection, props){
-        if(props && props.label){
-          selection.select(".checkbox-label-span")
-              .text(props.label);
-        }
+        selection
+          .select(".card-text")
+            .text(props.text);
       });
 
 
@@ -30,14 +25,15 @@ var checkboxHTML = `
  *************************************/
 tape("Create hook should pass selection on enter.", function(test) {
   var div = d3.select(jsdom.jsdom().body).append("div");
-  div.call(checkbox);
-  test.equal(div.html(), `<div class="form-check">${checkboxHTML}</div>`);
-  test.end();
-});
-
-tape("Render should have access to selection content from create hook.", function(test) {
-  var div = d3.select(jsdom.jsdom().body).append("div");
-  div.call(checkbox, { label: "My Checkbox"});
-  test.equal(div.select(".checkbox-label-span").text(), "My Checkbox");
+  div.call(card, { text: "I'm in a card." });
+  test.equal(div.html(), [
+    '<div class="card">',
+      '<div class="card-block">',
+        '<div class="card-text">',
+          "I\'m in a card.",
+        "</div>",
+      "</div>",
+    "</div>"
+  ].join(""));
   test.end();
 });
