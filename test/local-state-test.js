@@ -7,15 +7,15 @@ var tape = require("tape"),
  *************************************/
 
 // Local state.
-var spinnerCreated= false,
-    spinnerDestroyed = false,
+var spinnerCreated = 0,
+    spinnerDestroyed = 0,
     spinnerTimerState = "",
     spinnerText = "",
     spinnerSetState,
     spinner = d3.component("div")
       .create(function (selection, setState){
         spinnerSetState = setState;
-        spinnerCreated = true;
+        spinnerCreated++;
         spinnerTimerState = "running";
         setState({
           timer: spinnerTimerState
@@ -26,7 +26,7 @@ var spinnerCreated= false,
         selection.text(spinnerText);
       })
       .destroy(function(state){
-        spinnerDestroyed = true;
+        spinnerDestroyed++;
       });
 
 // For checking the default value of the state argument.
@@ -44,8 +44,8 @@ tape("Local state.", function(test) {
 
   // Create.
   div.call(spinner);
-  test.equal(spinnerCreated, true);
-  test.equal(spinnerDestroyed, false);
+  test.equal(spinnerCreated, 1);
+  test.equal(spinnerDestroyed, 0);
   test.equal(spinnerTimerState, "running");
   test.equal(spinnerText, "Timer is running");
   test.equal(div.html(), "<div>Timer is running</div>");
@@ -54,11 +54,13 @@ tape("Local state.", function(test) {
   spinnerSetState({ timer: "running well"});
   test.equal(spinnerText, "Timer is running well");
   test.equal(div.html(), "<div>Timer is running well</div>");
+  test.equal(spinnerCreated, 1);
+  test.equal(spinnerDestroyed, 0);
 
   // Destroy.
   div.call(spinner, []);
-  test.equal(spinnerCreated, true);
-  test.equal(spinnerDestroyed, true);
+  test.equal(spinnerCreated, 1);
+  test.equal(spinnerDestroyed, 1);
   test.equal(spinnerText, "Timer is running well");
   test.equal(div.html(), "");
 
