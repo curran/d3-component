@@ -43,11 +43,10 @@ Creates a new component generator that manages and renders into DOM elements of 
 Sets the render function of this component generator to the specified *function*. This function will be invoked for each instance of the component, passing the following arguments:
 
  * *selection* a D3 selection that contains a single DOM element
- * *props* the object that determines what will be rendered (similar to `props` in React components)
- * *state* the current local state of the component (similar to `state` in React components)
-   * *state* will be undefined unless it was set in the `[create](#component_create)` lifecycle hook.
- 
-If a *function* is not specified, returns undefined, as this is a setter only.
+ * *props* the object that determines what will be rendered
+ * *state* the current local state of the component
+
+**Note:** The value of the *state* argument will be an empty object unless *setState* was invoked inside the `[create](#component_create)` lifecycle hook.
 
 For example, here we define a component that creates an `<h1>` and sets its text.
 
@@ -286,3 +285,12 @@ The following DOM structure will be rendered.
   <div class="fruit"><span class="orange"></span></div>
 </div>
 ```
+
+## Parallels with React Components
+
+ * `props`
+ (similar to `props` in React components)
+ * `state`
+ * `setState`
+ * Lifecycle Hooks
+   * *create*

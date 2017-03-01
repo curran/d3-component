@@ -29,6 +29,13 @@ var spinnerCreated= false,
         spinnerDestroyed = true;
       });
 
+// For checking the default value of the state argument.
+var stateValue,
+    stateValueCheck = d3.component("div")
+      .render(function (selection, props, state){
+        stateValue = state;
+      });
+
 /*************************************
  ************** Tests ****************
  *************************************/
@@ -55,5 +62,13 @@ tape("Local state.", function(test) {
   test.equal(spinnerText, "Timer is running well");
   test.equal(div.html(), "");
 
+  test.end();
+});
+
+tape("State value default.", function(test) {
+  var div = d3.select(jsdom.jsdom().body).append("div");
+  div.call(stateValueCheck);
+  test.equal(typeof stateValue, "object");
+  test.equal(Object.keys(stateValue).length, 0);
   test.end();
 });
