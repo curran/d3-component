@@ -2,13 +2,6 @@
 
 A component system for D3.
 
-Similar in concept and behavior to React Components, this component system supports:
-
- * Passing `props` down through component trees when rendering.
- * Local state, using `setState` and `state`.
- * Lifecycle hooks (create, destroy).
- * Component composition (nesting, containment, conditional rendering).
-
 <table>
   <tr>
     <td>
@@ -45,19 +38,17 @@ var apple = d3.component("div", "apple");
 
 Creates a new component generator that manages and renders into DOM elements of the specified *tagName*.
 
-Optionally, you may specify a *className*, which will determine the value of the `class` attribute on the DOM elements managed.
+The optional parameter *className* determine the value of the `class` attribute on the DOM elements managed.
 
-<a href="#component_render" name="component_render" >#</a> <i>component</i>.<b>render</b>([<i>function</i>])
+<a href="#component_render" name="component_render" >#</a> <i>component</i>.<b>render</b>(<i>function</i>)
 
-Sets the render function of this component generator to the specified *function*.
+Sets the render *function* of this component generator.
 
-This *function* will be invoked for each instance of the component with the following arguments:
+This *function* will be invoked for each component instance with the following arguments:
 
- * *selection* A D3 selection that contains a single DOM element.
- * *props* Properties passed in from outside the component.
- * *state* The current local state of the component.
-
-The value of the *state* argument will be an empty object unless *setState* was invoked inside the **[create](#component_create)** lifecycle hook.
+ * *selection* A D3 selection that contains a single DOM element, the container for this component instance.
+ * *props* A "properties" object passed in from outside the component.
+ * *state* The current local state of the component. The value of the *state* argument will be an empty object unless *setState* was invoked inside the **[create](#component_create)** lifecycle hook.
 
 For example, here we define a component that creates a `<p>` element and sets its text.
 
@@ -77,50 +68,71 @@ Renders the component to the given *selection*, a D3 selection.
  * If *props* is specified and is not an array, exactly one component instance will be rendered and the *[render function](component_render)* will receive the *props* value as its *props* argument.
  * It *props* is not specified, exactly one component instance will be rendered and the *[render function](component_render)* will receive `undefined` as its *props* argument.
 
-For example, here's what it looks like to render an instance of our `heading` component defined above.
+For example, here's what it looks like to render an instance of our `paragraph` component defined above.
 
 ```js
 d3.select("#some-container-div")
-  .call(heading, { text: "Hello Component" });
+  .call(paragraph, { text: "Hello Component" });
 ```
 
 The following DOM structure will be rendered.
 
 ```html
 <div id="some-container-div">
-  <h1>Hello Component</h1>
+  <p>Hello Component</p>
 </div>
 ```
 
-<a href="#component_create" name="component_create" >#</a> <i>component</i>.<b>create</b>([<i>function</i>])
+If we pass an array as props, multiple instances will be rendered.
 
-Sets the lifecycle hook for component instance creation. This allows you to construct DOM structures when the component instance is instantiated, and allows you to use local state. The specified *function* will be invoked whenever a new component instance is created, and will be passed the following arguments:
+```js
+d3.select("#some-container-div")
+  .call(paragraph, [
+    { text: "foo" },
+    { text: "bar" }
+  ]);
+```
+```html
+<div id="some-container-div">
+  <p>foo</p>
+  <p>bar</p>
+</div>
+```
+
+<a href="#component_create" name="component_create" >#</a> <i>component</i>.<b>create</b>(<i>function</i>)
+
+Sets the lifecycle hook for component instance creation. This allows you to
+
+ * manipulate DOM structures when the component instance is created, and
+ * use local state.
+
+The specified *function* will be invoked whenever a new component instance is created, and will be passed the following arguments:
 
  * *selection* A D3 selection that contains a single DOM element.
  * *setState* A function that can be used to set the local state of the component instance. The *setState* function accepts a single argument *state*, an object, and assigns all properties present on the *state* object to the previous state object. Any properties on the previous state object that are not present in the new state object will not be removed. After the initial render, whenever *setState* is invoked, the component re-renders itself, passing the new state into the render function.
 
-For example, here's a component that leverages <b>create</b> to construct a deeply nested DOM structure when the component instance gets created.
+As an example of manipulating DOM structures when the component instance is created, here's a `card` component that appends nested `<div>`s when the component instance gets created.
 
 ```js
 var card = d3.component("div", "card")
   .create(function (selection){
     selection
-      .append("div").attr("class", "card-block")
-      .append("div").attr("class", "card-text");
+      .append("div")
+        .attr("class", "card-block")
+      .append("div")
+        .attr("class", "card-text");
   })
   .render(function (selection, props){
-    selection.select(".card-text").text(props.text);
+    selection
+      .select(".card-text")
+        .text(props.text);
   });
 ```
 
-Here's how we would render an instance of the `card` component.
-
 ```js
 d3.select("#some-container-div")
-  .call(card, { text: "I'm in a card." });
+    .call(card, { text: "I'm in a card." });
 ```
-
-The following DOM structure will be rendered.
 
 ```html
 <div id="some-container-div">
@@ -134,9 +146,48 @@ The following DOM structure will be rendered.
 </div>
 ```
 
-<a href="#component_destroy" name="component_destroy" >#</a> <i>component</i>.<b>destroy</b>([<i>function</i>])
+<a href="#component_destroy" name="component_destroy" >#</a> <i>component</i>.<b>destroy</b>(<i>function</i>)
 
-Sets the lifecycle hook for component instance destruction. Only use this if your component uses local state. The specified *function* will be invoked whenever a new component instance is destroyed, and will be passed a single argument *state*, the local state of the component instance.
+Sets the lifecycle hook for component instance destruction. This is useful if you are storing something in local state that needs to be cleaned up to avoid memory leaks. The specified *function* will be invoked whenever a component instance is destroyed, and will be passed a single argument *state*, the local state of the component instance.
+
+As an example component that uses **create** to set local state, and **destroy** to clean it up, here's a `clock` component.
+
+```js
+var clock = d3.component("div")
+  .create(function (selection, setState){
+    function setDate(){
+      setState({ date: new Date() });
+    }
+    setDate();
+    setState({
+      interval: setInterval(setDate, 1000)
+    });
+  })
+  .render(function (selection, props, state){
+    selection
+        .text(state.date.toLocaleTimeString());
+  })
+  .destroy(function (state){
+    clearInterval(state.interval);
+  });
+```
+
+```js
+d3.select("#some-container-div")
+    .call(card, { text: "I'm in a card." });
+```
+
+```html
+<div id="some-container-div">
+  <div class="card">
+    <div class="card-block">
+      <div class="card-text">
+        I'm in a card.
+      </div>
+    </div>
+  </div>
+</div>
+```
 
 ## Composing Components
 

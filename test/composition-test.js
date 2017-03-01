@@ -22,11 +22,14 @@ var heading = d3.component("h1")
 var card = d3.component("div", "card")
   .create(function (selection){
     selection
-      .append("div").attr("class", "card-block")
-      .append("div").attr("class", "card-text");
+      .append("div")
+        .attr("class", "card-block")
+      .append("div")
+        .attr("class", "card-text");
   })
   .render(function (selection, props){
-    selection.select(".card-text")
+    selection
+      .select(".card-text")
         .call(props.childComponent, props.childProps);
   });
 
