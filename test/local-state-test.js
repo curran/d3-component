@@ -13,7 +13,7 @@ var spinnerCreated= false,
     spinnerText = "",
     spinnerSetState,
     spinner = d3.component("div")
-      .create(function (setState){
+      .create(function (selection, setState){
         spinnerSetState = setState;
         spinnerCreated = true;
         spinnerTimerState = "running";

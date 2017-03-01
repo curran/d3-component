@@ -144,9 +144,45 @@ The following HTML structure will be rendered.
 
 <a href="#component_create" name="component_create" >#</a> <i>component</i>.<b>create</b>([<i>function</i>])
 
-Sets the lifecycle hook for component instance creation. Only use this if your component needs to have local state. The specified *function* will be invoked whenever a new component instance is created, and will be passed a *setState* function that can be used to set the local state of the component instance. The *setState* function accepts an object, and uses `Object.assign` internally to assign all properties present on the new state object to the previous state object. Any properties on the previous state object that are not present in the new state object will not be removed (similar to the behavior of *setState* in React components).
+Sets the lifecycle hook for component instance creation. This allows you to construct DOM structures when the component instance is instantiated, and allows you to use local state. The specified *function* will be invoked whenever a new component instance is created, and will be passed the following arguments:
 
-After the initial render, whenever *setState* is invoked, the component re-renders itself, passing the new state into the render function.
+ * *selection* a D3 selection that contains a single DOM element.
+ * *setState* A function that can be used to set the local state of the component instance. The *setState* function accepts a single argument *state*, an object, and assigns all properties present on the *state* object to the previous state object. Any properties on the previous state object that are not present in the new state object will not be removed. After the initial render, whenever *setState* is invoked, the component re-renders itself, passing the new state into the render function.
+
+For example, here's a component that leverages <b>create</b> to construct a deeply nested DOM structure when the component instance gets created.
+
+```js
+var card = d3.component("div", "card")
+  .create(function (selection){
+    selection
+      .append("div").attr("class", "card-block")
+      .append("div").attr("class", "card-text");
+  })
+  .render(function (selection, props){
+    selection.select(".card-text").text(props.text);
+  });
+```
+
+Here's how we would render an instance of the `card` component.
+
+```js
+d3.select("#some-container-div")
+  .call(card, { text: "I'm in a card." });
+```
+
+The following DOM structure will be rendered.
+
+```html
+<div id="some-container-div">
+  <div class="card">
+    <div class="card-block">
+      <div class="card-text">
+        I'm in a card.
+      </div>
+    </div>
+  </div>
+</div>
+```
 
 <a href="#component_destroy" name="component_destroy" >#</a> <i>component</i>.<b>destroy</b>([<i>function</i>])
 
