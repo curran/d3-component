@@ -28,23 +28,26 @@ export default function (tagName, className){
       myDestroy = function (props){
         destroy(myLocal.get(this).state);
       },
-      selector = className ? "." + className : tagName,
-      component = function (selection, props){
-        var components = selection.selectAll(selector)
-          .data(Array.isArray(props) ? props : [props]);
-        components
-          .enter().append(tagName)
-            .attr("class", className)
-            .each(myCreate)
-          .merge(components)
-            .each(myRender);
-        components
-          .exit()
-            .each(myDestroy)
-            .remove();
-      };
-  component.render = function(_) { return (render = _, component); };
-  component.create = function(_) { return (create = _, component); };
-  component.destroy = function(_) { return (destroy = _, component); };
+      selector = className ? "." + className : tagName;
+
+  function component(selection, props){
+    var components = selection.selectAll(selector)
+      .data(Array.isArray(props) ? props : [props]);
+    components
+      .enter().append(tagName)
+        .attr("class", className)
+        .each(myCreate)
+      .merge(components)
+        .each(myRender);
+    components
+      .exit()
+        .each(myDestroy)
+        .remove();
+  }
+
+  component.render = function(_) { render = _; return component; };
+  component.create = function(_) { create = _; return component; };
+  component.destroy = function(_) { destroy = _; return component; };
+
   return component;
 };
