@@ -1,6 +1,6 @@
 import { select, local } from "d3-selection";
 
-var componentLocal = local(),
+var myLocal = local(),
     noop = function (){};
 
 export default function (tagName, className){
@@ -19,31 +19,31 @@ export default function (tagName, className){
       .append(tagName)
         .attr("class", className)
         .each(function (){
-          var local = componentLocal.set(this, {
+          var my = myLocal.set(this, {
             selection: select(this),
             state: {},
             render: noop
           });
           create(function setState(state){
-            Object.assign(local.state, state);
-            local.render();
+            Object.assign(my.state, state);
+            my.render();
           });
         })
       .merge(components)
         .each(function (props){
-          var local = componentLocal.get(this);
-          if(local.render === noop){
-            local.render = function (){
-              render(local.selection, local.props, local.state);
+          var my = myLocal.get(this);
+          if(my.render === noop){
+            my.render = function (){
+              render(my.selection, my.props, my.state);
             };
           }
-          local.props = props;
-          local.render();
+          my.props = props;
+          my.render();
         });
     components
       .exit()
         .each(function (){
-          destroy(componentLocal.get(this).state);
+          destroy(myLocal.get(this).state);
         })
         .remove();
   }
