@@ -69,7 +69,7 @@ For example, here's what it looks like to render an instance of our `heading` co
 
 ```js
 d3.select("#some-container-div")
-  .call(heading, "Hello Component");
+  .call(heading, { text: "Hello Component" });
 ```
 
 The following DOM structure will be rendered.
