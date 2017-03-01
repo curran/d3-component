@@ -36,17 +36,21 @@ var apple = d3.component("div", "apple");
 
 <a href="#component" name="component">#</a> <b>component</b>(<i>tagName</i>[, <i>className</i>])
 
-Creates a new component generator that manages and renders into DOM elements of the specified *tagName*. Optionally, you may specify a *className*, which will determine the value of the `class` attribute on the DOM elements managed.
+Creates a new component generator that manages and renders into DOM elements of the specified *tagName*.
+
+Optionally, you may specify a *className*, which will determine the value of the `class` attribute on the DOM elements managed.
 
 <a href="#component_render" name="component_render" >#</a> <i>component</i>.<b>render</b>([<i>function</i>])
 
-Sets the render function of this component generator to the specified *function*. This function will be invoked for each instance of the component, passing the following arguments:
+Sets the render function of this component generator to the specified *function*.
 
- * *selection* a D3 selection that contains a single DOM element
- * *props* the object that determines what will be rendered
- * *state* the current local state of the component
+This *function* will be invoked for each instance of the component with the following arguments:
 
-**Note:** The value of the *state* argument will be an empty object unless *setState* was invoked inside the `[create](#component_create)` lifecycle hook.
+ * *selection* A D3 selection that contains a single DOM element.
+ * *props* Properties passed in from outside the component.
+ * *state* The current local state of the component.
+
+The value of the *state* argument will be an empty object unless *setState* was invoked inside the **[create](#component_create)** lifecycle hook.
 
 For example, here we define a component that creates an `<h1>` and sets its text.
 
@@ -62,7 +66,7 @@ var heading = d3.component("h1")
 Renders the component to the given *selection*, a D3 selection.
 
  * If *props* is specified as an array, one component instance will be rendered for each element of the *props* array and the *[render function](component_render)* will receive a single element of the *props* array as its *props* argument.
-   * **Useful case:** If *props* is specified as an empty array `[]`, then previously rendered component instances will be removed.
+   * **Useful case:** If *props* is specified as an empty array `[]`, previously rendered component instances will be removed.
  * If *props* is specified and is not an array, exactly one component instance will be rendered and the *[render function](component_render)* will receive the *props* value as its *props* argument.
  * It *props* is not specified, exactly one component instance will be rendered and the *[render function](component_render)* will receive `undefined` as its *props* argument.
 
@@ -85,7 +89,7 @@ The following DOM structure will be rendered.
 
 Sets the lifecycle hook for component instance creation. This allows you to construct DOM structures when the component instance is instantiated, and allows you to use local state. The specified *function* will be invoked whenever a new component instance is created, and will be passed the following arguments:
 
- * *selection* a D3 selection that contains a single DOM element.
+ * *selection* A D3 selection that contains a single DOM element.
  * *setState* A function that can be used to set the local state of the component instance. The *setState* function accepts a single argument *state*, an object, and assigns all properties present on the *state* object to the previous state object. Any properties on the previous state object that are not present in the new state object will not be removed. After the initial render, whenever *setState* is invoked, the component re-renders itself, passing the new state into the render function.
 
 For example, here's a component that leverages <b>create</b> to construct a deeply nested DOM structure when the component instance gets created.
