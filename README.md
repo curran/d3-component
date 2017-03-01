@@ -230,16 +230,12 @@ The following DOM structure will be rendered.
 
 ```html
 <div id="some-container-div">
-  <h1>Hello Component</h1>
-</div>
-```
-
-```html
-<div class="card">
-  <div class="card-block">
-    <div class="card-text">
-      <div class="post"><h1>A Title</h1><p>a content</p></div>
-      <div class="post"><h1>B Title</h1><p>b content</p></div>
+  <div class="card">
+    <div class="card-block">
+      <div class="card-text">
+        <div class="post"><h1>A Title</h1><p>a content</p></div>
+        <div class="post"><h1>B Title</h1><p>b content</p></div>
+      </div>
     </div>
   </div>
 </div>
