@@ -57,9 +57,14 @@ var heading = d3.component("h1")
   });
 ```
 
-<a href="#component_invoke" name="component_invoke" >#</a> <i>component</i>(<i>selection</i>[,<i>data</i>])
+<a href="#component_invoke" name="component_invoke" >#</a> <i>component</i>(<i>selection</i>[,<i>props</i>])
 
-Renders the component to the given *selection*, a D3 selection. If *data* is specified as an array, one component instance will be rendered for each element of the *data* array and the *[render function](component_render)* will receive a single element of the *data* array as its *datum* argument. If *data* is specified and is not an array, exactly one component instance will be rendered and the *[render function](component_render)* will receive the *data* value as its *datum* argument. It *data* is not specified, exactly one component instance will be rendered and the *[render function](component_render)* will receive `undefined` as its *datum* argument. If *data* is specified as an empty array `[]`, then all previously rendered component instances will be removed from the DOM.
+Renders the component to the given *selection*, a D3 selection.
+
+ * If *props* is specified as an array, one component instance will be rendered for each element of the *props* array and the *[render function](component_render)* will receive a single element of the *props* array as its *props* argument.
+   * **Useful case:** If *props* is specified as an empty array `[]`, then previously rendered component instances will be removed.
+ * If *props* is specified and is not an array, exactly one component instance will be rendered and the *[render function](component_render)* will receive the *props* value as its *props* argument.
+ * It *props* is not specified, exactly one component instance will be rendered and the *[render function](component_render)* will receive `undefined` as its *props* argument.
 
 For example, here's what it looks like to render an instance of our `heading` component defined above.
 
@@ -285,12 +290,3 @@ The following DOM structure will be rendered.
   <div class="fruit"><span class="orange"></span></div>
 </div>
 ```
-
-## Parallels with React Components
-
- * `props`
- (similar to `props` in React components)
- * `state`
- * `setState`
- * Lifecycle Hooks
-   * *create*
