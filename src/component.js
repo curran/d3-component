@@ -28,15 +28,13 @@ export default function (tagName, className){
             Object.assign(my.state, state);
             my.render();
           });
+          my.render = function (){
+            render(my.selection, my.props, my.state);
+          };
         })
       .merge(components)
         .each(function (props){
           var my = myLocal.get(this);
-          if(my.render === noop){
-            my.render = function (){
-              render(my.selection, my.props, my.state);
-            };
-          }
           my.props = props;
           my.render();
         });
