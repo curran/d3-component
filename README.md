@@ -200,7 +200,7 @@ Sometimes children components are not known in advance. This is often the case f
 
 Here's an example of a `card` component that can render arbitrary chilren.
 
-```
+```js
 var card = d3.component("div", "card")
   .create(function (selection){
     selection
