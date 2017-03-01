@@ -123,9 +123,13 @@ The following DOM structure will be rendered.
 
 Sets the lifecycle hook for component instance destruction. Only use this if your component uses local state. The specified *function* will be invoked whenever a new component instance is destroyed, and will be passed a single argument *state*, the local state of the component instance.
 
-## Component Composition
+## Composing Components
 
-Components can be easily composed. Here's an example of a `post` component that renders `<div>` elements that contain `<h1>` and `<p>` elements.
+Components can refer to other components in their render functions. Two of the most common patterns for component composition are nesting and containment.
+
+### Nesting
+
+Here's an example of a `post` component that composes two other components, `heading` and `paragraph`.
 
 ```js
 var heading = d3.component("h1")
@@ -186,6 +190,57 @@ The following HTML structure will be rendered.
   <div class="post">
     <h1>B Title</h1>
     <p>b content</p>
+  </div>
+</div>
+```
+
+### Containment
+
+Sometimes children components are not known in advance. This is often the case for components that serve as "boxes" that can contain arbitrary content, such as cards or dialogs.
+
+Here's an example of a `card` component that can render arbitrary chilren.
+
+```
+var card = d3.component("div", "card")
+  .create(function (selection){
+    selection
+      .append("div").attr("class", "card-block")
+      .append("div").attr("class", "card-text");
+  })
+  .render(function (selection, props){
+    selection.select(".card-text")
+        .call(props.childComponent, props.childProps);
+  });
+```
+
+Here's how we can use this `card` component to render a card that contains instances of the `post` component.
+
+```js
+d3.select("#some-container-div")
+  .call(card, {
+    childComponent: post,
+    childProps: [
+      { title: "A Title", content: "a content" },
+      { title: "B Title", content: "b content" },
+    ]
+  });
+```
+
+The following DOM structure will be rendered.
+
+```html
+<div id="some-container-div">
+  <h1>Hello Component</h1>
+</div>
+```
+
+```html
+<div class="card">
+  <div class="card-block">
+    <div class="card-text">
+      <div class="post"><h1>A Title</h1><p>a content</p></div>
+      <div class="post"><h1>B Title</h1><p>b content</p></div>
+    </div>
   </div>
 </div>
 ```
