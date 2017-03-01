@@ -59,10 +59,10 @@ This *function* will be invoked for each instance of the component with the foll
 
 The value of the *state* argument will be an empty object unless *setState* was invoked inside the **[create](#component_create)** lifecycle hook.
 
-For example, here we define a component that creates an `<h1>` and sets its text.
+For example, here we define a component that creates a `<p>` element and sets its text.
 
 ```js
-var heading = d3.component("h1")
+var paragraph = d3.component("p")
   .render(function (selection, props){
     selection.text(props.text);
   });
