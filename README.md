@@ -2,6 +2,10 @@
 
 A component system for D3.
 
+Have you ever tried to use D3 to build a complete Web application? D3 shines for data visualization, but is cumbersome to use for general-purpose app building due to the repetitiveness of the [General Update Pattern](https://github.com/d3/d3-selection#selection_merge) and complexities that abound when managing the deeply nested, heterogeneous, and data-driven DOM structures required for general-purpose user interfaces.
+
+This component system is similar in concept and functionality to React components, but is very lightweight and designed for use with D3. Using this module, you can easily encapsulate data-driven user interface components as "boxes-within-boxes", cleanly isolating concerns for various levels of your DOM tree. Concepts in this library like `props` and `state` will feel familiar to React users (e.g. `setState` has similar behavior to the same method in React). No special treatment is given to events or event delegation, as the primary usage scenario is envisioned to be with a unidirectional data flow architexture such as [Redux](http://redux.js.org/).
+
 <table>
   <tr>
     <td>
