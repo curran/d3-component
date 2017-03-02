@@ -47,3 +47,13 @@ tape("A component should render multiple instances.", function(test) {
 
   test.end();
 });
+
+
+tape("A component should be passed props as {} when not specified.", function(test) {
+  var div = d3.select(jsdom.jsdom().body).append("div");
+  div.call(paragraph, { text: "Hello Component" });
+  test.equal(div.html(), "<p>Hello Component</p>");
+  div.call(paragraph);
+  test.equal(div.html(), "<p></p>");
+  test.end();
+});
