@@ -18,7 +18,8 @@ export default function (tagName, className){
           Object.assign(instance.state, state);
           instance.render();
         });
-        instance.render = function (){
+        instance.render = function (props){
+          instance.props = props || {};
           render(instance.selection, instance.props, instance.state);
         };
         instance.destroy = function (){
@@ -26,9 +27,7 @@ export default function (tagName, className){
         };
       },
       renderInstance = function (props){
-        var instance = instanceLocal(this);
-        instance.props = props || {};
-        instance.render();
+        instanceLocal(this).render(props);
       },
       destroyInstance = function (){
         var instance = instanceLocal(this);
