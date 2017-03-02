@@ -219,6 +219,10 @@ d3.select("#some-container-div")
 </div>
 ```
 
+<a href="#component_key" name="component_key" >#</a> <i>component</i>.<b>key</b>(<i>function</i>)
+
+Sets the key *function* used in the internal [data join](https://github.com/d3/d3-selection#selection_data) when managing component instances. Specifying this is optional (the array index is used as the key by default), but specifying a key function will make re-rendering more efficient in cases where *props* arrays get reordered or spliced over time.
+
 ## Composing Components
 
 Components can use other components in their render functions. Some useful patterns for component composition are:
