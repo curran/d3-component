@@ -178,7 +178,7 @@ d3.select("#some-container-div")
 
 <a href="#component_destroy" name="component_destroy" >#</a> <i>component</i>.<b>destroy</b>(<i>function</i>)
 
-Sets the lifecycle hook for component instance destruction. This is useful if you are storing something in local state that needs to be cleaned up to avoid memory leaks. The specified *function* will be invoked whenever a component instance is destroyed, and will be passed a single argument *state*, the local state of the component instance.
+Sets the lifecycle hook for component instance destruction. This is useful if you are storing something in local state that needs to be cleaned up to avoid memory leaks. The specified *function* will be invoked whenever a component instance is destroyed, and will be passed a single argument *state*, the local state of the component instance. When a component is destroyed, all of its children are also destroyed (recursively).
 
 As an example component that uses **create** to set local state, and **destroy** to clean it up, here's a `clock` component.
 
