@@ -65,12 +65,18 @@ var paragraph = d3.component("p")
 
 <a href="#component_invoke" name="component_invoke" >#</a> <i>component</i>(<i>selection</i>[,<i>props</i>])
 
-Renders the component to the given *selection*, a D3 selection.
+Renders the component to the given *selection*, a D3 selection containing a single DOM element.
 
  * If *props* is specified as an array, one component instance will be rendered for each element of the *props* array and the *[render function](component_render)* will receive a single element of the *props* array as its *props* argument.
    * **Useful case:** If *props* is specified as an empty array `[]`, previously rendered component instances will be removed.
  * If *props* is specified and is not an array, exactly one component instance will be rendered and the *[render function](component_render)* will receive the *props* value as its *props* argument.
- * It *props* is not specified, exactly one component instance will be rendered and the *[render function](component_render)* will receive `undefined` as its *props* argument.
+ * It *props* is not specified, exactly one component instance will be rendered and the *[render function](component_render)* will receive an empty object as its *props* argument.
+
+In summary, the following three cases are supported:
+
+ * `selection.call(myComponent)` → One instance, render function *props* argument will be `{}`.
+ * `selection.call(myComponent, propsObject)` → One instance, render function *props* argument will be `propsObject`.
+ * `selection.call(myComponent, propsArray)` → Many instances, render function *props* argument will be `propsArray[i]`
 
 For example, here's what it looks like to render an instance of our `paragraph` component defined above.
 
