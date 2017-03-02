@@ -25,7 +25,7 @@ export default function (tagName, className){
         instance.props = props || {};
         instance.render();
       },
-      destroyInstance = function (props){
+      destroyInstance = function (){
         destroy(instanceLocal.get(this).state);
       },
       selector = className ? "." + className : tagName;
