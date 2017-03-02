@@ -66,7 +66,7 @@ tape("Use key function if specified.", function(test) {
   test.equal(created, 2);
   test.equal(destroyed, 0);
 
-  // Update with swap (unnecessary creation and destruction).
+  // Update with swap (no unnecessary creation and destruction).
   created = destroyed = 0;
   div.call(fruitKeyed, [
     { id: "b", type: "orange"},
