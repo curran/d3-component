@@ -29,10 +29,11 @@ export default function (tagName, className){
         instance.render();
       },
       destroyInstance = function (){
-        var instance = instanceLocal.get(this);
+        selectAll(this.children).each(destroyInstance);
+        var instance = this[instanceLocal._];
         if(instance){
-          selectAll(this.children).each(destroyInstance);
           instance.destroy();
+          instanceLocal.remove(this);
         }
       },
       selector = className ? "." + className : tagName,
