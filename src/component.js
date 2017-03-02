@@ -1,5 +1,9 @@
 import { select, selectAll } from "d3-selection";
 
+function instanceLocal(node, value){
+  return value ? node.__instance__ = value : node.__instance__;
+}
+
 function noop(){};
 
 export default function (tagName, className){
@@ -7,11 +11,11 @@ export default function (tagName, className){
       render = noop,
       destroy = noop,
       createInstance = function (){
-        var instance = this.__instance__ = {
+        var instance = instanceLocal(this, {
           selection: select(this),
           state: {},
           render: noop
-        };
+        });
         create(instance.selection, function setState(state){
           Object.assign(instance.state, state);
           instance.render();
@@ -19,20 +23,18 @@ export default function (tagName, className){
         instance.render = function (){
           render(instance.selection, instance.props, instance.state);
         };
-        instance.destroy = function (){
-          destroy(instance.state);
-        }
+        instance.destroy = destroy;
       },
       renderInstance = function (props){
-        var instance = this.__instance__;
+        var instance = instanceLocal(this);
         instance.props = props || {};
         instance.render();
       },
       destroyInstance = function (){
+        var instance = instanceLocal(this);
         selectAll(this.children).each(destroyInstance);
-        var instance = this.__instance__;
         if(instance){
-          instance.destroy();
+          instance.destroy(instance.state);
         }
       },
       selector = className ? "." + className : tagName,
