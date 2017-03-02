@@ -1,16 +1,19 @@
-import { select, local } from "d3-selection";
-var instanceLocal = local(),
-    noop = function (){};
+import { select, selectAll } from "d3-selection";
+var noop = function (){},
+    instanceLocal = function (node, value){
+      return value ? (node.__instance__ = value) : node.__instance__;
+    };
 
 export default function (tagName, className){
   var create = noop,
       render = noop,
       destroy = noop,
       createInstance = function (){
-        var instance = instanceLocal.set(this, {
+        var instance = instanceLocal(this, {
           selection: select(this),
           state: {},
-          render: noop
+          render: noop,
+          destroy: destroy
         });
         create(instance.selection, function setState(state){
           Object.assign(instance.state, state);
@@ -21,12 +24,14 @@ export default function (tagName, className){
         };
       },
       renderInstance = function (props){
-        var instance = instanceLocal.get(this);
+        var instance = instanceLocal(this);
         instance.props = props || {};
         instance.render();
       },
       destroyInstance = function (){
-        destroy(instanceLocal.get(this).state);
+        var instance = instanceLocal(this);
+        selectAll(this.children).each(destroyInstance);
+        if(instance){ instance.destroy(instance.state); }
       },
       selector = className ? "." + className : tagName,
       key;

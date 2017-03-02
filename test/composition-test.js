@@ -43,6 +43,35 @@ var apple = d3.component("span", "apple")
           .call(orange, props.type === "orange"? {} : [])
       });
 
+// Recursive destruction
+var leafDestroyed = 0,
+    leaf = d3.component("div", "leaf")
+      .destroy(function (){
+        leafDestroyed ++;
+      })
+    twig = d3.component("div", "twig")
+      .render(function (selection){
+        selection.call(leaf);
+      });
+    branch = d3.component("div", "branch")
+      .render(function (selection){
+        selection.call(twig, [1, 2]);
+      });
+    treeDestroyed = 0,
+    tree = d3.component("div", "tree")
+      .create(function (selection){
+        selection
+          .append("div")
+            .attr("class", "trunk");
+      })
+      .render(function (selection){
+        selection
+          .select(".trunk")
+            .call(branch, [1, 2, 3]);
+      })
+      .destroy(function (){
+        treeDestroyed ++;
+      });
 
 /*************************************
  ************** Tests ****************
@@ -150,6 +179,49 @@ tape("Conditional rendering.", function(test) {
     '<div class="fruit"><span class="apple"></span></div>',
     '<div class="fruit"><span class="apple"></span></div>'
   ].join(""));
+
+  test.end();
+});
+
+tape("Recursive destruction.", function(test) {
+  var div = d3.select(jsdom.jsdom().body).append("div");
+
+  div.call(tree);
+  test.equal(div.html(), [
+    '<div class="tree">',
+      '<div class="trunk">',
+        '<div class="branch">',
+          '<div class="twig">',
+            '<div class="leaf"></div>',
+          '</div>',
+          '<div class="twig">',
+            '<div class="leaf"></div>',
+          '</div>',
+        '</div>',
+        '<div class="branch">',
+          '<div class="twig">',
+            '<div class="leaf"></div>',
+          '</div>',
+          '<div class="twig">',
+            '<div class="leaf"></div>',
+          '</div>',
+        '</div>',
+        '<div class="branch">',
+          '<div class="twig">',
+            '<div class="leaf"></div>',
+          '</div>',
+          '<div class="twig">',
+            '<div class="leaf"></div>',
+          '</div>',
+        '</div>',
+      '</div>',
+    '</div>',
+  ].join(""));
+  test.equal(leafDestroyed, 0);
+
+  div.call(tree, []);
+  test.equal(leafDestroyed, 6);
+  test.equal(treeDestroyed, 1);
 
   test.end();
 });

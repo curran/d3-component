@@ -31,21 +31,61 @@ var created,
  ************** Tests ****************
  *************************************/
 tape("Use index as key if key function not specified.", function(test) {
+  var div = d3.select(jsdom.jsdom().body).append("div");
+
+  // Enter.
   created = destroyed = 0;
-  d3.select(jsdom.jsdom().body).append("div")
-    .call(fruitNotKeyed, [ { id: "a", type: "apple"}, { id: "b", type: "orange"} ])
-    .call(fruitNotKeyed, [ { id: "b", type: "orange"}, { id: "a", type: "apple"} ]);
-  test.equal(created, 4);
+  div.call(fruitNotKeyed, [
+    { id: "a", type: "apple"},
+    { id: "b", type: "orange"}
+  ]);
+  test.equal(created, 2);
+  test.equal(destroyed, 0);
+
+  // Update with swap (unnecessary creation and destruction).
+  created = destroyed = 0;
+  div.call(fruitNotKeyed, [
+    { id: "b", type: "orange"},
+    { id: "a", type: "apple"}
+  ]);
+  test.equal(created, 2);
   test.equal(destroyed, 2);
+
+  // Exit (tests recursive destruction).
+  created = destroyed = 0;
+  div.call(fruitNotKeyed, []);
+  test.equal(created, 0);
+  test.equal(destroyed, 2);
+
   test.end();
 });
 
 tape("Use key function if specified.", function(test) {
+  var div = d3.select(jsdom.jsdom().body).append("div");
+
+  // Enter.
   created = destroyed = 0;
-  d3.select(jsdom.jsdom().body).append("div")
-    .call(fruitKeyed, [ { id: "a", type: "apple"}, { id: "b", type: "orange"} ])
-    .call(fruitKeyed, [ { id: "b", type: "orange"}, { id: "a", type: "apple"} ]);
+  div.call(fruitKeyed, [
+    { id: "a", type: "apple"},
+    { id: "b", type: "orange"}
+  ]);
   test.equal(created, 2);
   test.equal(destroyed, 0);
+
+  // Update with swap (no unnecessary creation and destruction).
+  created = destroyed = 0;
+  div.call(fruitKeyed, [
+    { id: "b", type: "orange"},
+    { id: "a", type: "apple"}
+  ]);
+  test.equal(created, 0);
+  test.equal(destroyed, 0);
+
+  // Exit (tests recursive destruction).
+  created = destroyed = 0;
+  div.call(fruitNotKeyed, []);
+  test.equal(created, 0);
+  test.equal(destroyed, 2);
+
   test.end();
 });
