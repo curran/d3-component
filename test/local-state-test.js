@@ -7,8 +7,8 @@ var tape = require("tape"),
  *************************************/
 
 // Local state.
-var spinnerCreated = 0,
-    spinnerDestroyed = 0,
+var spinnerCreated,
+    spinnerDestroyed,
     spinnerTimerState = "",
     spinnerText = "",
     spinnerSetState,
@@ -43,6 +43,7 @@ tape("Local state.", function(test) {
   var div = d3.select(jsdom.jsdom().body).append("div");
 
   // Create.
+  spinnerCreated = spinnerDestroyed = 0;
   div.call(spinner);
   test.equal(spinnerCreated, 1);
   test.equal(spinnerDestroyed, 0);
@@ -51,15 +52,17 @@ tape("Local state.", function(test) {
   test.equal(div.html(), "<div>Timer is running</div>");
 
   // Re-render on setState().
+  spinnerCreated = spinnerDestroyed = 0;
   spinnerSetState({ timer: "running well"});
   test.equal(spinnerText, "Timer is running well");
   test.equal(div.html(), "<div>Timer is running well</div>");
-  test.equal(spinnerCreated, 1);
+  test.equal(spinnerCreated, 0);
   test.equal(spinnerDestroyed, 0);
 
   // Destroy.
+  spinnerCreated = spinnerDestroyed = 0;
   div.call(spinner, []);
-  test.equal(spinnerCreated, 1);
+  test.equal(spinnerCreated, 0);
   test.equal(spinnerDestroyed, 1);
   test.equal(spinnerText, "Timer is running well");
   test.equal(div.html(), "");
