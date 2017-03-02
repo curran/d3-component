@@ -28,11 +28,12 @@ export default function (tagName, className){
       destroyInstance = function (){
         destroy(instanceLocal.get(this).state);
       },
-      selector = className ? "." + className : tagName;
+      selector = className ? "." + className : tagName,
+      key;
 
   function component(selection, props){
     var instances = selection.selectAll(selector)
-      .data(Array.isArray(props) ? props : [props]);
+      .data(Array.isArray(props) ? props : [props], key);
     instances
       .enter().append(tagName)
         .attr("class", className)
@@ -47,6 +48,7 @@ export default function (tagName, className){
   component.render = function(_) { return (render = _, component); };
   component.create = function(_) { return (create = _, component); };
   component.destroy = function(_) { return (destroy = _, component); };
+  component.key = function(_) { return (key = _, component); };
 
   return component;
 };
