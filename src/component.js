@@ -34,21 +34,25 @@ export default function (tagName, className){
           var instance = instanceLocal(this);
           if(instance) instance.destroy(instance.state);
         });
-        instance.destroy(instance.state);
-        instance.selection.remove();
+        (instance.destroy(instance.state) || instance.selection).remove();
       },
       selector = className ? "." + className : tagName,
       key;
 
   function component(selection, props){
-    var instances = selection.selectAll(selector)
+    var instances = selection
+      .selectAll(selector)
       .data(Array.isArray(props) ? props : [props], key);
-    instances.enter().append(tagName)
+    instances
+      .enter()
+      .append(tagName)
         .attr("class", className)
         .each(createInstance)
       .merge(instances)
         .each(renderInstance);
-    instances.exit().each(destroyInstance);
+    instances
+      .exit()
+        .each(destroyInstance);
   }
   component.render = function(_) { return (render = _, component); };
   component.create = function(_) { return (create = _, component); };
