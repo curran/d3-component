@@ -9,7 +9,7 @@ var tape = require("tape"),
 // Basic component.
 var paragraph = d3.component("p")
   .render(function (selection, props){
-    selection.text(props.text);
+    selection.text(props.text || "");
   });
 
 /*************************************
