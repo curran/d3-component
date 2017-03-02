@@ -29,9 +29,12 @@ export default function (tagName, className){
         instance.render();
       },
       destroyInstance = function (){
-        var instance = instanceLocal(this);
-        selectAll(this.children).each(destroyInstance);
-        if(instance){ instance.destroy(instance.state); }
+        instanceLocal(this).selection.selectAll("*")
+          .nodes().concat(this)
+          .forEach(function (node){
+            var instance = instanceLocal(node);
+            if(instance) instance.destroy(instance.state);
+          });
       },
       selector = className ? "." + className : tagName,
       key;
