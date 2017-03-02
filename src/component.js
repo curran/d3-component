@@ -22,10 +22,10 @@ export default function (tagName, className){
       },
       renderInstance = function (props){
         var instance = instanceLocal.get(this);
-        instance.props = props;
+        instance.props = props || {};
         instance.render();
       },
-      destroyInstance = function (props){
+      destroyInstance = function (){
         destroy(instanceLocal.get(this).state);
       },
       selector = className ? "." + className : tagName;
