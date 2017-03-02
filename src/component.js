@@ -1,37 +1,34 @@
 import { select, local } from "d3-selection";
-var myLocal = local(),
+var componentLocal = local(),
     noop = function (){};
-
-function myRender(props){
-  var my = myLocal.get(this);
-  my.props = props;
-  my.render();
-}
 
 export default function (tagName, className){
   var create = noop,
       render = noop,
       destroy = noop,
+      localCreate = function (){
+        var local = componentLocal.set(this, {
+          selection: select(this),
+          state: {},
+          render: noop
+        });
+        create(local.selection, function setState(state){
+          Object.assign(local.state, state);
+          local.render();
+        });
+        local.render = function (){
+          render(local.selection, local.props, local.state);
+        };
+      },
+      localRender = function (props){
+        var local = componentLocal.get(this);
+        local.props = props;
+        local.render();
+      },
+      localDestroy = function (props){
+        destroy(componentLocal.get(this).state);
+      },
       selector = className ? "." + className : tagName;
-
-  function myCreate(){
-    var my = myLocal.set(this, {
-      selection: select(this),
-      state: {},
-      render: noop
-    });
-    create(my.selection, function setState(state){
-      Object.assign(my.state, state);
-      my.render();
-    });
-    my.render = function (){
-      render(my.selection, my.props, my.state);
-    };
-  }
-
-  function myDestroy(props){
-    destroy(myLocal.get(this).state);
-  }
 
   function component(selection, props){
     var components = selection.selectAll(selector)
@@ -39,12 +36,12 @@ export default function (tagName, className){
     components
       .enter().append(tagName)
         .attr("class", className)
-        .each(myCreate)
+        .each(localCreate)
       .merge(components)
-        .each(myRender);
+        .each(localRender);
     components
       .exit()
-        .each(myDestroy)
+        .each(localDestroy)
         .remove();
   }
 
