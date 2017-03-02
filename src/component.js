@@ -26,7 +26,12 @@ export default function (tagName, className){
         instance.render();
       },
       destroyInstance = function (){
-        destroy(instanceLocal.get(this).state);
+        var instance = instanceLocal.get(this);
+        if(instance){
+          instance.selection.selectAll("*").each(destroyInstance);
+          destroy(instance.state);
+          instance.selection.remove();
+        }
       },
       selector = className ? "." + className : tagName,
       key;
@@ -40,10 +45,7 @@ export default function (tagName, className){
         .each(createInstance)
       .merge(instances)
         .each(renderInstance);
-    instances
-      .exit()
-        .each(destroyInstance)
-        .remove();
+    instances.exit().each(destroyInstance);
   }
   component.render = function(_) { return (render = _, component); };
   component.create = function(_) { return (create = _, component); };
