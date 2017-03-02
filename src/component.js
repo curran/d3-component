@@ -1,10 +1,8 @@
 import { select, selectAll } from "d3-selection";
-
-function instanceLocal(node, value){
-  return value ? node.__instance__ = value : node.__instance__;
-}
-
-function noop(){};
+var noop = function (){},
+    instanceLocal = function (node, value){
+      return value ? (node.__instance__ = value) : node.__instance__;
+    };
 
 export default function (tagName, className){
   var create = noop,
@@ -33,9 +31,7 @@ export default function (tagName, className){
       destroyInstance = function (){
         var instance = instanceLocal(this);
         selectAll(this.children).each(destroyInstance);
-        if(instance){
-          instance.destroy(instance.state);
-        }
+        if(instance){ instance.destroy(instance.state); }
       },
       selector = className ? "." + className : tagName,
       key;
