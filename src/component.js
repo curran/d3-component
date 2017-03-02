@@ -12,7 +12,8 @@ export default function (tagName, className){
         var instance = instanceLocal(this, {
           selection: select(this),
           state: {},
-          render: noop
+          render: noop,
+          destroy: destroy
         });
         create(instance.selection, function setState(state){
           Object.assign(instance.state, state);
@@ -21,7 +22,6 @@ export default function (tagName, className){
         instance.render = function (){
           render(instance.selection, instance.props, instance.state);
         };
-        instance.destroy = destroy;
       },
       renderInstance = function (props){
         var instance = instanceLocal(this);
