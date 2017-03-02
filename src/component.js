@@ -29,8 +29,7 @@ export default function (tagName, className){
         var instance = instanceLocal.get(this);
         if(instance){
           instance.selection.selectAll("*").each(destroyInstance);
-          destroy(instance.state);
-          instance.selection.remove();
+          (destroy(instance.state) || instance.selection).remove();
         }
       },
       selector = className ? "." + className : tagName,
