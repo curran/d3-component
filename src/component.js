@@ -1,50 +1,49 @@
 import { select, local } from "d3-selection";
-var componentLocal = local(),
+var instanceLocal = local(),
     noop = function (){};
 
 export default function (tagName, className){
   var create = noop,
       render = noop,
       destroy = noop,
-      localCreate = function (){
-        var local = componentLocal.set(this, {
+      createInstance = function (){
+        var instance = instanceLocal.set(this, {
           selection: select(this),
           state: {},
           render: noop
         });
-        create(local.selection, function setState(state){
-          Object.assign(local.state, state);
-          local.render();
+        create(instance.selection, function setState(state){
+          Object.assign(instance.state, state);
+          instance.render();
         });
-        local.render = function (){
-          render(local.selection, local.props, local.state);
+        instance.render = function (){
+          render(instance.selection, instance.props, instance.state);
         };
       },
-      localRender = function (props){
-        var local = componentLocal.get(this);
-        local.props = props;
-        local.render();
+      renderInstance = function (props){
+        var instance = instanceLocal.get(this);
+        instance.props = props;
+        instance.render();
       },
-      localDestroy = function (props){
-        destroy(componentLocal.get(this).state);
+      destroyInstance = function (props){
+        destroy(instanceLocal.get(this).state);
       },
       selector = className ? "." + className : tagName;
 
   function component(selection, props){
-    var components = selection.selectAll(selector)
+    var instances = selection.selectAll(selector)
       .data(Array.isArray(props) ? props : [props]);
-    components
+    instances
       .enter().append(tagName)
         .attr("class", className)
-        .each(localCreate)
-      .merge(components)
-        .each(localRender);
-    components
+        .each(createInstance)
+      .merge(instances)
+        .each(renderInstance);
+    instances
       .exit()
-        .each(localDestroy)
+        .each(destroyInstance)
         .remove();
   }
-
   component.render = function(_) { return (render = _, component); };
   component.create = function(_) { return (create = _, component); };
   component.destroy = function(_) { return (destroy = _, component); };
