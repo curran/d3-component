@@ -51,6 +51,12 @@ tape("Use index as key if key function not specified.", function(test) {
   test.equal(created, 2);
   test.equal(destroyed, 2);
 
+  // Exit (tests recursive destruction).
+  created = destroyed = 0;
+  div.call(fruitNotKeyed, []);
+  test.equal(created, 0);
+  test.equal(destroyed, 2);
+
   test.end();
 });
 
@@ -74,6 +80,12 @@ tape("Use key function if specified.", function(test) {
   ]);
   test.equal(created, 0);
   test.equal(destroyed, 0);
+
+  // Exit (tests recursive destruction).
+  created = destroyed = 0;
+  div.call(fruitNotKeyed, []);
+  test.equal(created, 0);
+  test.equal(destroyed, 2);
 
   test.end();
 });
