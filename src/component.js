@@ -19,7 +19,9 @@ export default function (tagName, className){
         instance.render = function (){
           render(instance.selection, instance.props, instance.state);
         };
-        instance.destroy = destroy;
+        instance.destroy = function (){
+          destroy(instance.state);
+        }
       },
       renderInstance = function (props){
         var instance = instanceLocal.get(this);
@@ -30,7 +32,7 @@ export default function (tagName, className){
         var instance = instanceLocal.get(this);
         if(instance){
           selectAll(this.children).each(destroyInstance);
-          (instance.destroy(instance.state) || instance.selection).remove();
+          instance.destroy();
         }
       },
       selector = className ? "." + className : tagName,
@@ -45,7 +47,10 @@ export default function (tagName, className){
         .each(createInstance)
       .merge(instances)
         .each(renderInstance);
-    instances.exit().each(destroyInstance);
+    instances
+      .exit()
+        .each(destroyInstance)
+        .remove();
   }
   component.render = function(_) { return (render = _, component); };
   component.create = function(_) { return (create = _, component); };
