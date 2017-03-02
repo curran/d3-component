@@ -59,7 +59,7 @@ For example, here we define a component that creates a `<p>` element and sets it
 ```js
 var paragraph = d3.component("p")
   .render(function (selection, props){
-    selection.text(props.text);
+    selection.text(props.text || "");
   });
 ```
 
@@ -72,21 +72,19 @@ Renders the component to the given *selection*, a D3 selection containing a sing
  * If *props* is specified and is not an array, exactly one component instance will be rendered and the *[render function](component_render)* will receive the *props* value as its *props* argument.
  * It *props* is not specified, exactly one component instance will be rendered and the *[render function](component_render)* will receive an empty object as its *props* argument.
 
-In summary, the following three cases are supported:
+In summary, the following cases are explicitly supported:
 
- * `selection.call(myComponent)` → One instance, render function *props* argument will be `{}`.
  * `selection.call(myComponent, propsObject)` → One instance, render function *props* argument will be `propsObject`.
- * `selection.call(myComponent, propsArray)` → Many instances, render function *props* argument will be `propsArray[i]`
+ * `selection.call(myComponent, propsArray)` → `propsArray.length` instances, render function *props* argument will be `propsArray[i]`
+ * `selection.call(myComponent)` → One instance, render function *props* argument will be `{}`.
 
 For example, here's what it looks like to render an instance of our `paragraph` component defined above.
 
 ```js
+var propsObject = { text: "Hello Component" };
 d3.select("#some-container-div")
-  .call(paragraph, { text: "Hello Component" });
+  .call(paragraph, propsObject);
 ```
-
-The following DOM structure will be rendered.
-
 ```html
 <div id="some-container-div">
   <p>Hello Component</p>
@@ -96,16 +94,38 @@ The following DOM structure will be rendered.
 If we pass an array as props, multiple instances will be rendered.
 
 ```js
+var propsArray = [ { text: "foo" }, { text: "bar" } ];
 d3.select("#some-container-div")
-  .call(paragraph, [
-    { text: "foo" },
-    { text: "bar" }
-  ]);
+  .call(paragraph, propsArray);
 ```
 ```html
 <div id="some-container-div">
   <p>foo</p>
   <p>bar</p>
+</div>
+```
+
+If no props are given, a single paragraph will be rendered with no text.
+
+```js
+d3.select("#some-container-div")
+  .call(paragraph);
+```
+```html
+<div id="some-container-div">
+  <p></p>
+</div>
+```
+
+Finally, if an empty array is passed, all existing instances will be removed.
+
+```js
+var propsArray = [];
+d3.select("#some-container-div")
+  .call(paragraph, propsArray);
+```
+```html
+<div id="some-container-div">
 </div>
 ```
 
