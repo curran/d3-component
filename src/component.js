@@ -29,12 +29,13 @@ export default function (tagName, className){
         instance.render();
       },
       destroyInstance = function (){
-        instanceLocal(this).selection.selectAll("*")
-          .nodes().concat(this)
-          .forEach(function (node){
-            var instance = instanceLocal(node);
-            if(instance) instance.destroy(instance.state);
-          });
+        var instance = instanceLocal(this);
+        instance.selection.selectAll("*").each(function (){
+          var instance = instanceLocal(this);
+          if(instance) instance.destroy(instance.state);
+        });
+        instance.destroy(instance.state);
+        instance.selection.remove();
       },
       selector = className ? "." + className : tagName,
       key;
@@ -42,16 +43,12 @@ export default function (tagName, className){
   function component(selection, props){
     var instances = selection.selectAll(selector)
       .data(Array.isArray(props) ? props : [props], key);
-    instances
-      .enter().append(tagName)
+    instances.enter().append(tagName)
         .attr("class", className)
         .each(createInstance)
       .merge(instances)
         .each(renderInstance);
-    instances
-      .exit()
-        .each(destroyInstance)
-        .remove();
+    instances.exit().each(destroyInstance);
   }
   component.render = function(_) { return (render = _, component); };
   component.create = function(_) { return (create = _, component); };
