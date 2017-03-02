@@ -1,4 +1,4 @@
-import { select, selectAll } from "d3-selection";
+import { select } from "d3-selection";
 var noop = function (){},
     instanceLocal = function (node, value){
       return value ? (node.__instance__ = value) : node.__instance__;
@@ -12,8 +12,7 @@ export default function (tagName, className){
         var instance = instanceLocal(this, {
           selection: select(this),
           state: {},
-          render: noop,
-          destroy: destroy
+          render: noop
         });
         create(instance.selection, function setState(state){
           Object.assign(instance.state, state);
@@ -21,6 +20,9 @@ export default function (tagName, className){
         });
         instance.render = function (){
           render(instance.selection, instance.props, instance.state);
+        };
+        instance.destroy = function (){
+          destroy(instance.state);
         };
       },
       renderInstance = function (props){
@@ -31,21 +33,18 @@ export default function (tagName, className){
       destroyInstance = function (){
         var instance = instanceLocal(this);
         instance.selection.selectAll("*").each(function (){
-          var instance = instanceLocal(this);
-          if(instance) instance.destroy(instance.state);
+          if(instanceLocal(this)){ instanceLocal(this).destroy(); }
         });
-        (instance.destroy(instance.state) || instance.selection).remove();
+        (instance.destroy() || instance.selection).remove();
       },
       selector = className ? "." + className : tagName,
       key;
 
   function component(selection, props){
-    var instances = selection
-      .selectAll(selector)
+    var instances = selection.selectAll(selector)
       .data(Array.isArray(props) ? props : [props], key);
     instances
-      .enter()
-      .append(tagName)
+      .enter().append(tagName)
         .attr("class", className)
         .each(createInstance)
       .merge(instances)
