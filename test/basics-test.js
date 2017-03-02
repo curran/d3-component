@@ -9,6 +9,11 @@ var tape = require("tape"),
 // Basic component.
 var paragraph = d3.component("p")
   .render(function (selection, props){
+    selection.text(props.text);
+  });
+
+var paragraphOptionalText = d3.component("p")
+  .render(function (selection, props){
     selection.text(props.text || "");
   });
 
@@ -51,9 +56,9 @@ tape("A component should render multiple instances.", function(test) {
 
 tape("A component should be passed props as {} when not specified.", function(test) {
   var div = d3.select(jsdom.jsdom().body).append("div");
-  div.call(paragraph, { text: "Hello Component" });
+  div.call(paragraphOptionalText, { text: "Hello Component" });
   test.equal(div.html(), "<p>Hello Component</p>");
-  div.call(paragraph);
+  div.call(paragraphOptionalText);
   test.equal(div.html(), "<p></p>");
   test.end();
 });
