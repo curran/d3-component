@@ -23,7 +23,7 @@ var created,
     fruitNotKeyed = d3.component("div", "fruit")
       .render(renderFruit),
     fruitKeyed = d3.component("div", "fruit")
-      .render(renderFruit),
+      .render(renderFruit)
       .key(function (d){ return d.id; });
 
 
