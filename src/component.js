@@ -16,6 +16,7 @@ export default function (tagName, className){
           destroy: destroy
         });
         create(instance.selection, function setState(state){
+          state = (typeof state === "function") ? state(instance.state) : state;
           Object.assign(instance.state, state);
           instance.render();
         });
