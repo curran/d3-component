@@ -73,6 +73,16 @@ var leafDestroyed = 0,
         treeDestroyed ++;
       });
 
+// Recursive rendering.
+var recursiveComponent = d3.component("div")
+  .render(function (selection, props){
+    if(props.children){
+      selection.call(recursiveComponent, props.children);
+    } else if(props.text){
+      selection.text(props.text);
+    }
+  });
+
 /*************************************
  ************** Tests ****************
  *************************************/
@@ -222,6 +232,18 @@ tape("Recursive destruction.", function(test) {
   div.call(tree, []);
   test.equal(leafDestroyed, 6);
   test.equal(treeDestroyed, 1);
+
+  test.end();
+});
+
+tape("Recursive rendering.", function(test) {
+  var div = d3.select(jsdom.jsdom().body).append("div");
+
+  div.call(recursiveComponent, { text: "A" });
+  test.equal(div.html(), "<div>A</div>");
+
+  div.call(recursiveComponent, { children: [{ text: "A" }] });
+  test.equal(div.html(), "<div><div>A</div></div>");
 
   test.end();
 });
