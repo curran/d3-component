@@ -13,7 +13,7 @@ export default function (tagName, className){
           state: {},
           render: noop,
           destroy: destroy,
-          component: component
+          owner: component
         });
         create(instance.selection, function setState(state){
           state = (typeof state === "function") ? state(instance.state) : state;
@@ -35,7 +35,7 @@ export default function (tagName, className){
         if(instance){ instance.destroy(instance.state); }
       },
       belongsToMe = function(){
-        return instanceLocal.get(this).component === component;
+        return instanceLocal.get(this).owner === component;
       };
 
   function component(selection, props){
