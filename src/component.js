@@ -16,17 +16,17 @@ export default function (tagName, className){
           destroy: destroy
         });
         create(instance.selection, function setState(state){
+          state = (typeof state === "function") ? state(instance.state) : state;
           Object.assign(instance.state, state);
           instance.render();
         });
-        instance.render = function (){
+        instance.render = function (props){
+          instance.props = props || {};
           render(instance.selection, instance.props, instance.state);
         };
       },
       renderInstance = function (props){
-        var instance = instanceLocal(this);
-        instance.props = props || {};
-        instance.render();
+        instanceLocal(this).render(props);
       },
       destroyInstance = function (){
         var instance = instanceLocal(this);

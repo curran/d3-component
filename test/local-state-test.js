@@ -51,11 +51,25 @@ tape("Local state.", function(test) {
   test.equal(spinnerText, "Timer is running");
   test.equal(div.html(), "<div>Timer is running</div>");
 
-  // Re-render on setState().
+  // Re-render on setState(object).
   spinnerCreated = spinnerDestroyed = 0;
-  spinnerSetState({ timer: "running well"});
+  spinnerSetState({
+    timer: "running well"
+  });
   test.equal(spinnerText, "Timer is running well");
   test.equal(div.html(), "<div>Timer is running well</div>");
+  test.equal(spinnerCreated, 0);
+  test.equal(spinnerDestroyed, 0);
+
+  // Re-render on setState(function).
+  spinnerCreated = spinnerDestroyed = 0;
+  spinnerSetState(function (state){
+    return {
+      timer: state.timer + " enough"
+    }
+  });
+  test.equal(spinnerText, "Timer is running well enough");
+  test.equal(div.html(), "<div>Timer is running well enough</div>");
   test.equal(spinnerCreated, 0);
   test.equal(spinnerDestroyed, 0);
 
@@ -64,7 +78,7 @@ tape("Local state.", function(test) {
   div.call(spinner, []);
   test.equal(spinnerCreated, 0);
   test.equal(spinnerDestroyed, 1);
-  test.equal(spinnerText, "Timer is running well");
+  test.equal(spinnerText, "Timer is running well enough");
   test.equal(div.html(), "");
 
   test.end();
