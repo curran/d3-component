@@ -34,13 +34,15 @@ export default function (tagName, className){
         selectAll(this.children).each(destroyInstance);
         if(instance){ instance.destroy(instance.state); }
       },
-      belongsToMe = function(){
-        return instanceLocal.get(this).owner === component;
-      },
       selector = className ? "." + className : tagName;
 
   function component(selection, props){
-    var instances = selection.selectAll(selector).filter(belongsToMe)
+    var instances = selection.selectAll(selector).filter(function(){
+        return (
+          (instanceLocal.get(this).owner === component)
+          //&& (this.parentNode === selection.node())
+        );
+      })
       .data(Array.isArray(props) ? props : [props], key);
     instances
       .enter().append(tagName).attr("class", className)

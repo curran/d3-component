@@ -76,11 +76,9 @@ var leafDestroyed = 0,
 // Recursive rendering.
 var recursiveComponent = d3.component("div")
   .render(function (selection, props){
-    if(props.children){
-      selection.call(recursiveComponent, props.children);
-    } else if(props.text){
-      selection.text(props.text);
-    }
+    selection
+        .text(props.text || "")
+        .call(recursiveComponent, props.children || []);
   });
 
 /*************************************
