@@ -6,14 +6,20 @@ A lightweight component system for building user interfaces with [D3.js](d3js.or
   <tr>
     <td>
       <a href="http://bl.ocks.org/curran/fc8f6989901628e2e79d6374849453ed">
-        <div>Posts with D3 Component</div>
+        <div>Posts</div>
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/fc8f6989901628e2e79d6374849453ed/thumbnail.png">
       </a>
     </td>
     <td>
       <a href="http://bl.ocks.org/curran/685fa8300650c4324d571c6b0ecc55de">
-        <div>Spinner with D3 Component</div>
+        <div>Spinner</div>
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/685fa8300650c4324d571c6b0ecc55de/thumbnail.png">
+      </a>
+    </td>
+    <td>
+      <a href="http://bl.ocks.org/curran/593ffae30c42789a9af36f08c983867e">
+        <div>Stopwatch</div>
+        <img width="230" height="120" src="http://bl.ocks.org/curran/raw/593ffae30c42789a9af36f08c983867e/thumbnail.png">
       </a>
     </td>
   </tr>
