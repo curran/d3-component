@@ -83,7 +83,7 @@ tape("Use key function if specified.", function(test) {
 
   // Exit (tests recursive destruction).
   created = destroyed = 0;
-  div.call(fruitNotKeyed, []);
+  div.call(fruitKeyed, []);
   test.equal(created, 0);
   test.equal(destroyed, 2);
 
