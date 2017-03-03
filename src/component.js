@@ -3,7 +3,8 @@ var noop = function (){}, // no operation
     instanceLocal = local();
 
 export default function (tagName, className){
-  var create = noop,
+  var componentLocal = local(),
+      create = noop,
       render = noop,
       destroy = noop,
       createInstance = function (){
@@ -13,6 +14,7 @@ export default function (tagName, className){
           render: noop,
           destroy: destroy
         });
+        componentLocal.set(this, true);
         create(instance.selection, function setState(state){
           state = (typeof state === "function") ? state(instance.state) : state;
           Object.assign(instance.state, state);
@@ -37,6 +39,7 @@ export default function (tagName, className){
 
   function component(selection, props){
     var instances = selection.selectAll(selector)
+      .filter(function (){ return componentLocal.get(this); })
       .data(Array.isArray(props) ? props : [props], key);
     instances
       .enter().append(tagName)
