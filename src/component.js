@@ -1,5 +1,5 @@
 import { select, selectAll } from "d3-selection";
-var noop = function (){},
+var noop = function (){}, // no operation
     instanceLocal = function (node, value){
       return value ? (node.__instance__ = value) : node.__instance__;
     };
