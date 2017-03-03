@@ -36,10 +36,11 @@ export default function (tagName, className){
       },
       belongsToMe = function(){
         return instanceLocal.get(this).owner === component;
-      };
+      },
+      selector = className ? "." + className : tagName;
 
   function component(selection, props){
-    var instances = selection.selectAll(tagName).filter(belongsToMe)
+    var instances = selection.selectAll(selector).filter(belongsToMe)
       .data(Array.isArray(props) ? props : [props], key);
     instances
       .enter().append(tagName).attr("class", className)
