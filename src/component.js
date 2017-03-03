@@ -33,11 +33,10 @@ export default function (tagName, className){
         selectAll(this.children).each(destroyInstance);
         if(instance){ instance.destroy(instance.state); }
       },
-      selector = className ? "." + className : tagName,
       key;
 
   function component(selection, props){
-    var instances = selection.selectAll(selector)
+    var instances = selection.selectAll(tagName)
       .filter(function (){
         return instanceLocal.get(this).component === component;
       })
