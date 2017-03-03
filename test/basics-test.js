@@ -12,7 +12,7 @@ var paragraph = d3.component("p")
     selection.text(props.text);
   });
 
-var paragraphOptionalText = d3.component("p")
+var paragraphOptionalText = d3.component("p", "optional-text")
   .render(function (selection, props){
     selection.text(props.text || "");
   });
@@ -57,8 +57,20 @@ tape("A component should render multiple instances.", function(test) {
 tape("A component should be passed props as {} when not specified.", function(test) {
   var div = d3.select(jsdom.jsdom().body).append("div");
   div.call(paragraphOptionalText, { text: "Hello Component" });
-  test.equal(div.html(), "<p>Hello Component</p>");
+  test.equal(div.html(), '<p class="optional-text">Hello Component</p>');
   div.call(paragraphOptionalText);
-  test.equal(div.html(), "<p></p>");
+  test.equal(div.html(), '<p class="optional-text"></p>');
   test.end();
 });
+
+
+//tape("A component should be passed props as {} when not specified.", function(test) {
+//  var div = d3.select(jsdom.jsdom().body).append("div");
+//  div
+//      .call(paragraphOptionalText, { text: "Hello Component" })
+//      .call(paragraphOptionalText, { text: "Hello Component" })
+//  test.equal(div.html(), "<p>Hello Component</p>");
+//  div.call(paragraphOptionalText);
+//  test.equal(div.html(), "<p></p>");
+//  test.end();
+//});
