@@ -139,7 +139,11 @@ Sets the lifecycle hook for component instance creation. This allows you to
 The specified *function* will be invoked whenever a new component instance is created, and will be passed the following arguments:
 
  * *selection* A D3 selection that contains a single DOM element.
- * *setState* A function that can be used to set the local state of the component instance. The *setState* function accepts a single argument *state*, an object, and assigns all properties present on the *state* object to the previous state object. Any properties on the previous state object that are not present in the new state object will not be removed. After the initial render, whenever *setState* is invoked, the component re-renders itself, passing the new state into the render function.
+ * *setState* A function that sets the local state by performing a shallow merge. The *setState* function accepts a single argument which can be either an object or a function.
+   * If *setState* is passed an object, the local state will be updated to be a shallow merge of the previous state and the given object.
+   * If *setState* is passed a function, the local state will be updated to be a shallow merge of the previous state and the object returned from the given function.
+
+After the initial render, whenever *setState* is invoked, the component re-renders itself, passing the new state into the render function.
 
 As an example of manipulating DOM structures when the component instance is created, here's a `card` component that appends nested `<div>`s when the component instance gets created.
 
