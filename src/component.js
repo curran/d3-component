@@ -1,15 +1,13 @@
-import { select, selectAll } from "d3-selection";
+import { select, selectAll, local } from "d3-selection";
 var noop = function (){}, // no operation
-    instanceLocal = function (node, value){
-      return value ? (node.__instance__ = value) : node.__instance__;
-    };
+    instanceLocal = local();
 
 export default function (tagName, className){
   var create = noop,
       render = noop,
       destroy = noop,
       createInstance = function (){
-        var instance = instanceLocal(this, {
+        var instance = instanceLocal.set(this, {
           selection: select(this),
           state: {},
           render: noop,
@@ -26,10 +24,11 @@ export default function (tagName, className){
         };
       },
       renderInstance = function (props){
-        instanceLocal(this).render(props);
+        instanceLocal.get(this).render(props);
       },
       destroyInstance = function (){
-        var instance = instanceLocal(this);
+        var instance = instanceLocal.get(this);
+        instanceLocal.remove(this);
         selectAll(this.children).each(destroyInstance);
         if(instance){ instance.destroy(instance.state); }
       },
