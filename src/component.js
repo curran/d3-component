@@ -6,6 +6,7 @@ export default function (tagName, className){
   var create = noop,
       render = noop,
       destroy = noop,
+      key,
       createInstance = function (){
         var instance = instanceLocal.set(this, {
           selection: select(this),
@@ -33,17 +34,15 @@ export default function (tagName, className){
         selectAll(this.children).each(destroyInstance);
         if(instance){ instance.destroy(instance.state); }
       },
-      key;
+      belongsToMe = function(){
+        return instanceLocal.get(this).component === component;
+      };
 
   function component(selection, props){
-    var instances = selection.selectAll(tagName)
-      .filter(function (){
-        return instanceLocal.get(this).component === component;
-      })
+    var instances = selection.selectAll(tagName).filter(belongsToMe)
       .data(Array.isArray(props) ? props : [props], key);
     instances
-      .enter().append(tagName)
-        .attr("class", className)
+      .enter().append(tagName).attr("class", className)
         .each(createInstance)
       .merge(instances)
         .each(renderInstance);
@@ -56,6 +55,5 @@ export default function (tagName, className){
   component.create = function(_) { return (create = _, component); };
   component.destroy = function(_) { return (destroy = _, component); };
   component.key = function(_) { return (key = _, component); };
-
   return component;
 };
