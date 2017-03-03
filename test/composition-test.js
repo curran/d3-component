@@ -77,7 +77,7 @@ var leafDestroyed = 0,
 var recursiveComponent = d3.component("div")
   .render(function (selection, props){
     selection
-        .text(props.text || "")
+        .attr("class", props.class)
         .call(recursiveComponent, props.children || []);
   });
 
@@ -237,11 +237,28 @@ tape("Recursive destruction.", function(test) {
 tape("Recursive rendering.", function(test) {
   var div = d3.select(jsdom.jsdom().body).append("div");
 
-  div.call(recursiveComponent, { text: "A" });
-  test.equal(div.html(), "<div>A</div>");
+  div.call(recursiveComponent, { class: "a" });
+  test.equal(div.html(), '<div class="a"></div>');
 
-  div.call(recursiveComponent, { children: [{ text: "A" }] });
-  test.equal(div.html(), "<div><div>A</div></div>");
+  div.call(recursiveComponent, {
+    class: "a",
+    children: [{ class: "b" }]
+  });
+  test.equal(div.html(), '<div class="a"><div class="b"></div></div>');
+
+  div.call(recursiveComponent, {
+    class: "a",
+    children: [
+      {
+        class: "b",
+        children: [
+          { class: "c" }
+        ]
+      },
+      { class: "d" }
+    ]
+  });
+  test.equal(div.html(), '<div class="a"><div class="b"><div class="c"></div></div><div class="d"></div></div>');
 
   test.end();
 });
