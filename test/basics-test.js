@@ -27,7 +27,6 @@ tape("A component should render a single instance.", function(test) {
   test.end();
 });
 
-
 tape("A component should render multiple instances.", function(test) {
   var div = d3.select(jsdom.jsdom().body).append("div");
 
@@ -53,7 +52,6 @@ tape("A component should render multiple instances.", function(test) {
   test.end();
 });
 
-
 tape("A component should be passed props as {} when not specified.", function(test) {
   var div = d3.select(jsdom.jsdom().body).append("div");
   div.call(paragraphOptionalText, { text: "Hello Component" });
@@ -63,14 +61,10 @@ tape("A component should be passed props as {} when not specified.", function(te
   test.end();
 });
 
-
-//tape("A component should be passed props as {} when not specified.", function(test) {
-//  var div = d3.select(jsdom.jsdom().body).append("div");
-//  div
-//      .call(paragraphOptionalText, { text: "Hello Component" })
-//      .call(paragraphOptionalText, { text: "Hello Component" })
-//  test.equal(div.html(), "<p>Hello Component</p>");
-//  div.call(paragraphOptionalText);
-//  test.equal(div.html(), "<p></p>");
-//  test.end();
-//});
+tape("Specificity.", function(test) {
+  var div = d3.select(jsdom.jsdom().body).append("div")
+      .call(paragraphOptionalText)
+      .call(paragraph);
+  test.equal(div.html(), '<p class="optional-text"></p><p></p>');
+  test.end();
+});
