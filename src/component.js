@@ -37,10 +37,12 @@ export default function (tagName, className){
       selector = className ? "." + className : tagName;
 
   function component(selection, props){
-    var instances = selection.selectAll(selector).filter(function(){
+    var instances = selection.selectAll(selector)
+      .filter(function(){
         return (
           (instanceLocal.get(this).owner === component)
-          //&& (this.parentNode === selection.node())
+          &&
+          (this.parentNode === selection.node())
         );
       })
       .data(Array.isArray(props) ? props : [props], key);
