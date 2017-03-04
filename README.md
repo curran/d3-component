@@ -25,7 +25,7 @@ A lightweight component system for building user interfaces with [D3.js](d3js.or
   </tr>
 </table>
 
-Have you ever tried to use D3 to build a complete Web application? D3 shines for data visualization, but is cumbersome to use for general-purpose app building due to the repetitiveness of the [General Update Pattern](https://github.com/d3/d3-selection#selection_merge) and complexities that abound when managing the deeply nested, heterogeneous, and data-driven DOM structures required for general-purpose user interfaces.
+The primary use case for this module is when you are using D3 already, and don't want to adopt an additional framework (e.g. React, Angular, Vue) in order to **build user interfaces around your visualizations** or **encapsulate your visualizations as components**.
 
 This component system is similar in concept and functionality to [React components](https://facebook.github.io/react/docs/react-component.html), but is relatively lightweight and is designed for use with D3. Using this component system, you can easily encapsulate data-driven user interface components as "boxes-within-boxes", cleanly isolating concerns for various levels of your DOM tree. Concepts in this library like `props` and `state` will feel familiar to React users (e.g. `setState` has similar behavior to the same method in React). No special treatment is given to events or event delegation, as the primary usage scenario is envisioned to be with a unidirectional data flow architexture such as [Redux](http://redux.js.org/).
 
