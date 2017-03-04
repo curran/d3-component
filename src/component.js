@@ -23,13 +23,11 @@ export default function (tagName, className){
         instance.render = function (){
           render(instance.selection, instance.props, instance.state);
         };
-        instance.setProps = function (props){
-          instance.props = props || {};
-          return instance;
-        };
       },
       renderInstance = function (props){
-        instanceLocal.get(this).setProps(props).render();
+        var instance = instanceLocal.get(this);
+        instance.props = props || {};
+        instance.render();
       },
       destroyInstance = function (){
         var instance = instanceLocal.get(this);
