@@ -30,17 +30,16 @@ export default function (tagName, className){
       },
       destroyInstance = function (){
         var instance = instanceLocal.get(this);
-        instanceLocal.remove(this);
+        instanceLocal.remove(this) && instance.destroy(instance.state);
         selectAll(this.children).each(destroyInstance);
-        if(instance){ instance.destroy(instance.state); }
       },
-      belongsToMe = function(){
+      children = function (){ return this.children; },
+      belongsToMe = function (){
         return instanceLocal.get(this).owner === component;
-      },
-      selector = className ? "." + className : tagName;
+      };
 
   function component(selection, props){
-    var instances = selection.selectAll(selector).filter(belongsToMe)
+    var instances = selection.selectAll(children).filter(belongsToMe)
       .data(Array.isArray(props) ? props : [props], key);
     instances
       .enter().append(tagName).attr("class", className)
