@@ -36,7 +36,8 @@ export default function (tagName, className){
       },
       children = function (){ return this.children; },
       belongsToMe = function (){
-        return instanceLocal.get(this).owner === component;
+        var instance = instanceLocal.get(this);
+        return instance && instance.owner === component;
       };
 
   function component(selection, props){
