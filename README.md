@@ -22,6 +22,12 @@ A lightweight component system for building user interfaces with [D3.js](d3js.or
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/593ffae30c42789a9af36f08c983867e/thumbnail.png">
       </a>
     </td>
+    <td>
+      <a href="http://bl.ocks.org/curran/acde35df0c7939ff97740b4f9800258e">
+        <div>Counter</div>
+        <img width="230" height="120" src="http://bl.ocks.org/curran/raw/acde35df0c7939ff97740b4f9800258e/thumbnail.png">
+      </a>
+    </td>
   </tr>
 </table>
 
