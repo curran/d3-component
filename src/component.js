@@ -23,7 +23,7 @@ export default function (tagName, className){
           render(instance.selection, instance.props, instance.state);
         };
         instance.destroy = function (){
-          destroy(instance.selection, instance.state);
+          return destroy(instance.selection, instance.state); // May return a transition.
         };
       },
       renderInstance = function (props){
@@ -40,8 +40,7 @@ export default function (tagName, className){
               instanceLocal.remove(this) && instance.destroy();
             })
             .remove();
-        instance.destroy();
-        instance.selection.remove();
+        (instance.destroy() || instance.selection).remove();
       },
       children = function (){ return this.children; },
       belongsToMe = function (){

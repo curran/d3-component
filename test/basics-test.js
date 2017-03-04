@@ -27,7 +27,7 @@ var customExit = d3.component("p")
     selection.text(props.text);
   })
   .destroy(function (selection){
-    return selection.transition().duration(20);
+    return selection.transition().duration(10);
   });
 
 /*************************************
@@ -100,9 +100,13 @@ tape("A component should be able to specify custom exit transitions.", function(
   div.call(customExit, { text: "Hello Component" });
   test.equal(div.html(), "<p>Hello Component</p>");
   div.call(customExit, []);
-  //test.equal(div.html(), "<p>Hello Component</p>");
-  //setTimeout(function (){
+
+  // The transition is happening, so DOM element not removed yet.
+  test.equal(div.html(), "<p>Hello Component</p>");
+
+  // DOM element removed after transition ends.
+  setTimeout(function (){
     test.equal(div.html(), "");
-  //}, 50);
-  test.end();
+    test.end();
+  }, 30); // The transition lasts 10 ms, so it should be done after 30.
 });
