@@ -73,6 +73,6 @@ tape("A component should render a single instance amongst other nodes.", functio
   var div = d3.select(jsdom.jsdom().body).append("div");
   div.append("p").text("Non-component node");
   div.call(paragraph, { text: "Hello Component" });
-  test.equal(div.html(), "<p>Hello Component</p>");
+  test.equal(div.html(), "<p>Non-component node</p><p>Hello Component</p>");
   test.end();
 });
