@@ -20,13 +20,14 @@ export default function (tagName, className){
           Object.assign(instance.state, state);
           instance.render();
         });
-        instance.render = function (props){
-          instance.props = props || {};
+        instance.render = function (){
           render(instance.selection, instance.props, instance.state);
         };
       },
       renderInstance = function (props){
-        instanceLocal.get(this).render(props);
+        var instance = instanceLocal.get(this);
+        instance.props = props || {};
+        instance.render();
       },
       destroyInstance = function (){
         var instance = instanceLocal.get(this);
