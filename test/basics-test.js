@@ -92,13 +92,10 @@ tape("A component should render a single instance amongst other nodes.", functio
 
 tape("A component should be able to specify custom exit transitions.", function(test) {
   var div = d3.select(jsdom.jsdom().body).append("div");
-  //console.log("***********************************************************");
-  //console.log("***********************************************************");
-  //console.log(div.transition)
-  //console.log("***********************************************************");
-  //console.log("***********************************************************");
+
   div.call(customExit, { text: "Hello Component" });
   test.equal(div.html(), "<p>Hello Component</p>");
+
   div.call(customExit, []);
 
   // The transition is happening, so DOM element not removed yet.
