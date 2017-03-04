@@ -36,6 +36,18 @@ var stateValue,
         stateValue = state;
       });
 
+// For checking that props are stored on the instance,
+// and passed into render on setState.
+var propsStorage = d3.component("div")
+  .create(function (selection, setState){
+    propsStorage.setState = setState;
+  })
+  .render(function (selection, props){
+    propsStorage.props = props;
+    selection.text(props.text);
+  });
+
+
 /*************************************
  ************** Tests ****************
  *************************************/
@@ -91,3 +103,13 @@ tape("State value default.", function(test) {
   test.equal(Object.keys(stateValue).length, 0);
   test.end();
 });
+
+tape("Props storage.", function(test) {
+  var div = d3.select(jsdom.jsdom().body).append("div");
+  div.call(propsStorage, { text: "Foo" });
+  test.equal(div.html(), "<div>Foo</div>");
+  propsStorage.setState({});
+  test.equal(div.html(), "<div>Foo</div>");
+  test.end();
+});
+
