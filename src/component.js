@@ -6,25 +6,23 @@ function Instance(node, component){
 
     this.selection = select(node);
     this.state = {};
-    this.render = noop;
     this.owner = component;
 
     component.create()(this.selection, function setState(state){
       state = (typeof state === "function") ? state(this.state) : state;
       this.state = Object.assign({}, this.state, state);
-      this.render();
+      this.render && this.render();
     }.bind(this));
 
     this.render = function (){
-      component.render()(this.selection, this.props, this.state);
+      this.owner.render()(this.selection, this.props, this.state);
     };
-
-    this.destroy = function (){
-      return component.destroy()(this.selection, this.state);
-    };
-
-    instanceLocal.set(node, this);
 }
+Instance.prototype = {
+  destroy: function (){
+    return this.owner.destroy()(this.selection, this.state);
+  }
+};
 
 export default function (tagName, className){
   var create = noop,
@@ -32,7 +30,7 @@ export default function (tagName, className){
       destroy = noop,
       key,
       createInstance = function (){
-        var instance = new Instance(this, component);
+        instanceLocal.set(this, new Instance(this, component));
       },
       renderInstance = function (props){
         var instance = instanceLocal.get(this);
