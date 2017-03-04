@@ -2,29 +2,37 @@ import { select, local } from "d3-selection";
 var noop = function (){}, // no operation
     instanceLocal = local();
 
+function Instance(node, component){
+
+    this.selection = select(node);
+    this.state = {};
+    this.render = noop;
+    this.owner = component;
+
+    component.create()(this.selection, function setState(state){
+      state = (typeof state === "function") ? state(this.state) : state;
+      this.state = Object.assign({}, this.state, state);
+      this.render();
+    }.bind(this));
+
+    this.render = function (){
+      component.render()(this.selection, this.props, this.state);
+    };
+
+    this.destroy = function (){
+      return component.destroy()(this.selection, this.state);
+    };
+
+    instanceLocal.set(node, this);
+}
+
 export default function (tagName, className){
   var create = noop,
       render = noop,
       destroy = noop,
       key,
       createInstance = function (){
-        var instance = instanceLocal.set(this, {
-          selection: select(this),
-          state: {},
-          render: noop,
-          owner: component
-        });
-        create(instance.selection, function setState(state){
-          state = (typeof state === "function") ? state(instance.state) : state;
-          Object.assign(instance.state, state);
-          instance.render();
-        });
-        instance.render = function (){
-          render(instance.selection, instance.props, instance.state);
-        };
-        instance.destroy = function (){
-          return destroy(instance.selection, instance.state); // May return a transition.
-        };
+        var instance = new Instance(this, component);
       },
       renderInstance = function (props){
         var instance = instanceLocal.get(this);
@@ -60,9 +68,22 @@ export default function (tagName, className){
       .exit()
         .each(destroyInstance);
   }
-  component.render = function(_) { return (render = _, component); };
-  component.create = function(_) { return (create = _, component); };
-  component.destroy = function(_) { return (destroy = _, component); };
-  component.key = function(_) { return (key = _, component); };
+
+  component.render = function(_) {
+    return arguments.length ? (render = _, component) : render;
+  };
+
+  component.create = function(_) {
+    return arguments.length ? (create = _, component) : create;
+  };
+
+  component.destroy = function(_) {
+    return arguments.length ? (destroy = _, component) : destroy;
+  };
+
+  component.key = function(_) {
+    return arguments.length ? (key = _, component) : key;
+  };
+
   return component;
 };
