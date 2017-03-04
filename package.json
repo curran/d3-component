@@ -22,6 +22,7 @@
     "postpublish": "git push; git push --tags"
   },
   "devDependencies": {
+    "d3-transition": "^1.0.3",
     "jsdom": "^9.11.0",
     "rollup": "0.41",
     "tape": "4",
