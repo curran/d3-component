@@ -12,7 +12,6 @@ export default function (tagName, className){
           selection: select(this),
           state: {},
           render: noop,
-          destroy: destroy,
           owner: component
         });
         create(instance.selection, function setState(state){
@@ -23,6 +22,9 @@ export default function (tagName, className){
         instance.render = function (){
           render(instance.selection, instance.props, instance.state);
         };
+        instance.destroy = function (){
+          destroy(instance.selection, instance.state);
+        };
       },
       renderInstance = function (props){
         var instance = instanceLocal.get(this);
@@ -31,15 +33,14 @@ export default function (tagName, className){
       },
       destroyInstance = function (){
         var instance = instanceLocal.get(this);
-        instance.selection.selectAll("*")
+        instance.selection
+          .selectAll("*")
             .each(function (){
               var instance = instanceLocal.get(this);
-              if(instanceLocal.remove(this)){
-                instance.destroy(instance.selection, instance.state);
-              }
+              instanceLocal.remove(this) && instance.destroy();
             })
             .remove();
-        instance.destroy(instance.selection, instance.state);
+        instance.destroy();
         instance.selection.remove();
       },
       children = function (){ return this.children; },
