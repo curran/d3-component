@@ -14,7 +14,8 @@ function Instance(node, component){
       this.render && this.render();
     }.bind(this));
 
-    this.render = function (){
+    this.render = function (props){
+      this.props = props ? props : this.props;
       this.owner.render()(this.selection, this.props, this.state);
     };
 }
@@ -33,9 +34,7 @@ export default function (tagName, className){
         instanceLocal.set(this, new Instance(this, component));
       },
       renderInstance = function (props){
-        var instance = instanceLocal.get(this);
-        instance.props = props || {};
-        instance.render();
+        instanceLocal.get(this).render(props || {});
       },
       destroyInstance = function (){
         var instance = instanceLocal.get(this);
