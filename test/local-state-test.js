@@ -124,8 +124,8 @@ tape("Props storage.", function(test) {
 
 tape("No render on synchronous setState in create hook.", function(test) {
   var div = d3.select(jsdom.jsdom().body).append("div");
-  div.call(noRender);
-  test.equal(div.html(), "<div></div>");
+  div.call(noRender, { text: "Foo" });
+  test.equal(div.html(), "<div>Foo</div>");
   test.end();
 });
 
