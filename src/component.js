@@ -1,4 +1,4 @@
-import { select, selectAll, local } from "d3-selection";
+import { select, local } from "d3-selection";
 var noop = function (){}, // no operation
     instanceLocal = local();
 
@@ -12,7 +12,6 @@ export default function (tagName, className){
           selection: select(this),
           state: {},
           render: noop,
-          destroy: destroy,
           owner: component
         });
         create(instance.selection, function setState(state){
@@ -23,6 +22,9 @@ export default function (tagName, className){
         instance.render = function (){
           render(instance.selection, instance.props, instance.state);
         };
+        instance.destroy = function (){
+          return destroy(instance.selection, instance.state); // May return a transition.
+        };
       },
       renderInstance = function (props){
         var instance = instanceLocal.get(this);
@@ -31,8 +33,14 @@ export default function (tagName, className){
       },
       destroyInstance = function (){
         var instance = instanceLocal.get(this);
-        instanceLocal.remove(this) && instance.destroy(instance.state);
-        selectAll(this.children).each(destroyInstance);
+        instance.selection
+          .selectAll("*")
+            .each(function (){
+              var instance = instanceLocal.get(this);
+              instanceLocal.remove(this) && instance.destroy();
+            })
+            .remove();
+        (instance.destroy() || instance.selection).remove();
       },
       children = function (){ return this.children; },
       belongsToMe = function (){
@@ -50,8 +58,7 @@ export default function (tagName, className){
         .each(renderInstance);
     instances
       .exit()
-        .each(destroyInstance)
-        .remove();
+        .each(destroyInstance);
   }
   component.render = function(_) { return (render = _, component); };
   component.create = function(_) { return (create = _, component); };
