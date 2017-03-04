@@ -49,7 +49,7 @@ If you use NPM, `npm install d3-component`. Otherwise, download the [latest rele
 
 ```html
 <script src="https://unpkg.com/d3-selection@1.0"></script>
-<script src="https://unpkg.com/d3-component@0.8"></script>
+<script src="https://unpkg.com/d3-component@0.9"></script>
 <script>
 
 var apple = d3.component("div", "apple");
