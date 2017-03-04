@@ -30,9 +30,8 @@ export default function (tagName, className){
       },
       destroyInstance = function (){
         var instance = instanceLocal.get(this);
-        instanceLocal.remove(this);
+        instanceLocal.remove(this) && instance.destroy(instance.state);
         selectAll(this.children).each(destroyInstance);
-        if(instance){ instance.destroy(instance.state); }
       },
       children = function (){ return this.children; },
       belongsToMe = function (){
