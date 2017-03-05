@@ -37,8 +37,7 @@ export default function (tagName, className){
             .each(function (){
               var instance = instanceLocal.get(this);
               instanceLocal.remove(this) && instance.destroy();
-            })
-            .remove();
+            });
         (instance.destroy() || instance.selection).remove();
       },
       children = function (){ return this.children; },
