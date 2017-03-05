@@ -11,13 +11,12 @@ export default function (tagName, className){
         var instance = instanceLocal.set(this, {
           selection: select(this),
           state: {},
-          render: noop,
           owner: component
         });
         create(instance.selection, function setState(state){
           state = (typeof state === "function") ? state(instance.state) : state;
           Object.assign(instance.state, state);
-          instance.render();
+          instance.render && instance.render();
         });
         instance.render = function (){
           render(instance.selection, instance.props, instance.state);
