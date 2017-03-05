@@ -16,7 +16,10 @@ export default function (tagName, className){
       createInstance = function (){
         var instance = instanceLocal.set(this, {
           selection: select(this),
-          owner: component
+          owner: component,
+          destroy: function (){
+            return destroy(instance.selection, instance.state);
+          }
         });
         create(instance.selection, function setState(state){
           state = (typeof state === "function") ? state(instance.state) : state;
@@ -25,9 +28,6 @@ export default function (tagName, className){
         });
         instance.render = function (){
           render(instance.selection, instance.props, instance.state);
-        };
-        instance.destroy = function (){
-          return destroy(instance.selection, instance.state); // May return a transition.
         };
       },
       destroyInstance = function (){
