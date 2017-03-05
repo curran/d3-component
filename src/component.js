@@ -1,7 +1,12 @@
 import { select, local } from "d3-selection";
 var noop = function (){}, // no operation
     children = function (){ return this.children; },
-    instanceLocal = local();
+    instanceLocal = local(),
+    renderInstance = function (props){
+      var instance = instanceLocal.get(this);
+      instance.props = props || {};
+      instance.render();
+    };
 
 export default function (tagName, className){
   var create = noop,
@@ -24,11 +29,6 @@ export default function (tagName, className){
         instance.destroy = function (){
           return destroy(instance.selection, instance.state); // May return a transition.
         };
-      },
-      renderInstance = function (props){
-        var instance = instanceLocal.get(this);
-        instance.props = props || {};
-        instance.render();
       },
       destroyInstance = function (){
         var instance = instanceLocal.get(this);
