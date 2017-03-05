@@ -108,8 +108,7 @@ tape("Local state.", function(test) {
 tape("State value default.", function(test) {
   var div = d3.select(jsdom.jsdom().body).append("div");
   div.call(stateValueCheck);
-  test.equal(typeof stateValue, "object");
-  test.equal(Object.keys(stateValue).length, 0);
+  test.equal(typeof stateValue, "undefined");
   test.end();
 });
 

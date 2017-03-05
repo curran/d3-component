@@ -11,12 +11,11 @@ export default function (tagName, className){
       createInstance = function (){
         var instance = instanceLocal.set(this, {
           selection: select(this),
-          state: {},
           owner: component
         });
         create(instance.selection, function setState(state){
           state = (typeof state === "function") ? state(instance.state) : state;
-          Object.assign(instance.state, state);
+          instance.state = Object.assign({}, instance.state, state);
           instance.render && instance.render();
         });
         instance.render = function (){
