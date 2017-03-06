@@ -3,7 +3,7 @@
 A component module for [D3.js](d3js.org). Provides the following features:
 
  * Encapsulation of the [General Update Pattern](https://github.com/d3/d3-selection#selection_merge).
- * Support for recursive components.
+ * Composable (even recursive!) components.
  * Reliable `exit` hook.
 
 <table>
