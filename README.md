@@ -52,10 +52,10 @@ This component system is similar in concept and functionality to stateless funct
 
 ## Installing
 
-If you use NPM, `npm install d3-component`. Otherwise, download the [latest release](https://github.com/curran/d3-component/releases/latest). You can also load directly from [unpkg.com](https://unpkg.com) as a [standalone library](https://unpkg.com/d3-component@0.1). AMD, CommonJS, and vanilla environments are supported. In vanilla, a `d3` global is exported:
+If you use NPM, `npm install d3-component`. Otherwise, download the [latest release](https://github.com/curran/d3-component/releases/latest). You can also load directly from [unpkg.com](https://unpkg.com) as a [standalone library](https://unpkg.com/d3-component@1). AMD, CommonJS, and vanilla environments are supported. In vanilla, a `d3` global is exported:
 
 ```html
-<script src="https://unpkg.com/d3-selection@1"></script>
+<script src="https://unpkg.com/d3@4"></script>
 <script src="https://unpkg.com/d3-component@1"></script>
 <script>
 
@@ -63,10 +63,10 @@ var myComponent = d3.component("div")
   .enter(function (d, i, nodes){ // Invoked for entering component instances.
     d3.select(this)
         .attr("class", i % 2 ? "even" : "odd")
-        .style("font-size", "0px");
+        .style("font-size", "0px")
       .transition()
         .style("font-size", "30px");
-  }
+  })
   .update(function (d, i, nodes){ // Invoked for entering AND updating instances.
     d3.select(this).text(d);
   })
@@ -75,9 +75,15 @@ var myComponent = d3.component("div")
       .transition()
         .style("font-size", "0px");
   });
+  
+  d3.select("body")
+    .call(myComponent, "Hello d3-component!");
 
 </script>
 ```
+
+[Run the above example](https://bl.ocks.org/curran/c3d9783e641636479fa8e07a480e7233).
+
 ## API Reference
 
 <a href="#component" name="component">#</a> <b>component</b>(<i>tagName</i>)
