@@ -63,18 +63,18 @@ If you use NPM, `npm install d3-component`. Otherwise, download the [latest rele
 <script>
 
 var myComponent = d3.component("div")
-  .enter(function (d, i){
+  .enter(function (d, i){ // Invoked for entering component instances.
     d3.select(this)
         .attr("class", i % 2 ? "even" : "odd")
         .style("font-size", "0px");
       .transition()
         .style("font-size", "30px");
   }
-  .update(function (d, i){
+  .update(function (d, i){ // Invoked for entering and updating instances.
     d3.select(this).text(d);
   })
-  .exit(function (d, i){
-    return d3.select(this)
+  .exit(function (d, i){ // Invoked for exiting component instances.
+    return d3.select(this) // You can return a transition here to delay node removal.
       .transition()
         .style("font-size", "0px");
   });
@@ -89,7 +89,7 @@ Creates a new component generator that manages and renders into DOM elements of 
 
 <a href="#component_update" name="component_update" >#</a> <i>component</i>.<b>update</b>(<i>function</i>)
 
-Sets the update *function* of this component generator. This *function* will be invoked for each component instance during rendering, being passed the current datum (*d*) and the current index (*i*), with *this* as the current DOM element.
+Sets the update *function* of this component generator. This *function* will be invoked for each component instance during rendering, being passed the current datum (*d*), the current index (*i*), and the current group (*nodes*), with *this* as the current DOM element (same signature as [*selection*.each](https://github.com/d3/d3-selection#selection_each)).
 
 <a href="#component_invoke" name="component_invoke" >#</a> <i>component</i>(<i>selection</i>[,<i>data</i>])
 
@@ -108,11 +108,13 @@ In summary, the following cases are explicitly supported:
 
 <a href="#component_enter" name="component_enter" >#</a> <i>component</i>.<b>enter</b>(<i>function</i>)
 
-Sets the enter *function* of this component generator, which will be invoked whenever a new component instance is created, being passed the current datum (*d*) and the current index (*i*), with *this* as the current DOM element.
+Sets the enter *function* of this component generator, which will be invoked whenever a new component instance is created, being passed the current datum (*d*), the current index (*i*), and the current group (*nodes*), with *this* as the current DOM element (same signature as [*selection*.each](https://github.com/d3/d3-selection#selection_each)).
 
 <a href="#component_exit" name="component_exit" >#</a> <i>component</i>.<b>exit</b>(<i>function</i>)
 
-Sets the exit *function* of this component generator, which will be invoked whenever a component instance is destroyed, being passed the current datum (*d*) and the current index (*i*), with *this* as the current DOM element. When a component instance is destroyed, the exit *function* of all its children is also invoked (recursively), so you can be sure that this *function* will be invoked before the compoent instance is removed from the DOM.
+Sets the exit *function* of this component generator, which will be invoked whenever a component instance is destroyed, being passed the current datum (*d*), the current index (*i*), and the current group (*nodes*), with *this* as the current DOM element (same signature as [*selection*.each](https://github.com/d3/d3-selection#selection_each)).
+
+When a component instance exits, the exit *function* of all its children is also invoked (recursively), so you can be sure that this *function* will be invoked before the compoent instance is removed from the DOM.
 
 <a href="#component_key" name="component_key" >#</a> <i>component</i>.<b>key</b>(<i>function</i>)
 
