@@ -1,6 +1,5 @@
 var tape = require("tape"),
     jsdom = require("jsdom"),
-    d3_transition = require("d3-transition"),
     d3_selection = require("d3-selection"),
     d3_component = require("../"),
     d3 = Object.assign(d3_selection, d3_component);
@@ -50,31 +49,3 @@ tape("A component should be passed undefined as datum when data not specified.",
   test.equal(typeof paragraphDatum, "undefined");
   test.end();
 });
-
-//// Testing custom exit transitions.
-//var customExit = d3.component("p")
-//  .render(function (selection, props){
-//    selection.text(props.text);
-//  })
-//  .destroy(function (selection){
-//    return selection.transition().duration(10);
-//  });
-//
-//
-//tape("A component should be able to specify custom exit transitions.", function(test) {
-//  var div = d3.select(jsdom.jsdom().body).append("div");
-//
-//  div.call(customExit, { text: "Hello Component" });
-//  test.equal(div.html(), "<p>Hello Component</p>");
-//
-//  div.call(customExit, []);
-//
-//  // The transition is happening, so DOM element not removed yet.
-//  test.equal(div.html(), "<p>Hello Component</p>");
-//
-//  // DOM element removed after transition ends.
-//  setTimeout(function (){
-//    test.equal(div.html(), "");
-//    test.end();
-//  }, 30); // The transition lasts 10 ms, so it should be done after 30.
-//});
