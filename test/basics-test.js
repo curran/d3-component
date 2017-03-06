@@ -10,11 +10,11 @@ var tape = require("tape"),
  *************************************/
 
 //// Basic component.
-//var paragraph = d3.component("p")
-//  .render(function (selection, props){
-//    selection.text(props.text);
-//  });
-//
+var paragraph = d3.component("p")
+  .enter(function (d){
+    d3.select(this).text(d.text);
+  });
+
 //// Optional prop.
 //var paragraphOptionalText = d3.component("p", "optional-text")
 //  .render(function (selection, props){
@@ -33,13 +33,13 @@ var tape = require("tape"),
 ///*************************************
 // ************** Tests ****************
 // *************************************/
-//tape("A component should render a single instance.", function(test) {
-//  var div = d3.select(jsdom.jsdom().body).append("div");
-//  div.call(paragraph, { text: "Hello Component" });
-//  test.equal(div.html(), "<p>Hello Component</p>");
-//  test.end();
-//});
-//
+tape("A component should render a single instance.", function(test) {
+  var div = d3.select(jsdom.jsdom().body).append("div");
+  div.call(paragraph, { text: "Hello Component" });
+  test.equal(div.html(), "<p>Hello Component</p>");
+  test.end();
+});
+
 //tape("A component should render multiple instances.", function(test) {
 //  var div = d3.select(jsdom.jsdom().body).append("div");
 //
