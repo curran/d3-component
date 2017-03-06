@@ -2,43 +2,47 @@ var tape = require("tape"),
     jsdom = require("jsdom"),
     d3 = Object.assign(require("../"), require("d3-selection"));
 
-/*************************************
- ************ Components *************
- *************************************/
 
-//// Nesting
-//var heading = d3.component("h1")
-//      .render(function (selection, d){ selection.text(d); }),
-//    paragraph = d3.component("p")
-//      .render(function (selection, d){ selection.text(d); }),
-//    post = d3.component("div", "post")
-//      .render(function (selection, d){
-//        selection
-//          .call(heading, d.title)
-//          .call(paragraph, d.content);
-//      });
-//
+// Nesting
+var heading = d3.component("h1")
+      .update(function (d){
+        d3.select(this).text(d);
+      }),
+    paragraph = d3.component("p")
+      .update(function (d){
+        d3.select(this).text(d);
+      }),
+    post = d3.component("div", "post")
+      .enter(function (){
+        d3.select(this).attr("class", "post");
+      })
+      .update(function (d){
+        d3.select(this)
+          .call(heading, d.title)
+          .call(paragraph, d.content);
+      });
+
 //// Containment
 //var card = d3.component("div", "card")
-//  .create(function (selection){
-//    selection
+//  .enter(function (d3.select(this)){
+//    d3.select(this)
 //      .append("div")
 //        .attr("class", "card-block")
 //      .append("div")
 //        .attr("class", "card-text");
 //  })
-//  .render(function (selection, props){
-//    selection
+//  .update(function (d3.select(this), props){
+//    d3.select(this)
 //      .select(".card-text")
 //        .call(props.childComponent, props.childProps);
 //  });
 //
-//// Conditional rendering
+//// Conditional updateing
 //var apple = d3.component("span", "apple")
 //    orange = d3.component("span", "orange")
 //    fruit = d3.component("div", "fruit")
-//      .render(function (selection, props){
-//        selection
+//      .update(function (d3.select(this), props){
+//        d3.select(this)
 //          .call(apple, props.type === "apple"? {} : [])
 //          .call(orange, props.type === "orange"? {} : [])
 //      });
@@ -46,37 +50,37 @@ var tape = require("tape"),
 //// Recursive destruction
 //var leafDestroyed = 0,
 //    leaf = d3.component("div", "leaf")
-//      .destroy(function (){
+//      .exit(function (){
 //        leafDestroyed ++;
 //      })
 //    twig = d3.component("div", "twig")
-//      .render(function (selection){
-//        selection.call(leaf);
+//      .update(function (d3.select(this)){
+//        d3.select(this).call(leaf);
 //      });
 //    branch = d3.component("div", "branch")
-//      .render(function (selection){
-//        selection.call(twig, [1, 2]);
+//      .update(function (d3.select(this)){
+//        d3.select(this).call(twig, [1, 2]);
 //      });
 //    treeDestroyed = 0,
 //    tree = d3.component("div", "tree")
-//      .create(function (selection){
-//        selection
+//      .enter(function (d3.select(this)){
+//        d3.select(this)
 //          .append("div")
 //            .attr("class", "trunk");
 //      })
-//      .render(function (selection){
-//        selection
+//      .update(function (d3.select(this)){
+//        d3.select(this)
 //          .select(".trunk")
 //            .call(branch, [1, 2, 3]);
 //      })
-//      .destroy(function (){
+//      .exit(function (){
 //        treeDestroyed ++;
 //      });
 //
-//// Recursive rendering.
+//// Recursive updateing.
 //var recursiveComponent = d3.component("div")
-//  .render(function (selection, props){
-//    selection
+//  .update(function (d3.select(this), props){
+//    d3.select(this)
 //        .attr("class", props.class)
 //        .call(recursiveComponent, props.children || []);
 //  });
@@ -84,23 +88,23 @@ var tape = require("tape"),
 ///*************************************
 // ************** Tests ****************
 // *************************************/
-//tape("Nesting.", function(test) {
-//  var div = d3.select(jsdom.jsdom().body).append("div");
-//
-//  div.call(post, {
-//    title: "Title",
-//    content: "Content here."
-//  });
-//
-//  test.equal(div.html(), [
-//    '<div class="post">',
-//      "<h1>Title</h1>",
-//      "<p>Content here.</p>",
-//    "</div>"
-//  ].join(""));
-//
-//  test.end();
-//});
+tape("Nesting.", function(test) {
+  var div = d3.select(jsdom.jsdom().body).append("div");
+
+  div.call(post, {
+    title: "Title",
+    content: "Content here."
+  });
+
+  test.equal(div.html(), [
+    '<div class="post">',
+      '<h1>Title</h1>',
+      '<p>Content here.</p>',
+    '</div>'
+  ].join(""));
+
+  test.end();
+});
 //
 //tape("Nesting multiple instances.", function(test) {
 //  var div = d3.select(jsdom.jsdom().body).append("div");
@@ -157,7 +161,7 @@ var tape = require("tape"),
 //  test.end();
 //});
 //
-//tape("Conditional rendering.", function(test) {
+//tape("Conditional updateing.", function(test) {
 //  var div = d3.select(jsdom.jsdom().body).append("div");
 //
 //  // Enter
@@ -234,7 +238,7 @@ var tape = require("tape"),
 //  test.end();
 //});
 //
-//tape("Recursive rendering.", function(test) {
+//tape("Recursive updateing.", function(test) {
 //  var div = d3.select(jsdom.jsdom().body).append("div");
 //
 //  div.call(recursiveComponent, { class: "a" });
