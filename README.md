@@ -4,7 +4,7 @@ A component module for [D3.js](d3js.org). Provides the following features:
 
  * Encapsulation of the [General Update Pattern](https://github.com/d3/d3-selection#selection_merge).
  * Support for recursive components.
- * Reliable `exit` hook that is invoked recursively.
+ * Reliable `exit` hook.
 
 <table>
   <tr>
@@ -60,17 +60,17 @@ If you use NPM, `npm install d3-component`. Otherwise, download the [latest rele
 <script>
 
 var myComponent = d3.component("div")
-  .enter(function (d, i){ // Invoked for entering component instances.
+  .enter(function (d, i, nodes){ // Invoked for entering component instances.
     d3.select(this)
         .attr("class", i % 2 ? "even" : "odd")
         .style("font-size", "0px");
       .transition()
         .style("font-size", "30px");
   }
-  .update(function (d, i){ // Invoked for entering and updating instances.
+  .update(function (d, i, nodes){ // Invoked for entering AND updating instances.
     d3.select(this).text(d);
   })
-  .exit(function (d, i){ // Invoked for exiting component instances.
+  .exit(function (d, i, nodes){ // Invoked for exiting component instances.
     return d3.select(this) // You can return a transition here to delay node removal.
       .transition()
         .style("font-size", "0px");
