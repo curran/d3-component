@@ -8,25 +8,26 @@ function children(){
   return this.children;
 }
 
-function destroyInstance(d, i){
+function exitInstance(d, i){
   select(this).selectAll("*").each(function (){
     var instance = instanceLocal.get(this);
-    instanceLocal.remove(this) && instance.destroy();
+    instanceLocal.remove(this) && instance.exit();
   });
-  (instanceLocal.get(this).destroy(d, i) || select(this)).remove();
+  var transition = instanceLocal.get(this).exit(d, i);
+  (transition || select(this)).remove();
 }
 
 export default function (tagName){
-  var create = noop,
-      render = noop,
-      destroy = noop,
+  var enter = noop,
+      update = noop,
+      exit = noop,
       key;
 
   function setInstance(d, i){
     instanceLocal.set(this, {
       owner: component,
-      destroy: function (){
-        return destroy.call(this, d, i);
+      exit: function (){
+        return exit.call(this, d, i);
       }.bind(this)
     });
   }
@@ -44,16 +45,16 @@ export default function (tagName){
     instances
       .enter().append(tagName)
         .each(setInstance)
-        .each(create)
+        .each(enter)
       .merge(instances)
-        .each(render);
+        .each(update);
     instances
       .exit()
-        .each(destroyInstance);
+        .each(exitInstance);
   }
-  component.render = function(_) { return (render = _, component); };
-  component.create = function(_) { return (create = _, component); };
-  component.destroy = function(_) { return (destroy = _, component); };
+  component.update = function(_) { return (update = _, component); };
+  component.enter = function(_) { return (enter = _, component); };
+  component.exit = function(_) { return (exit = _, component); };
   component.key = function(_) { return (key = _, component); };
 
   return component;
