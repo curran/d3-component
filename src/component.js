@@ -1,8 +1,7 @@
 import { select, local } from "d3-selection";
 var instanceLocal = local();
 
-function noop (){
-} // no operation
+function noop (){} // no operation
 
 function children(){
   return this.children;
@@ -23,13 +22,14 @@ export default function (tagName){
       exit = noop,
       key;
 
-  function setInstance(d, i){
+  function enterInstance(d, i){
     instanceLocal.set(this, {
       owner: component,
       exit: function (){
         return exit.call(this, d, i);
       }.bind(this)
     });
+    enter.call(this, d, i);
   }
 
   function belongsToMe(){
@@ -44,8 +44,7 @@ export default function (tagName){
       .data(Array.isArray(data) ? data : [data], key);
     instances
       .enter().append(tagName)
-        .each(setInstance)
-        .each(enter)
+        .each(enterInstance)
       .merge(instances)
         .each(update);
     instances
