@@ -1,4 +1,5 @@
 import { select, local } from "d3-selection";
+
 var instanceLocal = local();
 
 function noop (){} // no operation
@@ -7,12 +8,12 @@ function children(){
   return this.children;
 }
 
-function exitInstance(d, i){
+function exitInstance(){
   select(this).selectAll("*").each(function (){
     var instance = instanceLocal.get(this);
     instanceLocal.remove(this) && instance.exit();
   });
-  var transition = instanceLocal.get(this).exit(d, i);
+  var transition = instanceLocal.get(this).exit();
   (transition || select(this)).remove();
 }
 
@@ -22,14 +23,14 @@ export default function (tagName){
       exit = noop,
       key;
 
-  function enterInstance(d, i){
+  function enterInstance(d, i, nodes){
     instanceLocal.set(this, {
       owner: component,
       exit: function (){
-        return exit.call(this, d, i);
+        return exit.call(this, d, i, nodes);
       }.bind(this)
     });
-    enter.call(this, d, i);
+    enter.call(this, d, i, nodes);
   }
 
   function belongsToMe(){
