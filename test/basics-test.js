@@ -9,18 +9,21 @@ var tape = require("tape"),
  ************ Components *************
  *************************************/
 
-//// Basic component.
-var paragraph = d3.component("p")
-  .enter(function (d){
-    d3.select(this).text(d.text);
-  });
+var paragraphDatum,
+    paragraph = d3.component("p")
+      .update(function (d){
+        paragraphDatum = d;
+        d3.select(this).text(d);
+      });
 
-//// Optional prop.
-//var paragraphOptionalText = d3.component("p", "optional-text")
-//  .render(function (selection, props){
-//    selection.text(props.text || "");
+//var paragraphWithClass = d3.component("p")
+//  .enter(function (){
+//    d3.select(this).attr("class", "classy");
+//  })
+//  .update(function (d){
+//    d3.select(this).text(d);
 //  });
-//
+
 //// Testing custom exit transitions.
 //var customExit = d3.component("p")
 //  .render(function (selection, props){
@@ -35,46 +38,42 @@ var paragraph = d3.component("p")
 // *************************************/
 tape("A component should render a single instance.", function(test) {
   var div = d3.select(jsdom.jsdom().body).append("div");
-  div.call(paragraph, { text: "Hello Component" });
+  div.call(paragraph, "Hello Component");
   test.equal(div.html(), "<p>Hello Component</p>");
   test.end();
 });
 
-//tape("A component should render multiple instances.", function(test) {
-//  var div = d3.select(jsdom.jsdom().body).append("div");
-//
-//  // Enter
-//  div.call(paragraph, [
-//    { text: "foo" },
-//    { text: "bar" }
-//  ]);
-//  test.equal(div.html(), "<p>foo</p><p>bar</p>");
-//
-//  // Update + Enter
-//  div.call(paragraph, [
-//    { text: "fooz" },
-//    { text: "barz" },
-//    { text: "baz" }
-//  ])
-//  test.equal(div.html(), "<p>fooz</p><p>barz</p><p>baz</p>");
-//
-//  // Exit
-//  div.call(paragraph, []);
-//  test.equal(div.html(), "");
-//
-//  test.end();
-//});
-//
-//tape("A component should be passed props as {} when not specified.", function(test) {
-//  var div = d3.select(jsdom.jsdom().body).append("div");
-//  div.call(paragraphOptionalText, { text: "Hello Component" });
-//  test.equal(div.html(), '<p class="optional-text">Hello Component</p>');
-//  div.call(paragraphOptionalText);
-//  test.equal(div.html(), '<p class="optional-text"></p>');
-//  test.end();
-//});
-//
-//tape("Specificity.", function(test) {
+tape("A component should render multiple instances.", function(test) {
+  var div = d3.select(jsdom.jsdom().body).append("div");
+
+  // Enter
+  div.call(paragraph, [ "foo", "bar" ]);
+  test.equal(div.html(), "<p>foo</p><p>bar</p>");
+
+  // Update + Enter
+  div.call(paragraph, [ "fooz", "barz", "baz" ])
+  test.equal(div.html(), "<p>fooz</p><p>barz</p><p>baz</p>");
+
+  // Update + Exit
+  div.call(paragraph, [ "fooz", "baz" ])
+  test.equal(div.html(), "<p>fooz</p><p>baz</p>");
+
+  // Exit
+  div.call(paragraph, []);
+  test.equal(div.html(), "");
+
+  test.end();
+});
+
+tape("A component should be passed undefined as datum when data not specified.", function(test) {
+  var div = d3.select(jsdom.jsdom().body).append("div");
+  div.call(paragraph);
+  test.equal(div.html(), '<p></p>');
+  test.equal(typeof paragraphDatum, "undefined");
+  test.end();
+});
+
+//tape("Adjacent component instances of the same tag name should not interfere with one another.", function(test) {
 //  var div = d3.select(jsdom.jsdom().body).append("div")
 //      .call(paragraphOptionalText)
 //      .call(paragraph);
