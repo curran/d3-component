@@ -5,9 +5,6 @@ var tape = require("tape"),
     d3_component = require("../"),
     d3 = Object.assign(d3_selection, d3_component);
 
-/*************************************
- ************ Components *************
- *************************************/
 
 var paragraphDatum,
     paragraph = d3.component("p")
@@ -16,26 +13,7 @@ var paragraphDatum,
         d3.select(this).text(d);
       });
 
-//var paragraphWithClass = d3.component("p")
-//  .enter(function (){
-//    d3.select(this).attr("class", "classy");
-//  })
-//  .update(function (d){
-//    d3.select(this).text(d);
-//  });
 
-//// Testing custom exit transitions.
-//var customExit = d3.component("p")
-//  .render(function (selection, props){
-//    selection.text(props.text);
-//  })
-//  .destroy(function (selection){
-//    return selection.transition().duration(10);
-//  });
-//
-///*************************************
-// ************** Tests ****************
-// *************************************/
 tape("A component should render a single instance.", function(test) {
   var div = d3.select(jsdom.jsdom().body).append("div");
   div.call(paragraph, "Hello Component");
@@ -73,21 +51,15 @@ tape("A component should be passed undefined as datum when data not specified.",
   test.end();
 });
 
-//tape("Adjacent component instances of the same tag name should not interfere with one another.", function(test) {
-//  var div = d3.select(jsdom.jsdom().body).append("div")
-//      .call(paragraphOptionalText)
-//      .call(paragraph);
-//  test.equal(div.html(), '<p class="optional-text"></p><p></p>');
-//  test.end();
-//});
+//// Testing custom exit transitions.
+//var customExit = d3.component("p")
+//  .render(function (selection, props){
+//    selection.text(props.text);
+//  })
+//  .destroy(function (selection){
+//    return selection.transition().duration(10);
+//  });
 //
-//tape("A component should render a single instance amongst other nodes.", function(test) {
-//  var div = d3.select(jsdom.jsdom().body).append("div");
-//  div.append("p").text("Non-component node");
-//  div.call(paragraph, { text: "Hello Component" });
-//  test.equal(div.html(), "<p>Non-component node</p><p>Hello Component</p>");
-//  test.end();
-//});
 //
 //tape("A component should be able to specify custom exit transitions.", function(test) {
 //  var div = d3.select(jsdom.jsdom().body).append("div");
