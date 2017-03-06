@@ -1,60 +1,59 @@
 import { select, local } from "d3-selection";
-var noop = function (){}, // no operation
-    children = function (){ return this.children; },
-    instanceLocal = local(),
-    renderInstance = function (props){
-      var instance = instanceLocal.get(this);
-      instance.props = props || {};
-      instance.render();
-    };
+var instanceLocal = local();
 
-export default function (tagName, className){
-  var create = noop,
-      render = noop,
-      destroy = noop,
-      key,
-      createInstance = function (){
-        var instance = instanceLocal.set(this, {
-          selection: select(this),
-          owner: component,
-          destroy: function (){
-            return destroy(instance.selection, instance.state);
-          }
-        });
-        create(instance.selection, function setState(state){
-          state = (typeof state === "function") ? state(instance.state) : state;
-          instance.state = Object.assign({}, instance.state, state);
-          instance.render && instance.render();
-        });
-        instance.render = function (){
-          render(instance.selection, instance.props, instance.state);
-        };
-      },
-      destroyInstance = function (){
-        var instance = instanceLocal.get(this);
-        instance.selection.selectAll("*").each(function (){
-          var instance = instanceLocal.get(this);
-          instanceLocal.remove(this) && instance.destroy();
-        });
-        (instance.destroy() || instance.selection).remove();
-      },
-      belongsToMe = function (){
-        var instance = instanceLocal.get(this);
-        return instance && instance.owner === component;
-      };
+function noop(){} // no operation
 
-  function component(selection, props){
-    var instances = selection.selectAll(children).filter(belongsToMe)
-      .data(Array.isArray(props) ? props : [props], key);
-    instances.enter().append(tagName).attr("class", className)
-        .each(createInstance)
-      .merge(instances)
-        .each(renderInstance);
-    instances.exit().each(destroyInstance);
+function children(){
+  return this.children;
+}
+
+function exitDescendant(){
+  var instance = instanceLocal.get(this);
+  instanceLocal.remove(this) && instance.exit();
+}
+
+function exitInstance(){
+  select(this).selectAll("*").each(exitDescendant);
+  (instanceLocal.get(this).exit() || select(this)).remove();
+}
+
+export default function (tagName){
+  var enter = noop,
+      update = noop,
+      exit = noop,
+      key;
+
+  function enterInstance(d, i, nodes){
+    instanceLocal.set(this, {
+      owner: component,
+      exit: function (){
+        return exit.call(this, d, i, nodes);
+      }.bind(this)
+    });
+    enter.call(this, d, i, nodes);
   }
-  component.render = function(_) { return (render = _, component); };
-  component.create = function(_) { return (create = _, component); };
-  component.destroy = function(_) { return (destroy = _, component); };
+
+  function belongsToMe(){
+    var instance = instanceLocal.get(this);
+    return instance && instance.owner === component;
+  }
+
+  function component(selection, data){
+    var instances = selection.selectAll(children).filter(belongsToMe)
+      .data(Array.isArray(data) ? data : [data], key);
+    instances
+      .enter().append(tagName)
+        .each(enterInstance)
+      .merge(instances)
+        .each(update);
+    instances
+      .exit()
+        .each(exitInstance);
+  }
+
+  component.update = function(_) { return (update = _, component); };
+  component.enter = function(_) { return (enter = _, component); };
+  component.exit = function(_) { return (exit = _, component); };
   component.key = function(_) { return (key = _, component); };
 
   return component;

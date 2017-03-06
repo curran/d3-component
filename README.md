@@ -1,6 +1,6 @@
 # d3-component
 
-A lightweight component system for building user interfaces with [D3.js](d3js.org).
+A component module for [D3.js](d3js.org).
 
 <table>
   <tr>
@@ -39,381 +39,85 @@ A lightweight component system for building user interfaces with [D3.js](d3js.or
   </tr>
 </table>
 
-The primary use case for this module is when you are using D3 already, and don't want to adopt an additional framework (e.g. React, Angular, Vue) in order to
+> What does this provide that D3 does not?
 
- * **build user interfaces around your visualizations** or
+ * Encapsulation of the [General Update Pattern](https://github.com/d3/d3-selection#selection_merge).
+ * Components with the same tag and class can coexist as DOM siblings.
+ * Recursive components.
+ * Reliable `exit` hook that is invoked recursively.
+
+The primary use case for this module is when you are using D3 already, and don't want to adopt an additional framework in order to
+
+ * **build user interfaces around your visualizations** and/or
  * **encapsulate your visualizations as components**.
 
-This component system is similar in concept and functionality to [React components](https://facebook.github.io/react/docs/react-component.html), but is relatively lightweight and is designed for use with D3. Using this component system, you can easily encapsulate data-driven user interface components as "boxes-within-boxes", cleanly isolating concerns for various levels of your DOM tree. Concepts in this library like `props` and `state` will feel familiar to React users (e.g. `setState` has similar behavior to the same method in React). No special treatment is given to events or event delegation, as the primary usage scenario is envisioned to be with a unidirectional data flow architexture such as [Redux](http://redux.js.org/).
+This component system is similar in concept and functionality to stateless functional [React components](https://facebook.github.io/react/docs/react-component.html). Using this component system, you can easily encapsulate data-driven user interface components as "boxes-within-boxes", cleanly isolating concerns for various levels of your DOM tree. No special treatment is given to events or event delegation, because the intended use is within a unidirectional data flow architecture (like [Redux](http://redux.js.org/)).
 
 ## Installing
 
 If you use NPM, `npm install d3-component`. Otherwise, download the [latest release](https://github.com/curran/d3-component/releases/latest). You can also load directly from [unpkg.com](https://unpkg.com) as a [standalone library](https://unpkg.com/d3-component@0.1). AMD, CommonJS, and vanilla environments are supported. In vanilla, a `d3` global is exported:
 
 ```html
-<script src="https://unpkg.com/d3-selection@1.0"></script>
-<script src="https://unpkg.com/d3-component@0.9"></script>
+<script src="https://unpkg.com/d3-selection@1"></script>
+<script src="https://unpkg.com/d3-component@1"></script>
 <script>
 
-var apple = d3.component("div", "apple");
+var myComponent = d3.component("div")
+  .enter(function (d, i){ // Invoked for entering component instances.
+    d3.select(this)
+        .attr("class", i % 2 ? "even" : "odd")
+        .style("font-size", "0px");
+      .transition()
+        .style("font-size", "30px");
+  }
+  .update(function (d, i){ // Invoked for entering and updating instances.
+    d3.select(this).text(d);
+  })
+  .exit(function (d, i){ // Invoked for exiting component instances.
+    return d3.select(this) // You can return a transition here to delay node removal.
+      .transition()
+        .style("font-size", "0px");
+  });
 
 </script>
 ```
 ## API Reference
 
-<a href="#component" name="component">#</a> <b>component</b>(<i>tagName</i>[, <i>className</i>])
+<a href="#component" name="component">#</a> <b>component</b>(<i>tagName</i>)
 
 Creates a new component generator that manages and renders into DOM elements of the specified *tagName*.
 
-The optional parameter *className* determine the value of the `class` attribute on the DOM elements managed.
+<a href="#component_update" name="component_update" >#</a> <i>component</i>.<b>update</b>(<i>function</i>)
 
-<a href="#component_render" name="component_render" >#</a> <i>component</i>.<b>render</b>(<i>function</i>)
+Sets the update *function* of this component generator. This *function* will be invoked for each component instance during rendering, being passed the current datum (*d*), the current index (*i*), and the current group (*nodes*), with *this* as the current DOM element (same signature as [*selection*.each](https://github.com/d3/d3-selection#selection_each)).
 
-Sets the render *function* of this component generator.
-
-This *function* will be invoked for each component instance with the following arguments:
-
- * *selection* A D3 selection that contains a single DOM element, the container for this component instance.
- * *props* A "properties" object passed in from outside the component.
- * *state* The current local state of the component. The value of the *state* argument will be an empty object unless *setState* was invoked inside the **[create](#component_create)** lifecycle hook.
-
-For example, here we define a component that creates a `<p>` element and sets its text.
-
-```js
-var paragraph = d3.component("p")
-  .render(function (selection, props){
-    selection.text(props.text || "");
-  });
-```
-
-<a href="#component_invoke" name="component_invoke" >#</a> <i>component</i>(<i>selection</i>[,<i>props</i>])
+<a href="#component_invoke" name="component_invoke" >#</a> <i>component</i>(<i>selection</i>[,<i>data</i>])
 
 Renders the component to the given *selection*, a D3 selection containing a single DOM element.
 
- * If *props* is specified as an array, one component instance will be rendered for each element of the *props* array and the *[render function](component_render)* will receive a single element of the *props* array as its *props* argument.
-   * **Useful case:** If *props* is specified as an empty array `[]`, previously rendered component instances will be removed.
- * If *props* is specified and is not an array, exactly one component instance will be rendered and the *[render function](component_render)* will receive the *props* value as its *props* argument.
- * It *props* is not specified, exactly one component instance will be rendered and the *[render function](component_render)* will receive an empty object as its *props* argument.
+ * If *data* is specified as an array, one component instance will be rendered for each element of the *data* array and the *[update function](component_update)* will receive a single element of the *data* array as its *d* argument.
+   * **Useful case:** If *data* is specified as an empty array `[]`, previously rendered component instances will be removed.
+ * If *data* is specified and is not an array, exactly one component instance will be rendered and the *[update function](component_update)* will receive the *data* value as its *d* argument.
+ * It *data* is not specified, exactly one component instance will be rendered and the *[update function](component_update)* will receive an empty object as its *d* argument.
 
 In summary, the following cases are explicitly supported:
 
- * `selection.call(myComponent, propsObject)` → One instance, render function *props* argument will be `propsObject`.
- * `selection.call(myComponent, propsArray)` → `propsArray.length` instances, render function *props* argument will be `propsArray[i]`
- * `selection.call(myComponent)` → One instance, render function *props* argument will be `{}`.
+ * `selection.call(myComponent, dataObject)` → One instance, update function *d* argument will be `dataObject`.
+ * `selection.call(myComponent, dataArray)` → `dataArray.length` instances, update function *d* argument will be `dataArray[i]`
+ * `selection.call(myComponent)` → One instance, update function *d* argument will be `{}`.
 
-For example, here's what it looks like to render an instance of our `paragraph` component defined above.
+<a href="#component_enter" name="component_enter" >#</a> <i>component</i>.<b>enter</b>(<i>function</i>)
 
-```js
-var propsObject = { text: "Hello Component" };
-d3.select("#some-container-div")
-  .call(paragraph, propsObject);
-```
-```html
-<div id="some-container-div">
-  <p>Hello Component</p>
-</div>
-```
+Sets the enter *function* of this component generator, which will be invoked whenever a new component instance is created, being passed the current datum (*d*), the current index (*i*), and the current group (*nodes*), with *this* as the current DOM element (same signature as [*selection*.each](https://github.com/d3/d3-selection#selection_each)).
 
-If we pass an array as props, multiple instances will be rendered.
+<a href="#component_exit" name="component_exit" >#</a> <i>component</i>.<b>exit</b>(<i>function</i>)
 
-```js
-var propsArray = [ { text: "foo" }, { text: "bar" } ];
-d3.select("#some-container-div")
-  .call(paragraph, propsArray);
-```
-```html
-<div id="some-container-div">
-  <p>foo</p>
-  <p>bar</p>
-</div>
-```
+Sets the exit *function* of this component generator, which will be invoked whenever a component instance is destroyed, being passed the current datum (*d*), the current index (*i*), and the current group (*nodes*), with *this* as the current DOM element (same signature as [*selection*.each](https://github.com/d3/d3-selection#selection_each)).
 
-If no props are given, a single paragraph will be rendered with no text.
+When a component instance exits, the exit *function* of all its children is also invoked (recursively), so you can be sure that this *function* will be invoked before the compoent instance is removed from the DOM.
 
-```js
-d3.select("#some-container-div")
-  .call(paragraph);
-```
-```html
-<div id="some-container-div">
-  <p></p>
-</div>
-```
-
-Finally, if an empty array is passed, all existing instances will be removed.
-
-```js
-var propsArray = [];
-d3.select("#some-container-div")
-  .call(paragraph, propsArray);
-```
-```html
-<div id="some-container-div">
-</div>
-```
-
-<a href="#component_create" name="component_create" >#</a> <i>component</i>.<b>create</b>(<i>function</i>)
-
-Sets the lifecycle hook for component instance creation. This allows you to
-
- * manipulate DOM structures when the component instance is created, and
- * use local state.
-
-The specified *function* will be invoked whenever a new component instance is created, and will be passed the following arguments:
-
- * *selection* A D3 selection that contains a single DOM element.
- * *setState* A function that sets the local state by performing a shallow merge. The *setState* function accepts a single argument which can be either an object or a function.
-   * If *setState* is passed an object, the local state will be updated to be a shallow merge of the previous state and the given object.
-   * If *setState* is passed a function, the local state will be updated to be a shallow merge of the previous state and the object returned from the given function.
-
-After the initial render, whenever *setState* is invoked, the component re-renders itself, passing the new state into the render function.
-
-As an example of manipulating DOM structures when the component instance is created, here's a `card` component that appends nested `<div>`s when the component instance gets created.
-
-```js
-var card = d3.component("div", "card")
-  .create(function (selection){
-    selection
-      .append("div")
-        .attr("class", "card-block")
-      .append("div")
-        .attr("class", "card-text");
-  })
-  .render(function (selection, props){
-    selection
-      .select(".card-text")
-        .text(props.text);
-  });
-```
-
-```js
-d3.select("#some-container-div")
-    .call(card, { text: "I'm in a card." });
-```
-
-```html
-<div id="some-container-div">
-  <div class="card">
-    <div class="card-block">
-      <div class="card-text">
-        I'm in a card.
-      </div>
-    </div>
-  </div>
-</div>
-```
-
-<a href="#component_destroy" name="component_destroy" >#</a> <i>component</i>.<b>destroy</b>(<i>function</i>)
-
-Sets the lifecycle hook for component instance destruction. This is useful if you are storing something in local state that needs to be cleaned up to avoid memory leaks. The specified *function* will be invoked whenever a component instance is destroyed, and will be passed a single argument *state*, the local state of the component instance. When a component is destroyed, all of its children are also destroyed (recursively).
-
-As an example component that uses **create** to set local state, and **destroy** to clean it up, here's a `clock` component.
-
-```js
-var clock = d3.component("div")
-  .create(function (selection, setState){
-    function setDate(){
-      setState({ date: new Date() });
-    }
-    setDate();
-    setState({
-      interval: setInterval(setDate, 1000)
-    });
-  })
-  .render(function (selection, props, state){
-    selection
-        .text(state.date.toLocaleTimeString());
-  })
-  .destroy(function (state){
-    clearInterval(state.interval);
-  });
-```
-
-```js
-d3.select("#some-container-div")
-    .call(card, { text: "I'm in a card." });
-```
-
-```html
-<div id="some-container-div">
-  <div class="card">
-    <div class="card-block">
-      <div class="card-text">
-        I'm in a card.
-      </div>
-    </div>
-  </div>
-</div>
-```
+The exit *function* may optionally return a transition, which will defer DOM element removal until after the transition is finished.
 
 <a href="#component_key" name="component_key" >#</a> <i>component</i>.<b>key</b>(<i>function</i>)
 
-Sets the key *function* used in the internal [data join](https://github.com/d3/d3-selection#selection_data) when managing component instances. Specifying this is optional (the array index is used as the key by default), but specifying a key function will make re-rendering more efficient in cases where *props* arrays get reordered or spliced over time.
-
-## Composing Components
-
-Components can use other components in their render functions. Some useful patterns for component composition are:
-
- * [Nesting](#nesting)
- * [Containment](#containment)
- * [Conditional Rendering](#conditional_rendering)
-
-### Nesting
-
-Nesting is useful when instances of one component will contain instances of other components. Nesting can be achieved by invoking child components within the render function of the parent component, possibly deriving the value of children `props` from the `props` passed into the parent component.
-
-Here's an example of a `post` component that composes two other components, `heading` and `paragraph`.
-
-```js
-var heading = d3.component("h1")
-      .render(function (selection, props){
-        selection.text(props.text);
-      }),
-    paragraph = d3.component("p")
-      .render(function (selection, props){
-        selection.text(props.text);
-      }),
-    post = d3.component("div", "post")
-      .render(function (selection, props){
-        selection
-          .call(heading, { text: props.title })
-          .call(paragraph, { text: props.content });
-      });
-```
-
-Here's how we would render an instance of the `post` component.
-
-```js
-d3.select("#some-container-div");
-  .call(post, {
-    title: "Title",
-    content: "Content here."
-  });
-```
-
-The following DOM structure will be rendered.
-
-```html
-<div id="some-container-div">
-  <div class="post">
-    <h1>Title</h1>
-    <p>Content here.</p>
-  </div>
-</div>
-```
-
-Here's an example of rendering multiple component instances.
-
-```js
-d3.select("#some-container-div")
-  .call(post, [
-    { title: "A Title", content: "a content" },
-    { title: "B Title", content: "b content" },
-  ]);
-```
-
-The following HTML structure will be rendered.
-
-```html
-<div id="some-container-div">
-  <div class="post">
-    <h1>A Title</h1>
-    <p>a content</p>
-  </div>
-  <div class="post">
-    <h1>B Title</h1>
-    <p>b content</p>
-  </div>
-</div>
-```
-
-For a full working example using the components above, see [Posts with d3-component](http://bl.ocks.org/curran/fc8f6989901628e2e79d6374849453ed).
-
-### Containment
-
-Sometimes children components are not known in advance. This is often the case for components that serve as "boxes" that can contain arbitrary content, such as cards or dialogs. There are no special constructs provided for achieving this, but it can be achieved by using a pattern in which the child component and its props are both passed in via the props of the parent component.
-
-Here's an example of a `card` component that can render arbitrary children.
-
-```js
-var card = d3.component("div", "card")
-  .create(function (selection){
-    selection
-      .append("div").attr("class", "card-block")
-      .append("div").attr("class", "card-text");
-  })
-  .render(function (selection, props){
-    selection.select(".card-text")
-        .call(props.childComponent, props.childProps);
-  });
-```
-
-Here's how we can use this `card` component to render a card that contains instances of the `post` component.
-
-```js
-d3.select("#some-container-div")
-  .call(card, {
-    childComponent: post,
-    childProps: [
-      { title: "A Title", content: "a content" },
-      { title: "B Title", content: "b content" },
-    ]
-  });
-```
-
-The following DOM structure will be rendered.
-
-```html
-<div id="some-container-div">
-  <div class="card">
-    <div class="card-block">
-      <div class="card-text">
-        <div class="post"><h1>A Title</h1><p>a content</p></div>
-        <div class="post"><h1>B Title</h1><p>b content</p></div>
-      </div>
-    </div>
-  </div>
-</div>
-```
-
-### Conditional Rendering
-
-Sometimes components should render sub-components only under certain conditions. To achieve this, the `props` passed into the sub-component can either be `[]` to render zero component instances, or any other value to render one or many component instances. Even if a sub-component is not rendered, it still needs to be invoked with its `props` as `[]`, in the case that it was rendered previously and its instances need to be removed from the DOM.
-
-Here's an example of a `fruit` component that conditionally renders either `apple` or `orange` components.
-
-```js
-var apple = d3.component("span", "apple")
-    orange = d3.component("span", "orange")
-    fruit = d3.component("div", "fruit")
-      .render(function (selection, props){
-        selection
-          .call(apple, props.type === "apple"? {} : [])
-          .call(orange, props.type === "orange"? {} : [])
-      });
-```
-
-Here's how we can use this `fruit` component.
-
-```js
-d3.select("#some-container-div")
-  .call(fruit, [
-    { type: "apple" },
-    { type: "orange" },
-    { type: "apple" },
-    { type: "apple" },
-    { type: "orange" }
-  ]);
-```
-
-The following DOM structure will be rendered.
-
-```html
-<div id="some-container-div">
-  <div class="fruit"><span class="apple"></span></div>
-  <div class="fruit"><span class="orange"></span></div>
-  <div class="fruit"><span class="apple"></span></div>
-  <div class="fruit"><span class="apple"></span></div>
-  <div class="fruit"><span class="orange"></span></div>
-</div>
-```
+Sets the key *function* used in the internal [data join](https://github.com/d3/d3-selection#selection_data) when managing DOM elements for component instances. Specifying a key *function* is optional (the array index is used as the key by default), but will make re-rendering more efficient in cases where *data* arrays get reordered or spliced over time.
