@@ -1,21 +1,7 @@
 var tape = require("tape"),
     jsdom = require("jsdom"),
-    d3 = Object.assign(require("../"), require("d3-selection"));
-
-//// Containment
-//var card = d3.component("div", "card")
-//  .enter(function (d3.select(this)){
-//    d3.select(this)
-//      .append("div")
-//        .attr("class", "card-block")
-//      .append("div")
-//        .attr("class", "card-text");
-//  })
-//  .update(function (d3.select(this), props){
-//    d3.select(this)
-//      .select(".card-text")
-//        .call(props.childComponent, props.childProps);
-//  });
+    d3 = Object.assign(require("../"), require("d3-selection")),
+    post = require("./nesting-test").post;
 //
 //// Conditional updateing
 //var apple = d3.component("span", "apple")
@@ -68,29 +54,6 @@ var tape = require("tape"),
 ///*************************************
 // ************** Tests ****************
 // *************************************/
-//
-//tape("Containment.", function(test) {
-//  var div = d3.select(jsdom.jsdom().body).append("div");
-//  div.call(card, {
-//    childComponent: post,
-//    childProps: [
-//      { title: "A Title", content: "a content" },
-//      { title: "B Title", content: "b content" },
-//    ]
-//  });
-//  test.equal(div.html(), [
-//    '<div class="card">',
-//      '<div class="card-block">',
-//        '<div class="card-text">',
-//          '<div class="post"><h1>A Title</h1><p>a content</p></div>',
-//          '<div class="post"><h1>B Title</h1><p>b content</p></div>',
-//        "</div>",
-//      "</div>",
-//    "</div>"
-//  ].join(""));
-//
-//  test.end();
-//});
 //
 //tape("Conditional updateing.", function(test) {
 //  var div = d3.select(jsdom.jsdom().body).append("div");

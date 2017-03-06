@@ -266,3 +266,7 @@ tape("Nesting multiple instances.", function(test) {
 //
 //  test.end();
 //});
+
+module.exports = {
+  post: post
+};
