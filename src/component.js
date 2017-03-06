@@ -1,20 +1,20 @@
 import { select, local } from "d3-selection";
-
 var instanceLocal = local();
 
-function noop (){} // no operation
+function noop(){} // no operation
 
 function children(){
   return this.children;
 }
 
+function exitDescendant(){
+  var instance = instanceLocal.get(this);
+  instanceLocal.remove(this) && instance.exit();
+}
+
 function exitInstance(){
-  select(this).selectAll("*").each(function (){
-    var instance = instanceLocal.get(this);
-    instanceLocal.remove(this) && instance.exit();
-  });
-  var transition = instanceLocal.get(this).exit();
-  (transition || select(this)).remove();
+  select(this).selectAll("*").each(exitDescendant);
+  (instanceLocal.get(this).exit() || select(this)).remove();
 }
 
 export default function (tagName){
@@ -39,9 +39,7 @@ export default function (tagName){
   }
 
   function component(selection, data){
-    var instances = selection
-      .selectAll(children)
-      .filter(belongsToMe)
+    var instances = selection.selectAll(children).filter(belongsToMe)
       .data(Array.isArray(data) ? data : [data], key);
     instances
       .enter().append(tagName)
@@ -52,6 +50,7 @@ export default function (tagName){
       .exit()
         .each(exitInstance);
   }
+
   component.update = function(_) { return (update = _, component); };
   component.enter = function(_) { return (enter = _, component); };
   component.exit = function(_) { return (exit = _, component); };
