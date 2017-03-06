@@ -116,6 +116,8 @@ Sets the exit *function* of this component generator, which will be invoked when
 
 When a component instance exits, the exit *function* of all its children is also invoked (recursively), so you can be sure that this *function* will be invoked before the compoent instance is removed from the DOM.
 
+The exit *function* may optionally return a transition, which will defer DOM element removal until after the transition is finished.
+
 <a href="#component_key" name="component_key" >#</a> <i>component</i>.<b>key</b>(<i>function</i>)
 
 Sets the key *function* used in the internal [data join](https://github.com/d3/d3-selection#selection_data) when managing DOM elements for component instances. Specifying a key *function* is optional (the array index is used as the key by default), but will make re-rendering more efficient in cases where *data* arrays get reordered or spliced over time.
