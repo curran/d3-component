@@ -1,6 +1,10 @@
 # d3-component
 
-A component module for [D3.js](d3js.org).
+A component module for [D3.js](d3js.org). Provides the following features:
+
+ * Encapsulation of the [General Update Pattern](https://github.com/d3/d3-selection#selection_merge).
+ * Support for recursive components.
+ * Reliable `exit` hook that is invoked recursively.
 
 <table>
   <tr>
@@ -39,19 +43,12 @@ A component module for [D3.js](d3js.org).
   </tr>
 </table>
 
-> What does this provide that D3 does not?
-
- * Encapsulation of the [General Update Pattern](https://github.com/d3/d3-selection#selection_merge).
- * Components with the same tag and class can coexist as DOM siblings.
- * Recursive components.
- * Reliable `exit` hook that is invoked recursively.
-
-The primary use case for this module is when you are using D3 already, and don't want to adopt an additional framework in order to
+Primary use case: you are using D3 already, and don't want to adopt an additional framework in order to
 
  * **build user interfaces around your visualizations** and/or
  * **encapsulate your visualizations as components**.
 
-This component system is similar in concept and functionality to stateless functional [React components](https://facebook.github.io/react/docs/react-component.html). Using this component system, you can easily encapsulate data-driven user interface components as "boxes-within-boxes", cleanly isolating concerns for various levels of your DOM tree. No special treatment is given to events or event delegation, because the intended use is within a unidirectional data flow architecture (like [Redux](http://redux.js.org/)).
+This component system is similar in concept and functionality to stateless functional [React components](https://facebook.github.io/react/docs/react-component.html). Using this component system, you can easily encapsulate data-driven user interface components as conceptual "boxes-within-boxes", cleanly isolating concerns for various levels of your DOM tree. No special treatment is given to events or event delegation, because the intended use is within a unidirectional data flow architecture like [Redux](http://redux.js.org/).
 
 ## Installing
 
