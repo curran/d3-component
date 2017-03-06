@@ -1,6 +1,8 @@
 var tape = require("tape"),
     jsdom = require("jsdom"),
-    d3 = Object.assign(require("../"), require("d3-selection"));
+    d3_selection = require("d3-selection"),
+    d3_component = require("../"),
+    d3 = Object.assign(d3_selection, d3_component);
 
 
 var entered,
