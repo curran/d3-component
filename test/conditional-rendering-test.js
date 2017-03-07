@@ -6,14 +6,8 @@ var tape = require("tape"),
     post = require("./nesting-test").post;
 
 
-var apple = d3.component("span")
-      .enter(function (){
-        d3.select(this).attr("class", "apple");
-      }),
-    orange = d3.component("span")
-      .enter(function (){
-        d3.select(this).attr("class", "orange");
-      }),
+var apple = d3.component("span", "apple"),
+    orange = d3.component("span", "orange"),
 
     // One of the limitations of this library
     // is that you can't have apples and oranges mixed as peers
