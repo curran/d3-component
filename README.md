@@ -30,7 +30,7 @@ A component module for [D3.js](d3js.org). Provides the following features:
   <tr>
     <td>
       <a href="http://bl.ocks.org/curran/acde35df0c7939ff97740b4f9800258e">
-        <div>Counter</div>
+        <div>Counter (uses Redux)</div>
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/acde35df0c7939ff97740b4f9800258e/thumbnail.png">
       </a>
     </td>
