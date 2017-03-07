@@ -5,17 +5,11 @@ var tape = require("tape"),
     d3 = Object.assign(d3_selection, d3_component);
 
 
-var paragraphA = d3.component("p")
-      .enter(function (){
-        d3.select(this).attr("class", "some-class");
-      })
+var paragraphA = d3.component("p", "some-class")
       .update(function (d){
         d3.select(this).text("A");
       }),
-    paragraphB = d3.component("p")
-      .enter(function (){
-        d3.select(this).attr("class", "some-class");
-      })
+    paragraphB = d3.component("p", "some-class")
       .update(function (d){
         d3.select(this).text("B");
       });

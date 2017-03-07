@@ -14,9 +14,6 @@ var heading = d3.component("h1")
         d3.select(this).text(d);
       }),
     post = d3.component("div", "post")
-      .enter(function (){
-        d3.select(this).attr("class", "post");
-      })
       .update(function (d){
         d3.select(this)
           .call(heading, d.title)

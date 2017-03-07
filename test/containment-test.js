@@ -6,10 +6,9 @@ var tape = require("tape"),
     post = require("./nesting-test").post;
 
 
-var card = d3.component("div")
+var card = d3.component("div", "card")
   .enter(function (){
     d3.select(this)
-        .attr("class", "card")
       .append("div")
         .attr("class", "card-block")
       .append("div")

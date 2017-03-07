@@ -6,32 +6,22 @@ var tape = require("tape"),
 
 
 var leafDestroyed = 0,
-    leaf = d3.component("div")
-      .enter(function (){
-        d3.select(this).attr("class", "leaf");
-      })
+    leaf = d3.component("div", "leaf")
       .exit(function (){
         leafDestroyed ++;
       })
-    twig = d3.component("div")
-      .enter(function (){
-        d3.select(this).attr("class", "twig");
-      })
+    twig = d3.component("div", "twig")
       .update(function (){
         d3.select(this).call(leaf);
       });
-    branch = d3.component("div")
-      .enter(function (){
-        d3.select(this).attr("class", "branch");
-      })
+    branch = d3.component("div", "branch")
       .update(function (){
         d3.select(this).call(twig, [1, 2]);
       }),
     treeDestroyed = 0,
-    tree = d3.component("div")
+    tree = d3.component("div", "tree")
       .enter(function (){
         d3.select(this)
-            .attr("class", "tree")
           .append("div")
             .attr("class", "trunk");
       })

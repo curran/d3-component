@@ -17,7 +17,7 @@ function exitInstance(){
   (instanceLocal.get(this).exit() || select(this)).remove();
 }
 
-export default function (tagName){
+export default function (tagName, className){
   var enter = noop,
       update = noop,
       exit = noop,
@@ -43,6 +43,7 @@ export default function (tagName){
       .data(Array.isArray(data) ? data : [data], key);
     instances
       .enter().append(tagName)
+        .attr("class", className)
         .each(enterInstance)
       .merge(instances)
         .each(update);
