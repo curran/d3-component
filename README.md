@@ -86,9 +86,11 @@ var myComponent = d3.component("div")
 
 ## API Reference
 
-<a href="#component" name="component">#</a> <b>component</b>(<i>tagName</i>)
+<a href="#component" name="component">#</a> <b>component</b>(<i>tagName</i>[, <i>className</i>]))
 
 Creates a new component generator that manages and renders into DOM elements of the specified *tagName*.
+
+The optional parameter *className* determines the value of the `class` attribute on the DOM elements managed.
 
 <a href="#component_update" name="component_update" >#</a> <i>component</i>.<b>update</b>(<i>function</i>)
 
