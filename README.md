@@ -56,29 +56,29 @@ If you use NPM, `npm install d3-component`. Otherwise, download the [latest rele
 <script src="https://unpkg.com/d3-component@2"></script>
 <script>
 
-var myComponent = d3.component("div")
-  .create(function (d, i, nodes){ // Invoked for entering component instances.
-    d3.select(this)
-        .style("font-size", "0px")
-      .transition()
-        .style("font-size", "30px");
-  })
-  .render(function (d, i, nodes){ // Invoked for entering AND updating instances.
-    d3.select(this).text(d);
-  })
-  .destroy(function (d, i, nodes){ // Invoked for exiting component instances.
-    return d3.select(this) // You can return a transition here to delay node removal.
-      .transition()
-        .style("font-size", "0px");
-  });
-  
-// Render a single instance of the component.
-d3.select("body").call(myComponent, "Hello d3-component!");
+  var myComponent = d3.component("div", "some-class")
+    .create(function (d, i, nodes){ // Invoked for entering component instances.
+      d3.select(this)
+          .style("font-size", "0px")
+        .transition()
+          .style("font-size", "80px");
+    })
+    .render(function (d, i, nodes){ // Invoked for entering AND updating instances.
+      d3.select(this).text(d);
+    })
+    .destroy(function (d, i, nodes){ // Invoked for exiting component instances.
+      return d3.select(this) // You can return a transition here to delay node removal.
+        .transition()
+          .style("font-size", "0px");
+    });
 
-// Destroy the component instance after 3 seconds.
-setTimeout(function (){
-  d3.select("body").call(myComponent, []);
-}, 3000);
+  // Render a single instance of the component.
+  d3.select("body").call(myComponent, "Hello d3-component!");
+
+  // Destroy the component instance after 3 seconds.
+  setTimeout(function (){
+    d3.select("body").call(myComponent, []);
+  }, 3000);
 
 </script>
 ```
