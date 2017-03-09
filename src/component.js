@@ -17,6 +17,13 @@ function exitInstance(){
   (instanceLocal.get(this).exit() || select(this)).remove();
 }
 
+function dataArray(data, context){
+  data = Array.isArray(data) ? data : [data];
+  return context ? data.map(function (d){
+    return Object.assign({}, d, context);
+  }) : data;
+}
+
 export default function (tagName, className){
   var enter = noop,
       update = noop,
@@ -38,9 +45,11 @@ export default function (tagName, className){
     return instance && instance.owner === component;
   }
 
-  function component(selection, data){
-    var instances = selection.selectAll(children).filter(belongsToMe)
-      .data(Array.isArray(data) ? data : [data], key);
+  function component(selection, data, context){
+    var instances = selection
+      .selectAll(children)
+      .filter(belongsToMe)
+      .data(dataArray(data, context), key);
     instances
       .enter().append(tagName)
         .attr("class", className)
