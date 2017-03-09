@@ -14,14 +14,14 @@ export default function (tagName, className){
       .filter(belongsToMe)
       .data(dataArray(data, context), key);
     instances
+      .exit()
+        .each(destroyInstance);
+    return instances
       .enter().append(tagName)
         .attr("class", className)
         .each(createInstance)
       .merge(instances)
         .each(render);
-    instances
-      .exit()
-        .each(destroyInstance);
   }
 
   component.render = function(_) { return (render = _, component); };
