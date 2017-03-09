@@ -100,7 +100,14 @@ Renders the component to the given *selection*, a D3 selection containing a sing
  * If *data* is specified as an array, one component instance will be rendered for each element of the *data* array and the *[render function](component_render)* will receive a single element of the *data* array as its *d* argument.
    * **Useful case:** If *data* is specified as an empty array `[]`, previously rendered component instances will be removed.
  * If *data* is specified and is not an array, exactly one component instance will be rendered and the *[render function](component_render)* will receive the *data* value as its *d* argument.
- * If *data* is not specified, exactly one component instance will be rendered and the *[render function](component_render)* will receive an empty object as its *d* argument.
+ * If *data* is not specified, exactly one component instance will be rendered and the *[render function](component_render)* will receive `undefined` as its *d* argument.
+
+In summary, the following cases are explicitly supported:
+
+ * `selection.call(myComponent, dataObject)` → One instance, render function *d* will be `dataObject`.
+ * `selection.call(myComponent, dataArray)` → `dataArray.length` instances, render function *d* will be `dataArray[i]`
+ * `selection.call(myComponent)` → One instance, render function *d* will be `undefined`.
+
 
 If a *context* object is specified, it will be shallow merged onto each data element in a copy of the data array, and the resulting array will be used as the value of *data*. This is useful for passing down callback functions through your component tree. To clarify, the following two invocations are equivalent:
 
@@ -122,12 +129,6 @@ var context = {
 selection.call(myComponent, dataArray, context);
 ```
 
-
-In summary, the following cases are explicitly supported:
-
- * `selection.call(myComponent, dataObject)` → One instance, render function *d* will be `dataObject`.
- * `selection.call(myComponent, dataArray)` → `dataArray.length` instances, render function *d* will be `dataArray[i]`
- * `selection.call(myComponent)` → One instance, render function *d* will be `{}`.
 
 <a href="#component_create" name="component_create" >#</a> <i>component</i>.<b>create</b>(<i>function</i>)
 
