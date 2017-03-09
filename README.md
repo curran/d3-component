@@ -22,7 +22,7 @@ A component module for [D3.js](d3js.org). Provides the following features:
     </td>
     <td>
       <a href="http://bl.ocks.org/curran/593ffae30c42789a9af36f08c983867e">
-        <div>Stopwatch</div>
+        <div>Stopwatch (uses Redux)</div>
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/593ffae30c42789a9af36f08c983867e/thumbnail.png">
       </a>
     </td>
@@ -36,7 +36,7 @@ A component module for [D3.js](d3js.org). Provides the following features:
     </td>
     <td>
       <a href="http://bl.ocks.org/curran/d8639546697c7ae3ab46c2544683d53a">
-        <div>Todos</div>
+        <div>Todos (uses Redux)</div>
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/d8639546697c7ae3ab46c2544683d53a/thumbnail.png">
       </a>
     </td>
