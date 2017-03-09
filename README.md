@@ -42,6 +42,12 @@ A component system for [D3.js](d3js.org).
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/d8639546697c7ae3ab46c2544683d53a/thumbnail.png">
       </a>
     </td>
+    <td>
+      <a href="http://bl.ocks.org/curran/8c131a74b85d0bb0246233de2cff3f52">
+        <div>Scatter Plot with Menus (Redux)</div>
+        <img width="230" height="120" src="http://bl.ocks.org/curran/raw/8c131a74b85d0bb0246233de2cff3f52/thumbnail.png">
+      </a>
+    </td>
   </tr>
 </table>
 
