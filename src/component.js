@@ -3,9 +3,9 @@ var instanceLocal = local(),
     noop = function (){}; // no operation
 
 export default function (tagName, className){
-  var enter = noop,
-      update = noop,
-      exit = noop,
+  var create = noop,
+      render = noop,
+      destroy = noop,
       key;
 
   function component(selection, data, context){
@@ -16,17 +16,17 @@ export default function (tagName, className){
     instances
       .enter().append(tagName)
         .attr("class", className)
-        .each(enterInstance)
+        .each(createInstance)
       .merge(instances)
-        .each(update);
+        .each(render);
     instances
       .exit()
-        .each(exitInstance);
+        .each(destroyInstance);
   }
 
-  component.update = function(_) { return (update = _, component); };
-  component.enter = function(_) { return (enter = _, component); };
-  component.exit = function(_) { return (exit = _, component); };
+  component.render = function(_) { return (render = _, component); };
+  component.create = function(_) { return (create = _, component); };
+  component.destroy = function(_) { return (destroy = _, component); };
   component.key = function(_) { return (key = _, component); };
 
   function children(){
@@ -45,24 +45,24 @@ export default function (tagName, className){
     }) : data;
   }
 
-  function enterInstance(d, i, nodes){
+  function createInstance(d, i, nodes){
     instanceLocal.set(this, {
       owner: component,
-      exit: function (){
-        return exit.call(this, d, i, nodes);
+      destroy: function (){
+        return destroy.call(this, d, i, nodes);
       }.bind(this)
     });
-    enter.call(this, d, i, nodes);
+    create.call(this, d, i, nodes);
   }
 
-  function exitInstance(){
-    select(this).selectAll("*").each(exitDescendant);
-    (instanceLocal.get(this).exit() || select(this)).remove();
+  function destroyInstance(){
+    select(this).selectAll("*").each(destroyDescendant);
+    (instanceLocal.get(this).destroy() || select(this)).remove();
   }
 
-  function exitDescendant(){
+  function destroyDescendant(){
     var instance = instanceLocal.get(this);
-    instanceLocal.remove(this) && instance.exit();
+    instanceLocal.remove(this) && instance.destroy();
   }
 
   return component;
