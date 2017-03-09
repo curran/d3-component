@@ -7,14 +7,14 @@ var tape = require("tape"),
 
 
 var card = d3.component("div", "card")
-  .enter(function (){
+  .create(function (){
     d3.select(this)
       .append("div")
         .attr("class", "card-block")
       .append("div")
         .attr("class", "card-text");
   })
-  .update(function (d){
+  .render(function (d){
     d3.select(this)
       .select(".card-text")
         .call(d.childComponent, d.childProps);

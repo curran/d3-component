@@ -7,29 +7,29 @@ var tape = require("tape"),
 
 var paragraphDatum,
     paragraph = d3.component("p")
-      .update(function (d){
+      .render(function (d){
         paragraphDatum = d;
         d3.select(this).text(d);
       });
 
-var enterIndex,
-    updateIndex,
-    exitIndex,
-    enterNodes,
-    updateNodes,
-    exitNodes,
+var createIndex,
+    renderIndex,
+    destroyIndex,
+    createNodes,
+    renderNodes,
+    destroyNodes,
     argsTester = d3.component("div")
-      .enter(function (d, i, nodes){
-        enterIndex = i;
-        enterNodes = nodes;
+      .create(function (d, i, nodes){
+        createIndex = i;
+        createNodes = nodes;
       })
-      .update(function (d, i, nodes){
-        updateIndex = i;
-        updateNodes = nodes;
+      .render(function (d, i, nodes){
+        renderIndex = i;
+        renderNodes = nodes;
       })
-      .exit(function (d, i, nodes){
-        exitIndex = i;
-        exitNodes = nodes;
+      .destroy(function (d, i, nodes){
+        destroyIndex = i;
+        destroyNodes = nodes;
       });
 
 
@@ -73,55 +73,55 @@ tape("A component should be passed undefined as datum when data not specified.",
 tape("A component should be passed the index and nodes in callbacks.", function(test) {
   var div = d3.select(jsdom.jsdom().body).append("div");
   
-  enterIndex = updateIndex = exitIndex = null;
-  enterNodes = updateNodes = exitNodes = null;
+  createIndex = renderIndex = destroyIndex = null;
+  createNodes = renderNodes = destroyNodes = null;
   div.call(argsTester);
-  test.equal(enterIndex, 0)
-  test.equal(updateIndex, 0)
-  test.equal(exitIndex, null);
-  test.equal(enterNodes.length, 1);
-  test.equal(updateNodes.length, 1)
-  test.equal(exitNodes, null);
+  test.equal(createIndex, 0)
+  test.equal(renderIndex, 0)
+  test.equal(destroyIndex, null);
+  test.equal(createNodes.length, 1);
+  test.equal(renderNodes.length, 1)
+  test.equal(destroyNodes, null);
 
-  enterIndex = updateIndex = exitIndex = null;
-  enterNodes = updateNodes = exitNodes = null;
+  createIndex = renderIndex = destroyIndex = null;
+  createNodes = renderNodes = destroyNodes = null;
   div.call(argsTester, ["a", "b"]);
-  test.equal(enterIndex, 1)
-  test.equal(updateIndex, 1)
-  test.equal(exitIndex, null);
-  test.equal(enterNodes.length, 2);
-  test.equal(updateNodes.length, 2)
-  test.equal(exitNodes, null);
+  test.equal(createIndex, 1)
+  test.equal(renderIndex, 1)
+  test.equal(destroyIndex, null);
+  test.equal(createNodes.length, 2);
+  test.equal(renderNodes.length, 2)
+  test.equal(destroyNodes, null);
 
-  enterIndex = updateIndex = exitIndex = null;
-  enterNodes = updateNodes = exitNodes = null;
+  createIndex = renderIndex = destroyIndex = null;
+  createNodes = renderNodes = destroyNodes = null;
   div.call(argsTester, ["a", "b"]);
-  test.equal(enterIndex, null)
-  test.equal(updateIndex, 1)
-  test.equal(exitIndex, null);
-  test.equal(enterNodes, null);
-  test.equal(updateNodes.length, 2)
-  test.equal(exitNodes, null);
+  test.equal(createIndex, null)
+  test.equal(renderIndex, 1)
+  test.equal(destroyIndex, null);
+  test.equal(createNodes, null);
+  test.equal(renderNodes.length, 2)
+  test.equal(destroyNodes, null);
 
-  enterIndex = updateIndex = exitIndex = null;
-  enterNodes = updateNodes = exitNodes = null;
+  createIndex = renderIndex = destroyIndex = null;
+  createNodes = renderNodes = destroyNodes = null;
   div.call(argsTester, ["a"]);
-  test.equal(enterIndex, null)
-  test.equal(updateIndex, 0)
-  test.equal(exitIndex, 1);
-  test.equal(enterNodes, null);
-  test.equal(updateNodes.length, 1)
-  test.equal(exitNodes.length, 2);
+  test.equal(createIndex, null)
+  test.equal(renderIndex, 0)
+  test.equal(destroyIndex, 1);
+  test.equal(createNodes, null);
+  test.equal(renderNodes.length, 1)
+  test.equal(destroyNodes.length, 2);
 
-  enterIndex = updateIndex = exitIndex = null;
-  enterNodes = updateNodes = exitNodes = null;
+  createIndex = renderIndex = destroyIndex = null;
+  createNodes = renderNodes = destroyNodes = null;
   div.call(argsTester, []);
-  test.equal(enterIndex, null)
-  test.equal(updateIndex, null)
-  test.equal(exitIndex, 0);
-  test.equal(enterNodes, null);
-  test.equal(updateNodes, null);
-  test.equal(exitNodes.length, 1);
+  test.equal(createIndex, null)
+  test.equal(renderIndex, null)
+  test.equal(destroyIndex, 0);
+  test.equal(createNodes, null);
+  test.equal(renderNodes, null);
+  test.equal(destroyNodes.length, 1);
 
   test.end();
 });

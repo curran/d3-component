@@ -7,12 +7,12 @@ var tape = require("tape"),
 
 
 var customExit = d3.component("p")
-  .exit(function (){
+  .destroy(function (){
     return d3.select(this).transition().duration(10);
   });
 
 
-tape("A component should be able to specify custom exit transitions.", function(test) {
+tape("A component should be able to specify custom destroy transitions.", function(test) {
   var div = d3.select(jsdom.jsdom().body).append("div");
 
   div.call(customExit);

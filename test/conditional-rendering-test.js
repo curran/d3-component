@@ -14,7 +14,7 @@ var apple = d3.component("span", "apple"),
     // with a data-driven ordering, so you need to introduce
     // an intermediate "switcher" component, like this fruit component here.
     fruit = d3.component("div")
-      .update(function (d){
+      .render(function (d){
         d3.select(this)
           .call(apple, d === "apple" || []) // If type matches, pass true as datum, else pass [].
           .call(orange, d === "orange" || [])

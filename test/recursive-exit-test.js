@@ -7,35 +7,35 @@ var tape = require("tape"),
 
 var leafDestroyed = 0,
     leaf = d3.component("div", "leaf")
-      .exit(function (){
+      .destroy(function (){
         leafDestroyed ++;
       })
     twig = d3.component("div", "twig")
-      .update(function (){
+      .render(function (){
         d3.select(this).call(leaf);
       });
     branch = d3.component("div", "branch")
-      .update(function (){
+      .render(function (){
         d3.select(this).call(twig, [1, 2]);
       }),
     treeDestroyed = 0,
     tree = d3.component("div", "tree")
-      .enter(function (){
+      .create(function (){
         d3.select(this)
           .append("div")
             .attr("class", "trunk");
       })
-      .update(function (){
+      .render(function (){
         d3.select(this)
           .select(".trunk")
             .call(branch, [1, 2, 3]);
       })
-      .exit(function (){
+      .destroy(function (){
         treeDestroyed++;
       });
 
 
-tape("Recursive exit.", function(test) {
+tape("Recursive destroy.", function(test) {
   var div = d3.select(jsdom.jsdom().body).append("div");
 
   div.call(tree);
