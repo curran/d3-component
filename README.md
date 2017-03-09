@@ -7,7 +7,9 @@ A component system for [D3.js](d3js.org).
  * Encapsulates the [General Update Pattern](https://github.com/d3/d3-selection#selection_merge).
  * Composable (even recursive!) stateless components.
  * Reliable `destroy` hook for cleaning things up.
+ * Works great with [Redux](http://redux.js.org/).
 
+**Examples:**
 <table>
   <tr>
     <td>
