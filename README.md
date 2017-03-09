@@ -93,20 +93,41 @@ The optional parameter *className* determines the value of the `class` attribute
 
 Sets the render *function* of this component generator. This *function* will be invoked for each component instance during rendering, being passed the current datum (*d*), the current index (*i*), and the current group (*nodes*), with *this* as the current DOM element (same signature as [*selection*.each](https://github.com/d3/d3-selection#selection_each)).
 
-<a href="#component_invoke" name="component_invoke" >#</a> <i>component</i>(<i>selection</i>[,<i>data</i>])
+<a href="#component_invoke" name="component_invoke" >#</a> <i>component</i>(<i>selection</i>[,<i>data</i>[,<i>context</i>]])
 
 Renders the component to the given *selection*, a D3 selection containing a single DOM element.
 
  * If *data* is specified as an array, one component instance will be rendered for each element of the *data* array and the *[render function](component_render)* will receive a single element of the *data* array as its *d* argument.
    * **Useful case:** If *data* is specified as an empty array `[]`, previously rendered component instances will be removed.
  * If *data* is specified and is not an array, exactly one component instance will be rendered and the *[render function](component_render)* will receive the *data* value as its *d* argument.
- * It *data* is not specified, exactly one component instance will be rendered and the *[render function](component_render)* will receive an empty object as its *d* argument.
+ * If *data* is not specified, exactly one component instance will be rendered and the *[render function](component_render)* will receive an empty object as its *d* argument.
+
+If a *context* object is specified, it will be shallow merged onto each data element in a copy of the data array, and the resulting array will be used as the value of *data*. This is useful for passing down callback functions through your component tree. To clarify, the following two invocations are equivalent:
+
+Not using the *context* argument:
+```js
+var context = {
+  onClick: function (){ console.log("Clicked!");
+};
+selection.call(myComponent, dataArray.map(function (d){
+  return Object.assign({}, d, context);
+}));
+```
+
+Using the *context* argument:
+```js
+var context = {
+  onClick: function (){ console.log("Clicked!");
+};
+selection.call(myComponent, dataArray, context);
+```
+
 
 In summary, the following cases are explicitly supported:
 
- * `selection.call(myComponent, dataObject)` → One instance, render function *d* argument will be `dataObject`.
- * `selection.call(myComponent, dataArray)` → `dataArray.length` instances, render function *d* argument will be `dataArray[i]`
- * `selection.call(myComponent)` → One instance, render function *d* argument will be `{}`.
+ * `selection.call(myComponent, dataObject)` → One instance, render function *d* will be `dataObject`.
+ * `selection.call(myComponent, dataArray)` → `dataArray.length` instances, render function *d* will be `dataArray[i]`
+ * `selection.call(myComponent)` → One instance, render function *d* will be `{}`.
 
 <a href="#component_create" name="component_create" >#</a> <i>component</i>.<b>create</b>(<i>function</i>)
 
