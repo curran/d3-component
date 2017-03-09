@@ -1,10 +1,12 @@
 # d3-component
 
-A component module for [D3.js](d3js.org). Provides the following features:
+A component system for [D3.js](d3js.org).
 
- * Encapsulation of the [General Update Pattern](https://github.com/d3/d3-selection#selection_merge).
+**Features:**
+
+ * Encapsulates of the [General Update Pattern](https://github.com/d3/d3-selection#selection_merge).
  * Composable (even recursive!) components.
- * Reliable `destroy` hook.
+ * Reliable `destroy` hook for cleaning things up.
 
 <table>
   <tr>
@@ -43,12 +45,7 @@ A component module for [D3.js](d3js.org). Provides the following features:
   </tr>
 </table>
 
-Primary use case: you are using D3 already, and don't want to adopt an additional framework in order to
-
- * **build user interfaces around your visualizations** and/or
- * **encapsulate your visualizations as components**.
-
-This component system is similar in concept and functionality to stateless functional [React components](https://facebook.github.io/react/docs/react-component.html). Using this component system, you can easily encapsulate data-driven user interface components as conceptual "boxes-within-boxes", cleanly isolating concerns for various levels of your DOM tree. No special treatment is given to events or event delegation, because the intended use is within a unidirectional data flow architecture like [Redux](http://redux.js.org/).
+Using this component system, you can easily encapsulate data-driven user interface components as conceptual "boxes-within-boxes", cleanly isolating concerns for various levels of your DOM tree. This component system is similar in concept and functionality to [React Stateless Functional Components](https://hackernoon.com/react-stateless-functional-components-nine-wins-you-might-have-overlooked-997b0d933dbc#.dc21r5uj4). All the data that the components need to render themselves gets passed down at render time. Components don't store any state (this is the main difference from the [Towards Reusable Charts](https://bost.ocks.org/mike/chart/) pattern). No special treatment is given to events or event delegation, because the intended use is within a unidirectional data flow architecture like [Redux](http://redux.js.org/).
 
 ## Installing
 
