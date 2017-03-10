@@ -51,6 +51,14 @@ A component system for [D3.js](d3js.org).
       </a>
     </td>
   </tr>
+  <tr>
+    <td>
+      <a href="http://bl.ocks.org/curran/28047fcfeb11cc0c66d10e7f30e1fe22">
+        <div>Clock</div>
+        <img width="230" height="120" src="http://bl.ocks.org/curran/raw/d8639546697c7ae3ab46c2544683d53a/thumbnail.png">
+      </a>
+    </td>
+  </tr>
 </table>
 
 Using this component system, you can easily encapsulate data-driven user interface components as conceptual "boxes-within-boxes", cleanly isolating concerns for various levels of your DOM tree. This component system is similar in concept and functionality to [React Stateless Functional Components](https://hackernoon.com/react-stateless-functional-components-nine-wins-you-might-have-overlooked-997b0d933dbc#.dc21r5uj4). Everything a component needs to render itself and interact with application state gets passed down through the component tree at render time. Components don't store any local state; this is the main difference between d3-component and the [Towards Reusable Charts](https://bost.ocks.org/mike/chart/) pattern. No special treatment is given to events or event delegation, because the intended use is within a unidirectional data flow architecture like [Redux](http://redux.js.org/).
