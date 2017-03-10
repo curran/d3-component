@@ -26,7 +26,7 @@ A component system for [D3.js](d3js.org).
     </td>
     <td>
       <a href="http://bl.ocks.org/curran/593ffae30c42789a9af36f08c983867e">
-        <div>Stopwatch (uses Redux)</div>
+        <div>Stopwatch</div>
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/593ffae30c42789a9af36f08c983867e/thumbnail.png">
       </a>
     </td>
@@ -34,19 +34,19 @@ A component system for [D3.js](d3js.org).
   <tr>
     <td>
       <a href="http://bl.ocks.org/curran/acde35df0c7939ff97740b4f9800258e">
-        <div>Counter (uses Redux)</div>
+        <div>Counter</div>
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/acde35df0c7939ff97740b4f9800258e/thumbnail.png">
       </a>
     </td>
     <td>
       <a href="http://bl.ocks.org/curran/d8639546697c7ae3ab46c2544683d53a">
-        <div>Todos (uses Redux)</div>
+        <div>Todos</div>
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/d8639546697c7ae3ab46c2544683d53a/thumbnail.png">
       </a>
     </td>
     <td>
       <a href="http://bl.ocks.org/curran/8c131a74b85d0bb0246233de2cff3f52">
-        <div>Scatter Plot with Menus (Redux)</div>
+        <div>Scatter Plot with Menus</div>
         <img width="230" height="120" src="https://cloud.githubusercontent.com/assets/68416/23792933/ff5f7142-05ae-11e7-97dc-9489438dc3e6.png">
       </a>
     </td>
