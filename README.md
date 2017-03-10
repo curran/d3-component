@@ -55,7 +55,7 @@ A component system for [D3.js](d3js.org).
     <td>
       <a href="http://bl.ocks.org/curran/28047fcfeb11cc0c66d10e7f30e1fe22">
         <div>Clock</div>
-        <img width="230" height="120" src="http://bl.ocks.org/curran/raw/d8639546697c7ae3ab46c2544683d53a/thumbnail.png">
+        <img width="230" height="120" src="http://bl.ocks.org/curran/raw/28047fcfeb11cc0c66d10e7f30e1fe22/thumbnail.png">
       </a>
     </td>
   </tr>
