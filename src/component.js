@@ -14,20 +14,15 @@ export default function (tagName, className){
       .filter(belongsToMe)
       .data(dataArray(data, context), key);
     instances
+      .exit()
+        .each(destroyInstance);
+    return instances
       .enter().append(tagName)
         .attr("class", className)
         .each(createInstance)
       .merge(instances)
         .each(render);
-    instances
-      .exit()
-        .each(destroyInstance);
   }
-
-  component.render = function(_) { return (render = _, component); };
-  component.create = function(_) { return (create = _, component); };
-  component.destroy = function(_) { return (destroy = _, component); };
-  component.key = function(_) { return (key = _, component); };
 
   function children(){
     return this.children;
@@ -64,6 +59,11 @@ export default function (tagName, className){
     var instance = instanceLocal.get(this);
     instanceLocal.remove(this) && instance.destroy();
   }
+
+  component.render = function(_) { return (render = _, component); };
+  component.create = function(_) { return (create = _, component); };
+  component.destroy = function(_) { return (destroy = _, component); };
+  component.key = function(_) { return (key = _, component); };
 
   return component;
 };

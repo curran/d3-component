@@ -125,3 +125,10 @@ tape("A component should be passed the index and nodes in callbacks.", function(
 
   test.end();
 });
+
+tape("A component should return its merged Enter + Update selection.", function(test) {
+  var div = d3.select(jsdom.jsdom().body).append("div");
+  test.equal(paragraph(div, "Text").text(), "Text"); // Enter
+  test.equal(paragraph(div, "Text").text(), "Text"); // Update
+  test.end();
+});
