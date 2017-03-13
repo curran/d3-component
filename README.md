@@ -1,6 +1,6 @@
 # d3-component
 
-A component system for [D3.js](d3js.org).
+A lightweight component abstraction for [D3.js](d3js.org).
 
 **Features:**
 
@@ -150,14 +150,14 @@ In summary, components can be rendered using the following signatures:
  * `selection.call(myComponent, dataArray)` → `dataArray.length` instances, render function *d* will be `dataArray[i]`
  * `selection.call(myComponent)` → One instance, render function *d* will be `undefined`.
 
-If a *context* object is specified, it will be shallow merged into each data element in a copy of the data array, and the resulting array will be used as the value of *data*. This is useful for passing down callback functions through your component tree. To clarify, the following two invocations are equivalent:
+If a *context* object is specified, each data element in the data array will be shallow merged into a new object whose prototype is the *context* object, and the resulting array will be used in place of the *data* array. This is useful for passing down callback functions through your component tree. To clarify, the following two invocations are equivalent:
 
 ```js
 var context = {
   onClick: function (){ console.log("Clicked!");
 };
 selection.call(myComponent, dataArray.map(function (d){
-  return Object.assign({}, d, context);
+  return Object.assign(Object.create(context), d);
 }));
 ```
 

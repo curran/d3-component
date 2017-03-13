@@ -10,7 +10,7 @@ var paragraph = d3.component("p")
         d.callback();
       });
 
-tape("A component accept a context.", function(test) {
+tape("A component should accept a context.", function(test) {
   var div = d3.select(jsdom.jsdom().body).append("div");
 
   var data = [
@@ -35,10 +35,10 @@ tape("A component accept a context.", function(test) {
   test.equal(div.html(), "<p>foo</p>");
   test.equal(count, 3);
 
-  // Context properties override data properties.
+  // Data properties override context properties.
   context.text = "pwn";
   div.call(paragraph, data[0], context);
-  test.equal(div.html(), "<p>pwn</p>");
+  test.equal(div.html(), "<p>foo</p>");
   test.equal(count, 4);
 
   test.end();

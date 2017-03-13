@@ -36,7 +36,7 @@ export default function (tagName, className){
   function dataArray(data, context){
     data = Array.isArray(data) ? data : [data];
     return context ? data.map(function (d){
-      return Object.assign({}, d, context);
+      return Object.assign(Object.create(context), d);
     }) : data;
   }
 
