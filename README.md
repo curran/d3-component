@@ -1,6 +1,6 @@
 # d3-component
 
-A component system for [D3.js](d3js.org).
+A lightweight component abstraction for [D3.js](d3js.org).
 
 **Features:**
 
