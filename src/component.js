@@ -1,5 +1,8 @@
-import { select, local } from "d3-selection";
-var instanceLocal = local(),
+import { select } from "d3-selection";
+var instanceLocal = {
+      set: function (node, value){ node.__instance__ = value },
+      get: function (node){ return node.__instance__; }
+    },
     noop = function (){}; // no operation
 
 export default function (tagName, className){
@@ -56,7 +59,7 @@ export default function (tagName, className){
 
   function destroyDescendant(){
     var instance = instanceLocal.get(this);
-    instanceLocal.remove(this) && instance.destroy();
+    instance && instance.destroy();
   }
 
   component.render = function(_) { return (render = _, component); };
