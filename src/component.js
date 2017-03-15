@@ -1,8 +1,6 @@
 import { select } from "d3-selection";
-var instanceLocal = {
-      set: function (node, value){ node.__instance__ = value },
-      get: function (node){ return node.__instance__; }
-    },
+var setInstance = function (node, value){ node.__instance__ = value },
+    getInstance = function (node){ return node.__instance__; },
     noop = function (){}; // no operation
 
 export default function (tagName, className){
@@ -31,7 +29,7 @@ export default function (tagName, className){
   }
 
   function belongsToMe(node){
-    var instance = instanceLocal.get(node);
+    var instance = getInstance(node);
     return instance && instance.owner === component;
   }
 
@@ -43,7 +41,7 @@ export default function (tagName, className){
   }
 
   function createInstance(d, i, nodes){
-    instanceLocal.set(this, {
+    setInstance(this, {
       owner: component,
       destroy: function (){
         return destroy.call(this, d, i, nodes);
@@ -54,11 +52,11 @@ export default function (tagName, className){
 
   function destroyInstance(){
     select(this).selectAll("*").each(destroyDescendant);
-    (instanceLocal.get(this).destroy() || select(this)).remove();
+    (getInstance(this).destroy() || select(this)).remove();
   }
 
   function destroyDescendant(){
-    var instance = instanceLocal.get(this);
+    var instance = getInstance(this);
     instance && instance.destroy();
   }
 
