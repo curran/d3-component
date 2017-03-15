@@ -9,7 +9,7 @@ export default function (tagName, className){
       key;
 
   function component(selection, data, context){
-    var instances = selection
+    var instances = (selection.nodeName ? select(selection) : selection)
       .selectAll(children)
       .filter(belongsToMe)
       .data(dataArray(data, context), key);
