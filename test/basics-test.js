@@ -40,6 +40,13 @@ tape("A component should render a single instance.", function(test) {
   test.end();
 });
 
+tape("A component should accept a DOM node in place of a selection.", function(test) {
+  var div = d3.select(jsdom.jsdom().body).append("div");
+  paragraph(div.node(), "Hello Component");
+  test.equal(div.html(), "<p>Hello Component</p>");
+  test.end();
+});
+
 tape("A component should render multiple instances.", function(test) {
   var div = d3.select(jsdom.jsdom().body).append("div");
 
