@@ -137,7 +137,7 @@ Sets the key *function* used in the internal [data join](https://github.com/d3/d
 
 <a href="#component_invoke" name="component_invoke" >#</a> <i>component</i>(<i>selection</i>[,<i>data</i>[,<i>context</i>]])
 
-Renders the component to the given *selection*, a D3 selection containing a single DOM element. Returns a selection containing the merged Enter and Update selections for component instances.
+Renders the component to the given *selection*, a D3 selection containing a single DOM element. A raw DOM element may also be passed in as the *selection* argument. Returns a D3 selection containing the merged Enter and Update selections for component instances.
 
  * If *data* is specified and is an array, one component instance will be rendered for each element of the array, and the *[render function](component_render)* will receive a single element of the *data* array as its *d* argument.
    * **Useful case:** If *data* is specified as an empty array `[]`, all previously rendered component instances will be removed.
