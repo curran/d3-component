@@ -10,8 +10,7 @@ export default function (tagName, className){
 
   function component(selection, data, context){
     var instances = (selection.nodeName ? select(selection) : selection)
-      .selectAll(children)
-      .filter(belongsToMe)
+      .selectAll(mine)
       .data(dataArray(data, context), key);
     instances
       .exit()
@@ -24,12 +23,12 @@ export default function (tagName, className){
         .each(render);
   }
 
-  function children(){
-    return this.children;
+  function mine(){
+    return Array.from(this.children).filter(belongsToMe);
   }
 
-  function belongsToMe(){
-    var instance = instanceLocal.get(this);
+  function belongsToMe(node){
+    var instance = instanceLocal.get(node);
     return instance && instance.owner === component;
   }
 
