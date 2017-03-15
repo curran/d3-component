@@ -1,5 +1,6 @@
-import { select, local } from "d3-selection";
-var instanceLocal = local(),
+import { select } from "d3-selection";
+var setInstance = function (node, value){ node.__instance__ = value },
+    getInstance = function (node){ return node.__instance__; },
     noop = function (){}; // no operation
 
 export default function (tagName, className){
@@ -10,8 +11,7 @@ export default function (tagName, className){
 
   function component(selection, data, context){
     var instances = (selection.nodeName ? select(selection) : selection)
-      .selectAll(children)
-      .filter(belongsToMe)
+      .selectAll(mine)
       .data(dataArray(data, context), key);
     instances
       .exit()
@@ -24,12 +24,12 @@ export default function (tagName, className){
         .each(render);
   }
 
-  function children(){
-    return this.children;
+  function mine(){
+    return Array.from(this.children).filter(belongsToMe);
   }
 
-  function belongsToMe(){
-    var instance = instanceLocal.get(this);
+  function belongsToMe(node){
+    var instance = getInstance(node);
     return instance && instance.owner === component;
   }
 
@@ -41,7 +41,7 @@ export default function (tagName, className){
   }
 
   function createInstance(d, i, nodes){
-    instanceLocal.set(this, {
+    setInstance(this, {
       owner: component,
       destroy: function (){
         return destroy.call(this, d, i, nodes);
@@ -52,12 +52,12 @@ export default function (tagName, className){
 
   function destroyInstance(){
     select(this).selectAll("*").each(destroyDescendant);
-    (instanceLocal.get(this).destroy() || select(this)).remove();
+    (getInstance(this).destroy() || select(this)).remove();
   }
 
   function destroyDescendant(){
-    var instance = instanceLocal.get(this);
-    instanceLocal.remove(this) && instance.destroy();
+    var instance = getInstance(this);
+    instance && instance.destroy();
   }
 
   component.render = function(_) { return (render = _, component); };
