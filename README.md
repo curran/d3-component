@@ -61,6 +61,7 @@ A lightweight component abstraction for [D3.js](d3js.org).
     <td>
       <div>
         <a href="http://bl.ocks.org/curran/8c131a74b85d0bb0246233de2cff3f52">Scatter Plot with Menus (Redux)</a>
+        <br>
         <a href="http://bl.ocks.org/micahstubbs/9180020ff8265eade016a82ba54db26b">es2015 version</a>
       </div>
       <a href="http://bl.ocks.org/curran/8c131a74b85d0bb0246233de2cff3f52">
