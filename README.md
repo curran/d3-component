@@ -15,7 +15,7 @@ A lightweight component abstraction for [D3.js](d3js.org).
     <!-- Posts -->
     <td>
       <div>
-        <a href="http://bl.ocks.org/curran/fc8f6989901628e2e79d6374849453ed">Posts</a> | <a href="https://bl.ocks.org/micahstubbs/23a43e0236d235fe52855dc6aecd74a0">es2015 version</a>
+        <a href="http://bl.ocks.org/curran/fc8f6989901628e2e79d6374849453ed">Posts</a> | <a href="https://bl.ocks.org/micahstubbs/23a43e0236d235fe52855dc6aecd74a0">ES6 version</a>
       </div>
       <a href="http://bl.ocks.org/curran/fc8f6989901628e2e79d6374849453ed">
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/fc8f6989901628e2e79d6374849453ed/thumbnail.png">
@@ -24,7 +24,7 @@ A lightweight component abstraction for [D3.js](d3js.org).
     <!-- Spinner -->
     <td>
         <div>
-          <a href="http://bl.ocks.org/curran/685fa8300650c4324d571c6b0ecc55de">Spinner</a> | <a href="https://bl.ocks.org/micahstubbs/0e2b63921f5642f0f65f51e27cccd02f">es2015 version</a>
+          <a href="http://bl.ocks.org/curran/685fa8300650c4324d571c6b0ecc55de">Spinner</a> | <a href="https://bl.ocks.org/micahstubbs/0e2b63921f5642f0f65f51e27cccd02f">ES6 version</a>
         </div>
         <a href="http://bl.ocks.org/curran/685fa8300650c4324d571c6b0ecc55de">
           <img width="230" height="120" src="http://bl.ocks.org/curran/raw/685fa8300650c4324d571c6b0ecc55de/thumbnail.png">
@@ -33,7 +33,7 @@ A lightweight component abstraction for [D3.js](d3js.org).
     <!-- Stopwatch (Redux) -->
     <td>
         <div>
-          <a href="http://bl.ocks.org/curran/593ffae30c42789a9af36f08c983867e">Stopwatch (Redux)</a> | <a href="https://bl.ocks.org/micahstubbs/8e94f74c7d0a5dec710330574781fda0">es2015 version</a>
+          <a href="http://bl.ocks.org/curran/593ffae30c42789a9af36f08c983867e">Stopwatch (Redux)</a> | <a href="https://bl.ocks.org/micahstubbs/8e94f74c7d0a5dec710330574781fda0">ES6 version</a>
         </div>
         <a href="http://bl.ocks.org/curran/593ffae30c42789a9af36f08c983867e">
           <img width="230" height="120" src="http://bl.ocks.org/curran/raw/593ffae30c42789a9af36f08c983867e/thumbnail.png">
@@ -44,7 +44,7 @@ A lightweight component abstraction for [D3.js](d3js.org).
     <!-- Counter (Redux) -->
     <td>
       <div>
-        <a href="http://bl.ocks.org/curran/acde35df0c7939ff97740b4f9800258e">Counter (Redux)</a> | <a href="https://bl.ocks.org/micahstubbs/04df008db0b12474a726a7986d73ad14">es2015 version</a>
+        <a href="http://bl.ocks.org/curran/acde35df0c7939ff97740b4f9800258e">Counter (Redux)</a> | <a href="https://bl.ocks.org/micahstubbs/04df008db0b12474a726a7986d73ad14">ES6 version</a>
       </div>
       <a href="http://bl.ocks.org/curran/acde35df0c7939ff97740b4f9800258e">
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/acde35df0c7939ff97740b4f9800258e/thumbnail.png">
@@ -62,7 +62,7 @@ A lightweight component abstraction for [D3.js](d3js.org).
       <div>
         <a href="http://bl.ocks.org/curran/8c131a74b85d0bb0246233de2cff3f52">Scatter Plot with Menus (Redux)</a>
         <br>
-        <a href="http://bl.ocks.org/micahstubbs/9180020ff8265eade016a82ba54db26b">es2015 version</a>
+        <a href="http://bl.ocks.org/micahstubbs/9180020ff8265eade016a82ba54db26b">ES6 version</a>
       </div>
       <a href="http://bl.ocks.org/curran/8c131a74b85d0bb0246233de2cff3f52">
         <img width="230" height="120" src="https://cloud.githubusercontent.com/assets/68416/23792933/ff5f7142-05ae-11e7-97dc-9489438dc3e6.png">
@@ -87,7 +87,7 @@ A lightweight component abstraction for [D3.js](d3js.org).
     <!-- example-viewer -->
     <td>
       <a href="https://github.com/curran/example-viewer">
-        <div>example-viewer (Redux, ES2015</div>
+        <div>example-viewer (Redux, ES6)</div>
         <img width="230" height="120" src="https://cloud.githubusercontent.com/assets/68416/24115062/2e694866-0dc8-11e7-8dee-73bfcb42ff13.png">
       </a>
     </td>
