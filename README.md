@@ -14,8 +14,10 @@ A lightweight component abstraction for [D3.js](d3js.org).
   <tr>
     <!-- Posts -->
     <td>
+      <div>
+        <a href="http://bl.ocks.org/curran/fc8f6989901628e2e79d6374849453ed">Posts</a> | <a href="https://bl.ocks.org/micahstubbs/23a43e0236d235fe52855dc6aecd74a0">es2015 version</a>
+      </div>
       <a href="http://bl.ocks.org/curran/fc8f6989901628e2e79d6374849453ed">
-        <div>Posts</div>
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/fc8f6989901628e2e79d6374849453ed/thumbnail.png">
       </a>
     </td>
