@@ -1,16 +1,16 @@
 import { select } from "d3-selection";
-var setInstance = function (node, value){ node.__instance__ = value },
-    getInstance = function (node){ return node.__instance__; },
-    noop = function (){}; // no operation
+const setInstance = (node, value) => { node.__instance__ = value }; // no operation
+const getInstance = node => node.__instance__;
+const noop = () => {};
 
 export default function (tagName, className){
-  var create = noop,
-      render = noop,
-      destroy = noop,
-      key;
+  let create = noop;
+  let render = noop;
+  let destroy = noop;
+  let key;
 
   function component(selection, data, context){
-    var instances = (selection.nodeName ? select(selection) : selection)
+    const instances = (selection.nodeName ? select(selection) : selection)
       .selectAll(mine)
       .data(dataArray(data, context), key);
     instances
@@ -29,23 +29,19 @@ export default function (tagName, className){
   }
 
   function belongsToMe(node){
-    var instance = getInstance(node);
+    const instance = getInstance(node);
     return instance && instance.owner === component;
   }
 
   function dataArray(data, context){
     data = Array.isArray(data) ? data : [data];
-    return context ? data.map(function (d){
-      return Object.assign(Object.create(context), d);
-    }) : data;
+    return context ? data.map(d => Object.assign(Object.create(context), d)) : data;
   }
 
   function createInstance(d, i, nodes){
     setInstance(this, {
       owner: component,
-      destroy: function (){
-        return destroy.call(this, d, i, nodes);
-      }.bind(this)
+      destroy: () => destroy.call(this, d, i, nodes)
     });
     create.call(this, d, i, nodes);
   }
@@ -56,14 +52,14 @@ export default function (tagName, className){
   }
 
   function destroyDescendant(){
-    var instance = getInstance(this);
+    const instance = getInstance(this);
     instance && instance.destroy();
   }
 
-  component.render = function(_) { return (render = _, component); };
-  component.create = function(_) { return (create = _, component); };
-  component.destroy = function(_) { return (destroy = _, component); };
-  component.key = function(_) { return (key = _, component); };
+  component.render = _ => (render = _, component);
+  component.create = _ => (create = _, component);
+  component.destroy = _ => (destroy = _, component);
+  component.key = _ => (key = _, component);
 
   return component;
-};
+}
