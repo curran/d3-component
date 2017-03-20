@@ -30,10 +30,12 @@ A lightweight component abstraction for [D3.js](d3js.org).
     </td>
     <!-- Stopwatch (Redux) -->
     <td>
-      <a href="http://bl.ocks.org/curran/593ffae30c42789a9af36f08c983867e">
-        <div>Stopwatch (Redux)</div>
-        <img width="230" height="120" src="http://bl.ocks.org/curran/raw/593ffae30c42789a9af36f08c983867e/thumbnail.png">
-      </a>
+        <div>
+          <a href="http://bl.ocks.org/curran/593ffae30c42789a9af36f08c983867e">Stopwatch (Redux)</a> | <a href="https://bl.ocks.org/micahstubbs/8e94f74c7d0a5dec710330574781fda0">es2015 version</a>
+        </div>
+        <a href="http://bl.ocks.org/curran/593ffae30c42789a9af36f08c983867e">
+          <img width="230" height="120" src="http://bl.ocks.org/curran/raw/593ffae30c42789a9af36f08c983867e/thumbnail.png">
+        </a>
     </td>
   </tr>
   <tr>
