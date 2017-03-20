@@ -41,8 +41,10 @@ A lightweight component abstraction for [D3.js](d3js.org).
   <tr>
     <!-- Counter (Redux) -->
     <td>
+      <div>
+        <a href="http://bl.ocks.org/curran/acde35df0c7939ff97740b4f9800258e">Counter (Redux)</a> | <a href="https://bl.ocks.org/micahstubbs/04df008db0b12474a726a7986d73ad14">es2015 version</a>
+      </div>
       <a href="http://bl.ocks.org/curran/acde35df0c7939ff97740b4f9800258e">
-        <div>Counter (Redux)</div>
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/acde35df0c7939ff97740b4f9800258e/thumbnail.png">
       </a>
     </td>
