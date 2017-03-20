@@ -58,20 +58,20 @@ export default function (tagName, className) {
   }
 
   component.render = (_) => {
-    render = (_, component);
-    return render;
+    render = _;
+    return component;
   };
   component.create = (_) => {
-    create = (_, component);
-    return create;
+    create = _;
+    return component;
   };
   component.destroy = (_) => {
-    destroy = (_, component);
-    return destroy;
+    destroy = _;
+    return component;
   };
   component.key = (_) => {
-    key = (_, component);
-    return key;
+    key = _;
+    return component;
   };
 
   return component;
