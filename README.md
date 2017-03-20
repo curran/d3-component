@@ -19,10 +19,10 @@ A lightweight component abstraction for [D3.js](d3js.org).
       </a>
     </td>
     <td>
-      <a href="http://bl.ocks.org/curran/685fa8300650c4324d571c6b0ecc55de">
-        <div>Spinner | <a href="https://bl.ocks.org/micahstubbs/0e2b63921f5642f0f65f51e27cccd02f">ES2015 Version</a></div>
-        <img width="230" height="120" src="http://bl.ocks.org/curran/raw/685fa8300650c4324d571c6b0ecc55de/thumbnail.png">
-      </a>
+        <div><a href="http://bl.ocks.org/curran/685fa8300650c4324d571c6b0ecc55de">Spinner</a> | <a href="https://bl.ocks.org/micahstubbs/0e2b63921f5642f0f65f51e27cccd02f">ES2015 Version</a></div>
+        <a href="http://bl.ocks.org/curran/685fa8300650c4324d571c6b0ecc55de">
+          <img width="230" height="120" src="http://bl.ocks.org/curran/raw/685fa8300650c4324d571c6b0ecc55de/thumbnail.png">
+        </a>
     </td>
     <td>
       <a href="http://bl.ocks.org/curran/593ffae30c42789a9af36f08c983867e">
