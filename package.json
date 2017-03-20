@@ -16,7 +16,7 @@
     "url": "https://github.com/curran/d3-component.git"
   },
   "scripts": {
-    "pretest": "rm -rf build && mkdir build && rollup -f umd -g d3-selection:d3 -n d3 -o build/d3-component.js -- index.js",
+    "pretest": "rm -rf build && mkdir build && rollup -c",
     "test": "tape 'test/**/*-test.js'",
     "prepublish": "npm run test && uglifyjs build/d3-component.js -c -m -o build/d3-component.min.js",
     "postpublish": "git push; git push --tags"
@@ -29,7 +29,12 @@
     "uglify-js": "2",
     "eslint": "^2.9.0",
     "eslint-config-airbnb": "^9.0.1",
-    "eslint-plugin-import": "^1.10.2"
+    "eslint-plugin-import": "^1.10.2",
+    "rollup-plugin-babel": "^2.7.1",
+    "babel-plugin-external-helpers": "^6.18.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-register": "^6.18.0",
+    "babelrc-rollup": "^3.0.0"
   },
   "dependencies": {
     "d3-selection": "^1.0.4"
