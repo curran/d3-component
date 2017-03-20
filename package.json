@@ -26,7 +26,10 @@
     "jsdom": "^9.11.0",
     "rollup": "0.41",
     "tape": "4",
-    "uglify-js": "2"
+    "uglify-js": "2",
+    "eslint": "^2.9.0",
+    "eslint-config-airbnb": "^9.0.1",
+    "eslint-plugin-import": "^1.10.2"
   },
   "dependencies": {
     "d3-selection": "^1.0.4"
