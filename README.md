@@ -12,52 +12,72 @@ A lightweight component abstraction for [D3.js](d3js.org).
 **Examples:**
 <table>
   <tr>
+    <!-- Posts -->
     <td>
+      <div>
+        <a href="http://bl.ocks.org/curran/fc8f6989901628e2e79d6374849453ed">Posts</a> | <a href="https://bl.ocks.org/micahstubbs/23a43e0236d235fe52855dc6aecd74a0">es2015 version</a>
+      </div>
       <a href="http://bl.ocks.org/curran/fc8f6989901628e2e79d6374849453ed">
-        <div>Posts</div>
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/fc8f6989901628e2e79d6374849453ed/thumbnail.png">
       </a>
     </td>
+    <!-- Spinner -->
     <td>
-      <a href="http://bl.ocks.org/curran/685fa8300650c4324d571c6b0ecc55de">
-        <div>Spinner</div>
-        <img width="230" height="120" src="http://bl.ocks.org/curran/raw/685fa8300650c4324d571c6b0ecc55de/thumbnail.png">
-      </a>
+        <div>
+          <a href="http://bl.ocks.org/curran/685fa8300650c4324d571c6b0ecc55de">Spinner</a> | <a href="https://bl.ocks.org/micahstubbs/0e2b63921f5642f0f65f51e27cccd02f">es2015 version</a>
+        </div>
+        <a href="http://bl.ocks.org/curran/685fa8300650c4324d571c6b0ecc55de">
+          <img width="230" height="120" src="http://bl.ocks.org/curran/raw/685fa8300650c4324d571c6b0ecc55de/thumbnail.png">
+        </a>
     </td>
+    <!-- Stopwatch (Redux) -->
     <td>
-      <a href="http://bl.ocks.org/curran/593ffae30c42789a9af36f08c983867e">
-        <div>Stopwatch (Redux)</div>
-        <img width="230" height="120" src="http://bl.ocks.org/curran/raw/593ffae30c42789a9af36f08c983867e/thumbnail.png">
-      </a>
+        <div>
+          <a href="http://bl.ocks.org/curran/593ffae30c42789a9af36f08c983867e">Stopwatch (Redux)</a> | <a href="https://bl.ocks.org/micahstubbs/8e94f74c7d0a5dec710330574781fda0">es2015 version</a>
+        </div>
+        <a href="http://bl.ocks.org/curran/593ffae30c42789a9af36f08c983867e">
+          <img width="230" height="120" src="http://bl.ocks.org/curran/raw/593ffae30c42789a9af36f08c983867e/thumbnail.png">
+        </a>
     </td>
   </tr>
   <tr>
+    <!-- Counter (Redux) -->
     <td>
+      <div>
+        <a href="http://bl.ocks.org/curran/acde35df0c7939ff97740b4f9800258e">Counter (Redux)</a> | <a href="https://bl.ocks.org/micahstubbs/04df008db0b12474a726a7986d73ad14">es2015 version</a>
+      </div>
       <a href="http://bl.ocks.org/curran/acde35df0c7939ff97740b4f9800258e">
-        <div>Counter (Redux)</div>
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/acde35df0c7939ff97740b4f9800258e/thumbnail.png">
       </a>
     </td>
+    <!-- Todos -->
     <td>
       <a href="http://bl.ocks.org/curran/d8639546697c7ae3ab46c2544683d53a">
         <div>Todos</div>
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/d8639546697c7ae3ab46c2544683d53a/thumbnail.png">
       </a>
     </td>
+    <!-- Scatter Plot with Menus (Redux) -->
     <td>
+      <div>
+        <a href="http://bl.ocks.org/curran/8c131a74b85d0bb0246233de2cff3f52">Scatter Plot with Menus (Redux)</a>
+        <br>
+        <a href="http://bl.ocks.org/micahstubbs/9180020ff8265eade016a82ba54db26b">es2015 version</a>
+      </div>
       <a href="http://bl.ocks.org/curran/8c131a74b85d0bb0246233de2cff3f52">
-        <div>Scatter Plot with Menus (Redux)</div>
         <img width="230" height="120" src="https://cloud.githubusercontent.com/assets/68416/23792933/ff5f7142-05ae-11e7-97dc-9489438dc3e6.png">
       </a>
     </td>
   </tr>
   <tr>
+    <!-- Clock -->
     <td>
       <a href="http://bl.ocks.org/curran/28047fcfeb11cc0c66d10e7f30e1fe22">
         <div>Clock</div>
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/28047fcfeb11cc0c66d10e7f30e1fe22/thumbnail.png">
       </a>
     </td>
+    <!-- Airport Clocks -->
     <td>
       <a href="http://bl.ocks.org/curran/598e90fe0dcab73030dbecc38fb6e725">
         <div>Airport Clocks</div>
