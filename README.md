@@ -12,12 +12,14 @@ A lightweight component abstraction for [D3.js](d3js.org).
 **Examples:**
 <table>
   <tr>
+    <!-- Posts -->
     <td>
       <a href="http://bl.ocks.org/curran/fc8f6989901628e2e79d6374849453ed">
         <div>Posts</div>
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/fc8f6989901628e2e79d6374849453ed/thumbnail.png">
       </a>
     </td>
+    <!-- Spinner -->
     <td>
         <div>
           <a href="http://bl.ocks.org/curran/685fa8300650c4324d571c6b0ecc55de">Spinner</a> | <a href="https://bl.ocks.org/micahstubbs/0e2b63921f5642f0f65f51e27cccd02f">es2015 version</a>
@@ -26,6 +28,7 @@ A lightweight component abstraction for [D3.js](d3js.org).
           <img width="230" height="120" src="http://bl.ocks.org/curran/raw/685fa8300650c4324d571c6b0ecc55de/thumbnail.png">
         </a>
     </td>
+    <!-- Stopwatch (Redux) -->
     <td>
       <a href="http://bl.ocks.org/curran/593ffae30c42789a9af36f08c983867e">
         <div>Stopwatch (Redux)</div>
@@ -34,18 +37,21 @@ A lightweight component abstraction for [D3.js](d3js.org).
     </td>
   </tr>
   <tr>
+    <!-- Counter (Redux) -->
     <td>
       <a href="http://bl.ocks.org/curran/acde35df0c7939ff97740b4f9800258e">
         <div>Counter (Redux)</div>
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/acde35df0c7939ff97740b4f9800258e/thumbnail.png">
       </a>
     </td>
+    <!-- Todos -->
     <td>
       <a href="http://bl.ocks.org/curran/d8639546697c7ae3ab46c2544683d53a">
         <div>Todos</div>
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/d8639546697c7ae3ab46c2544683d53a/thumbnail.png">
       </a>
     </td>
+    <!-- Scatter Plot with Menus (Redux) -->
     <td>
       <a href="http://bl.ocks.org/curran/8c131a74b85d0bb0246233de2cff3f52">
         <div>Scatter Plot with Menus (Redux)</div>
@@ -54,12 +60,14 @@ A lightweight component abstraction for [D3.js](d3js.org).
     </td>
   </tr>
   <tr>
+    <!-- Clock -->
     <td>
       <a href="http://bl.ocks.org/curran/28047fcfeb11cc0c66d10e7f30e1fe22">
         <div>Clock</div>
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/28047fcfeb11cc0c66d10e7f30e1fe22/thumbnail.png">
       </a>
     </td>
+    <!-- Airport Clocks -->
     <td>
       <a href="http://bl.ocks.org/curran/598e90fe0dcab73030dbecc38fb6e725">
         <div>Airport Clocks</div>
