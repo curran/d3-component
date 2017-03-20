@@ -22,6 +22,7 @@ A lightweight component abstraction for [D3.js](d3js.org).
       <a href="http://bl.ocks.org/curran/685fa8300650c4324d571c6b0ecc55de">
         <div>Spinner</div>
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/685fa8300650c4324d571c6b0ecc55de/thumbnail.png">
+        <a href="https://bl.ocks.org/micahstubbs/0e2b63921f5642f0f65f51e27cccd02f">ES6 Version</a>
       </a>
     </td>
     <td>
