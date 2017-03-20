@@ -84,6 +84,13 @@ A lightweight component abstraction for [D3.js](d3js.org).
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/598e90fe0dcab73030dbecc38fb6e725/thumbnail.png">
       </a>
     </td>
+    <!-- example-viewer -->
+    <td>
+      <a href="https://github.com/curran/example-viewer">
+        <div>example-viewer (Redux, ES2015</div>
+        <img width="230" height="120" src="https://cloud.githubusercontent.com/assets/68416/24115062/2e694866-0dc8-11e7-8dee-73bfcb42ff13.png">
+      </a>
+    </td>
   </tr>
 </table>
 
