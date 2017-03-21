@@ -42,7 +42,7 @@ export default function (tagName, className) {
   function createInstance(d, i, nodes) {
     setInstance(this, {
       owner: component,
-      destroy: () => destroy.call(this, d, i, nodes),
+      destroy: () => destroy.call(this, d, i, nodes)
     });
     create.call(this, d, i, nodes);
   }
