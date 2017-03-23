@@ -4,11 +4,11 @@ A lightweight component abstraction for [D3.js](d3js.org).
 
 **Features:**
 
+ * React-like stateless components with D3 syntax and patterns.
  * Encapsulates the [General Update Pattern](https://github.com/d3/d3-selection#selection_merge).
- * Composable (even recursive!) stateless components.
+ * Composable (even recursive!) components.
  * Reliable `destroy` hook for cleaning things up.
  * Works great with [Redux](http://redux.js.org/).
- * Similar to [Stateless Functional Components in React](https://hackernoon.com/react-stateless-functional-components-nine-wins-you-might-have-overlooked-997b0d933dbc#.dc21r5uj4), but D3 only (no React).
 
 **Examples:**
 <table>
