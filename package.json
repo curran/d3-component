@@ -16,25 +16,26 @@
     "url": "https://github.com/curran/d3-component.git"
   },
   "scripts": {
-    "pretest": "rm -rf build && mkdir build && rollup -c",
+    "lint": "eslint src",
+    "pretest": "npm run lint && rm -rf build && mkdir build && rollup -c",
     "test": "tape 'test/**/*-test.js'",
     "prepublish": "npm run test && uglifyjs build/d3-component.js -c -m -o build/d3-component.min.js",
     "postpublish": "git push; git push --tags"
   },
   "devDependencies": {
-    "d3-transition": "^1.0.3",
-    "jsdom": "^9.11.0",
-    "rollup": "0.41",
-    "tape": "4",
-    "uglify-js": "2",
-    "eslint": "^2.9.0",
-    "eslint-config-airbnb": "^9.0.1",
-    "eslint-plugin-import": "^1.10.2",
-    "rollup-plugin-babel": "^2.7.1",
     "babel-plugin-external-helpers": "^6.18.0",
     "babel-preset-es2015": "^6.18.0",
     "babel-register": "^6.18.0",
-    "babelrc-rollup": "^3.0.0"
+    "babelrc-rollup": "^3.0.0",
+    "d3-transition": "^1.0.3",
+    "eslint": "^3.18.0",
+    "eslint-config-airbnb-base": "^11.1.1",
+    "eslint-plugin-import": "^2.2.0",
+    "jsdom": "^9.11.0",
+    "rollup": "0.41",
+    "rollup-plugin-babel": "^2.7.1",
+    "tape": "4",
+    "uglify-js": "2"
   },
   "dependencies": {
     "d3-selection": "^1.0.4"
