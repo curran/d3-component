@@ -1,8 +1,8 @@
 import { select } from 'd3-selection';
 
-const setInstance = (node, value) => { node.__instance__ = value; }; // no operation
-const getInstance = node => node.__instance__;
-const noop = () => {};
+const instanceProperty = '__instance__';
+const getInstance = node => node[instanceProperty];
+const noop = () => {}; // no operation
 
 export default function (tagName, className) {
   let create = noop;
@@ -40,10 +40,10 @@ export default function (tagName, className) {
   }
 
   function createInstance(d, i, nodes) {
-    setInstance(this, {
+    this[instanceProperty] = {
       owner: component,
       destroy: () => destroy.call(this, d, i, nodes)
-    });
+    };
     create.call(this, d, i, nodes);
   }
 
