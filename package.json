@@ -16,6 +16,7 @@
     "url": "https://github.com/curran/d3-component.git"
   },
   "scripts": {
+    "lint": "eslint src",
     "pretest": "rm -rf build && mkdir build && rollup -c",
     "test": "tape 'test/**/*-test.js'",
     "prepublish": "npm run test && uglifyjs build/d3-component.js -c -m -o build/d3-component.min.js",
