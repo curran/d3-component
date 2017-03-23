@@ -17,7 +17,7 @@
   },
   "scripts": {
     "lint": "eslint src",
-    "pretest": "rm -rf build && mkdir build && rollup -c",
+    "pretest": "npm run lint && rm -rf build && mkdir build && rollup -c",
     "test": "tape 'test/**/*-test.js'",
     "prepublish": "npm run test && uglifyjs build/d3-component.js -c -m -o build/d3-component.min.js",
     "postpublish": "git push; git push --tags"
