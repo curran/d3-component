@@ -63,7 +63,7 @@ A lightweight component abstraction for [D3.js](d3js.org).
       <div>
         <a href="http://bl.ocks.org/curran/8c131a74b85d0bb0246233de2cff3f52">Scatter Plot with Menus (Redux)</a>
         <br>
-        <a href="http://bl.ocks.org/micahstubbs/9180020ff8265eade016a82ba54db26b">ES6 version</a>
+        <a href="http://bl.ocks.org/micahstubbs/9180020ff8265eade016a82ba54db26b">ES6 version</a> | <a href="http://bl.ocks.org/micahstubbs/b097f9d0999848ee70b74b36ce30cbb8">Radius select variant</a>
       </div>
       <a href="http://bl.ocks.org/curran/8c131a74b85d0bb0246233de2cff3f52">
         <img width="230" height="120" src="https://cloud.githubusercontent.com/assets/68416/23792933/ff5f7142-05ae-11e7-97dc-9489438dc3e6.png">
