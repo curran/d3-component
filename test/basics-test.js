@@ -19,7 +19,7 @@ var createIndex,
     renderNodes,
     destroyNodes,
     argsTester = d3.component("div")
-      .create(function (d, i, nodes){
+      .create(function (selection, d, i, nodes){
         createIndex = i;
         createNodes = nodes;
       })

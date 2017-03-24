@@ -1,8 +1,14 @@
 import { select } from 'd3-selection';
 
 const instanceProperty = '__instance__';
-function setInstance(node, value) { node[instanceProperty] = value; }
-function getInstance(node) { return node[instanceProperty]; }
+
+function setInstance(node, value) {
+  node[instanceProperty] = value;
+}
+
+function getInstance(node) {
+  return node[instanceProperty];
+}
 
 function dataArray(data, context) {
   data = Array.isArray(data) ? data : [data];
@@ -52,11 +58,13 @@ export default function (tagName, className) {
   }
 
   function createInstance(d, i, nodes) {
+    const selection = select(this);
     setInstance(this, {
       owner: component,
       destroy: () => destroy.call(this, d, i, nodes),
+      selection,
     });
-    create.call(this, d, i, nodes);
+    create(selection, d, i, nodes);
   }
 
   component.render = (_) => { render = _; return component; };

@@ -20,8 +20,8 @@ var leafDestroyed = 0,
       }),
     treeDestroyed = 0,
     tree = d3.component("div", "tree")
-      .create(function (){
-        d3.select(this)
+      .create(function (selection){
+        selection
           .append("div")
             .attr("class", "trunk");
       })

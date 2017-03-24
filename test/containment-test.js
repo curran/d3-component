@@ -7,8 +7,8 @@ var tape = require("tape"),
 
 
 var card = d3.component("div", "card")
-  .create(function (){
-    d3.select(this)
+  .create(function (selection){
+    selection
       .append("div")
         .attr("class", "card-block")
       .append("div")
