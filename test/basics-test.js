@@ -27,7 +27,7 @@ var createIndex,
         renderIndex = i;
         renderNodes = nodes;
       })
-      .destroy(function (d, i, nodes){
+      .destroy(function (selection, d, i, nodes){
         destroyIndex = i;
         destroyNodes = nodes;
       });

@@ -61,7 +61,7 @@ export default function (tagName, className) {
     const selection = select(this);
     setInstance(this, {
       owner: component,
-      destroy: () => destroy.call(this, d, i, nodes),
+      destroy: () => destroy(selection, d, i, nodes),
       selection,
     });
     create(selection, d, i, nodes);
