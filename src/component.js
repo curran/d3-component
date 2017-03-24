@@ -56,9 +56,9 @@ export default function (tagName, className) {
     render(getInstance(this).selection, d, i, nodes);
   }
 
-  function component(selection, data, context) {
-    const instances = (selection.nodeName ? select(selection) : selection)
-      .selectAll(mine)
+  function component(container, data, context) {
+    const selection = container.nodeName ? select(container) : container;
+    const instances = selection.selectAll(mine)
       .data(dataArray(data, context), key);
     instances
       .exit()
