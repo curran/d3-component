@@ -14,8 +14,8 @@ var card = d3.component("div", "card")
       .append("div")
         .attr("class", "card-text");
   })
-  .render(function (d){
-    d3.select(this)
+  .render(function (selection, d){
+    selection
       .select(".card-text")
         .call(d.childComponent, d.childProps);
   });

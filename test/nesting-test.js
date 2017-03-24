@@ -6,16 +6,16 @@ var tape = require("tape"),
 
 
 var heading = d3.component("h1")
-      .render(function (d){
-        d3.select(this).text(d);
+      .render(function (selection, d){
+        selection.text(d);
       }),
     paragraph = d3.component("p")
-      .render(function (d){
-        d3.select(this).text(d);
+      .render(function (selection, d){
+        selection.text(d);
       }),
     post = d3.component("div", "post")
-      .render(function (d){
-        d3.select(this)
+      .render(function (selection, d){
+        selection
           .call(heading, d.title)
           .call(paragraph, d.content);
       });

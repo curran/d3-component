@@ -6,12 +6,12 @@ var tape = require("tape"),
 
 
 var paragraphA = d3.component("p", "some-class")
-      .render(function (d){
-        d3.select(this).text("A");
+      .render(function (selection){
+        selection.text("A");
       }),
     paragraphB = d3.component("p", "some-class")
-      .render(function (d){
-        d3.select(this).text("B");
+      .render(function (selection){
+        selection.text("B");
       });
 
 

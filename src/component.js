@@ -33,21 +33,6 @@ export default function (tagName, className) {
   let destroy = noop;
   let key;
 
-  function component(selection, data, context) {
-    const instances = (selection.nodeName ? select(selection) : selection)
-      .selectAll(mine)
-      .data(dataArray(data, context), key);
-    instances
-      .exit()
-        .each(destroyInstance);
-    return instances
-      .enter().append(tagName)
-        .attr('class', className)
-        .each(createInstance)
-      .merge(instances)
-        .each(render);
-  }
-
   function mine() {
     return Array.from(this.children).filter(belongsToMe);
   }
@@ -65,6 +50,25 @@ export default function (tagName, className) {
       selection,
     });
     create(selection, d, i, nodes);
+  }
+
+  function renderInstance(d, i, nodes) {
+    render(getInstance(this).selection, d, i, nodes);
+  }
+
+  function component(selection, data, context) {
+    const instances = (selection.nodeName ? select(selection) : selection)
+      .selectAll(mine)
+      .data(dataArray(data, context), key);
+    instances
+      .exit()
+        .each(destroyInstance);
+    return instances
+      .enter().append(tagName)
+        .attr('class', className)
+        .each(createInstance)
+      .merge(instances)
+        .each(renderInstance);
   }
 
   component.render = (_) => { render = _; return component; };

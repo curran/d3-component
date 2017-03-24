@@ -7,9 +7,9 @@ var tape = require("tape"),
 
 var paragraphDatum,
     paragraph = d3.component("p")
-      .render(function (d){
+      .render(function (selection, d){
         paragraphDatum = d;
-        d3.select(this).text(d);
+        selection.text(d);
       });
 
 var createIndex,
@@ -23,7 +23,7 @@ var createIndex,
         createIndex = i;
         createNodes = nodes;
       })
-      .render(function (d, i, nodes){
+      .render(function (selection, d, i, nodes){
         renderIndex = i;
         renderNodes = nodes;
       })

@@ -5,8 +5,8 @@ var tape = require("tape"),
     d3 = Object.assign(d3_selection, d3_component);
 
 var paragraph = d3.component("p")
-      .render(function (d){
-        d3.select(this).text(d.text);
+      .render(function (selection, d){
+        selection.text(d.text);
         d.callback();
       });
 

@@ -11,12 +11,12 @@ var leafDestroyed = 0,
         leafDestroyed ++;
       })
     twig = d3.component("div", "twig")
-      .render(function (){
-        d3.select(this).call(leaf);
+      .render(function (selection){
+        selection.call(leaf);
       });
     branch = d3.component("div", "branch")
-      .render(function (){
-        d3.select(this).call(twig, [1, 2]);
+      .render(function (selection){
+        selection.call(twig, [1, 2]);
       }),
     treeDestroyed = 0,
     tree = d3.component("div", "tree")
@@ -25,8 +25,8 @@ var leafDestroyed = 0,
           .append("div")
             .attr("class", "trunk");
       })
-      .render(function (){
-        d3.select(this)
+      .render(function (selection){
+        selection
           .select(".trunk")
             .call(branch, [1, 2, 3]);
       })
