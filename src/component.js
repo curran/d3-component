@@ -16,8 +16,8 @@ function dataArray(data, context) {
 }
 
 function destroyInstance() {
-  select(this).selectAll('*').each(destroyDescendant);
   const { selection, datum, destroy } = getInstance(this);
+  selection.selectAll('*').each(destroyDescendant);
   const transition = destroy(selection, datum);
   (transition || selection).remove();
 }
