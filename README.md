@@ -110,6 +110,8 @@ If you use NPM, `npm install d3-component`. Otherwise, download the [latest rele
 
 ## API Reference
 
+**Note:** There was a recent [major version release](https://github.com/curran/d3-component/releases/tag/v3.0.0), and along with it there were substantial [API Changes](https://github.com/curran/d3-component/issues/70).
+
 In summary, the API looks like this:
 
 ```js
