@@ -102,12 +102,9 @@ If you use NPM, `npm install d3-component`. Otherwise, download the [latest rele
 
 ```html
 <script src="https://unpkg.com/d3@4"></script>
-<script src="https://unpkg.com/d3-component@2"></script>
+<script src="https://unpkg.com/d3-component@3"></script>
 <script>
-  var myComponent = d3.component("div")
-    .render((selection, d) => selection.text(d));
-  d3.select("body")
-    .call(myComponent, "Hello d3-component!");
+  var myComponent = d3.component("div");
 </script>
 ```
 
@@ -123,7 +120,7 @@ var myComponent = d3.component("div", "some-class")
 
 // To invoke the component,
 d3.select("body") // create a selection with a single element,
-  .call(myComponent, "Hello d3-component!"); // then use selection.call.
+  .call(myComponent, "Hello d3-component!"); // then use selection.call().
 ```
 
 To see the full API in action, check out this ["Hello d3-component" example](https://bl.ocks.org/curran/c3d9783e641636479fa8e07a480e7233).
