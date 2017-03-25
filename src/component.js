@@ -39,15 +39,15 @@ export default function (tagName, className) {
 
   function belongsToMe(node) {
     const instance = getInstance(node);
-    return instance && instance.owner === component;
+    return instance && instance.component === component;
   }
 
   function createInstance(d, i, nodes) {
     const selection = select(this);
     setInstance(this, {
-      owner: component,
-      destroy: () => destroy(selection, d, i, nodes),
+      component,
       selection,
+      destroy: () => destroy(selection, d, i, nodes), // TODO pass the most recent datum.
     });
     create(selection, d, i, nodes);
   }
