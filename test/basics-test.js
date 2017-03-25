@@ -12,24 +12,18 @@ var paragraphDatum,
         selection.text(d);
       });
 
-var createIndex,
-    renderIndex,
-    destroyIndex,
-    createNodes,
-    renderNodes,
-    destroyNodes,
+var createArgs,
+    renderArgs,
+    destroyArgs,
     argsTester = d3.component("div")
-      .create(function (selection, d, i, nodes){
-        createIndex = i;
-        createNodes = nodes;
+      .create(function (selection, d){
+        createArgs = arguments;
       })
-      .render(function (selection, d, i, nodes){
-        renderIndex = i;
-        renderNodes = nodes;
+      .render(function (selection, d){
+        renderArgs = arguments;
       })
-      .destroy(function (selection, d, i, nodes){
-        destroyIndex = i;
-        destroyNodes = nodes;
+      .destroy(function (selection, d){
+        destroyArgs = arguments;
       });
 
 
@@ -77,59 +71,13 @@ tape("A component should be passed undefined as datum when data not specified.",
   test.end();
 });
 
-tape("A component should be passed the index and nodes in callbacks.", function(test) {
+tape("Livecycle arguments should be only (selection, d).", function(test) {
   var div = d3.select(jsdom.jsdom().body).append("div");
-  
-  createIndex = renderIndex = destroyIndex = null;
-  createNodes = renderNodes = destroyNodes = null;
-  div.call(argsTester);
-  test.equal(createIndex, 0)
-  test.equal(renderIndex, 0)
-  test.equal(destroyIndex, null);
-  test.equal(createNodes.length, 1);
-  test.equal(renderNodes.length, 1)
-  test.equal(destroyNodes, null);
-
-  createIndex = renderIndex = destroyIndex = null;
-  createNodes = renderNodes = destroyNodes = null;
   div.call(argsTester, ["a", "b"]);
-  test.equal(createIndex, 1)
-  test.equal(renderIndex, 1)
-  test.equal(destroyIndex, null);
-  test.equal(createNodes.length, 2);
-  test.equal(renderNodes.length, 2)
-  test.equal(destroyNodes, null);
-
-  createIndex = renderIndex = destroyIndex = null;
-  createNodes = renderNodes = destroyNodes = null;
-  div.call(argsTester, ["a", "b"]);
-  test.equal(createIndex, null)
-  test.equal(renderIndex, 1)
-  test.equal(destroyIndex, null);
-  test.equal(createNodes, null);
-  test.equal(renderNodes.length, 2)
-  test.equal(destroyNodes, null);
-
-  createIndex = renderIndex = destroyIndex = null;
-  createNodes = renderNodes = destroyNodes = null;
   div.call(argsTester, ["a"]);
-  test.equal(createIndex, null)
-  test.equal(renderIndex, 0)
-  test.equal(destroyIndex, 1);
-  test.equal(createNodes, null);
-  test.equal(renderNodes.length, 1)
-  test.equal(destroyNodes.length, 2);
-
-  createIndex = renderIndex = destroyIndex = null;
-  createNodes = renderNodes = destroyNodes = null;
-  div.call(argsTester, []);
-  test.equal(createIndex, null)
-  test.equal(renderIndex, null)
-  test.equal(destroyIndex, 0);
-  test.equal(createNodes, null);
-  test.equal(renderNodes, null);
-  test.equal(destroyNodes.length, 1);
-
+  test.equal(createArgs.length, 2)
+  test.equal(renderArgs.length, 2)
+  test.equal(destroyArgs.length, 2);
   test.end();
 });
 

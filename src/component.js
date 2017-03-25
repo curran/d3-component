@@ -42,18 +42,18 @@ export default function (tagName, className) {
     return instance && instance.component === component;
   }
 
-  function createInstance(d, i, nodes) {
+  function createInstance(d) {
     const selection = select(this);
     setInstance(this, {
       component,
       selection,
-      destroy: () => destroy(selection, d, i, nodes), // TODO pass the most recent datum.
+      destroy: () => destroy(selection, d), // TODO pass the most recent datum.
     });
-    create(selection, d, i, nodes);
+    create(selection, d);
   }
 
-  function renderInstance(d, i, nodes) {
-    render(getInstance(this).selection, d, i, nodes);
+  function renderInstance(d) {
+    render(getInstance(this).selection, d);
   }
 
   function component(container, data, context) {
