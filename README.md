@@ -156,7 +156,7 @@ Sets the destroy *function* of this component generator, which will be invoked w
 
 When a component instance gets destroyed, the destroy *function* of all its children is also invoked (recursively), so you can be sure that this *function* will be invoked before the compoent instance is removed from the DOM.
 
-The destroy *function* may optionally return a transition, which will defer DOM element removal until after the transition is finished.
+The destroy *function* may optionally return a transition, which will defer DOM element removal until after the transition is finished (but only if the parent component instance is not destroyed). Deeply nested component instances may have their DOM nodes removed before the transition completes, so it's best not to depend on the DOM node existing after the transition completes.
 
 <a href="#component_key" name="component_key" >#</a> <i>component</i>.<b>key</b>(<i>function</i>)
 
