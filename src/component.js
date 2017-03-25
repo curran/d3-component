@@ -17,12 +17,16 @@ function dataArray(data, context) {
 
 function destroyInstance() {
   select(this).selectAll('*').each(destroyDescendant);
-  (getInstance(this).destroy() || select(this)).remove();
+  const instance = getInstance(this);
+  const transition = instance.destroy(instance.selection, instance.datum);
+  (transition || instance.selection).remove();
 }
 
 function destroyDescendant() {
   const instance = getInstance(this);
-  if (instance) { instance.destroy(); }
+  if (instance) {
+    instance.destroy(instance.selection, instance.datum);
+  }
 }
 
 function noop() {} // no operation
@@ -42,18 +46,16 @@ export default function (tagName, className) {
     return instance && instance.component === component;
   }
 
-  function createInstance(d) {
+  function createInstance(datum) {
     const selection = select(this);
-    setInstance(this, {
-      component,
-      selection,
-      destroy: () => destroy(selection, d), // TODO pass the most recent datum.
-    });
-    create(selection, d);
+    setInstance(this, { component, selection, destroy, datum });
+    create(selection, datum);
   }
 
-  function renderInstance(d) {
-    render(getInstance(this).selection, d);
+  function renderInstance(datum) {
+    const instance = getInstance(this);
+    instance.datum = datum; // Required later for destroy hook.
+    render(instance.selection, datum);
   }
 
   function component(container, data, context) {
