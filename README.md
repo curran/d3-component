@@ -4,9 +4,8 @@ A lightweight component abstraction for [D3.js](d3js.org).
 
 **Features:**
 
- * React-like stateless components with D3 syntax and patterns.
  * Encapsulates the [General Update Pattern](https://github.com/d3/d3-selection#selection_merge).
- * Composable (even recursive!) components.
+ * Composable (even recursive!) stateless components.
  * Reliable `destroy` hook for cleaning things up.
  * Works great with [Redux](http://redux.js.org/).
 
@@ -107,17 +106,17 @@ If you use NPM, `npm install d3-component`. Otherwise, download the [latest rele
 <script>
 
   var myComponent = d3.component("div", "some-class")
-    .create(function (d, i, nodes){ // Invoked for entering component instances.
-      d3.select(this)
+    .create(function (selection, d){ // Invoked for entering component instances.
+      selection
           .style("font-size", "0px")
         .transition()
           .style("font-size", "80px");
     })
-    .render(function (d, i, nodes){ // Invoked for entering AND updating instances.
-      d3.select(this).text(d);
+    .render(function (selection, d){ // Invoked for entering AND updating instances.
+      selection.text(d);
     })
-    .destroy(function (d, i, nodes){ // Invoked for exiting component instances.
-      return d3.select(this) // You can return a transition here to delay node removal.
+    .destroy(function (selection, d){ // Invoked for exiting component instances.
+      return selection // You can return a transition here to delay node removal.
         .transition()
           .style("font-size", "0px");
     });
@@ -145,15 +144,15 @@ The optional parameter *className* determines the value of the `class` attribute
 
 <a href="#component_create" name="component_create" >#</a> <i>component</i>.<b>create</b>(<i>function</i>)
 
-Sets the create *function* of this component generator, which will be invoked whenever a new component instance is created, being passed the current datum (*d*), the current index (*i*), and the current group (*nodes*), with *this* as the current DOM element (same signature as [*selection*.each](https://github.com/d3/d3-selection#selection_each)).
+Sets the create *function* of this component generator, which will be invoked whenever a new component instance is created, being passed a *selection* containing the current DOM element and the current datum (*d*).
 
 <a href="#component_render" name="component_render" >#</a> <i>component</i>.<b>render</b>(<i>function</i>)
 
-Sets the render *function* of this component generator. This *function* will be invoked for each component instance during rendering, being passed the current datum (*d*), the current index (*i*), and the current group (*nodes*), with *this* as the current DOM element (same signature as [*selection*.each](https://github.com/d3/d3-selection#selection_each)).
+Sets the render *function* of this component generator. This *function* will be invoked for each component instance during rendering, being passed a *selection* containing the current DOM element and the current datum (*d*).
 
 <a href="#component_destroy" name="component_destroy" >#</a> <i>component</i>.<b>destroy</b>(<i>function</i>)
 
-Sets the destroy *function* of this component generator, which will be invoked whenever a component instance is destroyed, being passed the current datum (*d*), the current index (*i*), and the current group (*nodes*), with *this* as the current DOM element (same signature as [*selection*.each](https://github.com/d3/d3-selection#selection_each)).
+Sets the destroy *function* of this component generator, which will be invoked whenever a component instance is destroyed, being passed a *selection* containing the current DOM element and the current datum (*d*).
 
 When a component instance gets destroyed, the destroy *function* of all its children is also invoked (recursively), so you can be sure that this *function* will be invoked before the compoent instance is removed from the DOM.
 
