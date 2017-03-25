@@ -17,15 +17,16 @@ function dataArray(data, context) {
 
 function destroyInstance() {
   select(this).selectAll('*').each(destroyDescendant);
-  const instance = getInstance(this);
-  const transition = instance.destroy(instance.selection, instance.datum);
-  (transition || instance.selection).remove();
+  const { selection, datum, destroy } = getInstance(this);
+  const transition = destroy(selection, datum);
+  (transition || selection).remove();
 }
 
 function destroyDescendant() {
   const instance = getInstance(this);
   if (instance) {
-    instance.destroy(instance.selection, instance.datum);
+    const { selection, datum, destroy } = instance;
+    destroy(selection, datum);
   }
 }
 
