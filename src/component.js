@@ -1,8 +1,14 @@
 import { select } from 'd3-selection';
 
 const instanceProperty = '__instance__';
-function setInstance(node, value) { node[instanceProperty] = value; }
-function getInstance(node) { return node[instanceProperty]; }
+
+function setInstance(node, value) {
+  node[instanceProperty] = value;
+}
+
+function getInstance(node) {
+  return node[instanceProperty];
+}
 
 function dataArray(data, context) {
   data = Array.isArray(data) ? data : [data];
@@ -27,9 +33,32 @@ export default function (tagName, className) {
   let destroy = noop;
   let key;
 
-  function component(selection, data, context) {
-    const instances = (selection.nodeName ? select(selection) : selection)
-      .selectAll(mine)
+  function mine() {
+    return Array.from(this.children).filter(belongsToMe);
+  }
+
+  function belongsToMe(node) {
+    const instance = getInstance(node);
+    return instance && instance.component === component;
+  }
+
+  function createInstance(d) {
+    const selection = select(this);
+    setInstance(this, {
+      component,
+      selection,
+      destroy: () => destroy(selection, d), // TODO pass the most recent datum.
+    });
+    create(selection, d);
+  }
+
+  function renderInstance(d) {
+    render(getInstance(this).selection, d);
+  }
+
+  function component(container, data, context) {
+    const selection = container.nodeName ? select(container) : container;
+    const instances = selection.selectAll(mine)
       .data(dataArray(data, context), key);
     instances
       .exit()
@@ -39,24 +68,7 @@ export default function (tagName, className) {
         .attr('class', className)
         .each(createInstance)
       .merge(instances)
-        .each(render);
-  }
-
-  function mine() {
-    return Array.from(this.children).filter(belongsToMe);
-  }
-
-  function belongsToMe(node) {
-    const instance = getInstance(node);
-    return instance && instance.owner === component;
-  }
-
-  function createInstance(d, i, nodes) {
-    setInstance(this, {
-      owner: component,
-      destroy: () => destroy.call(this, d, i, nodes),
-    });
-    create.call(this, d, i, nodes);
+        .each(renderInstance);
   }
 
   component.render = (_) => { render = _; return component; };

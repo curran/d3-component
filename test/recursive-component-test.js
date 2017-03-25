@@ -4,8 +4,8 @@ var tape = require("tape"),
 
 
 var recursiveComponent = d3.component("div")
-  .render(function (d){
-    d3.select(this)
+  .render(function (selection, d){
+    selection
         .attr("class", d.class)
         .call(recursiveComponent, d.children || []);
   });

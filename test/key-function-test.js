@@ -13,8 +13,8 @@ var created,
     orange = d3.component("span", "orange")
       .create(function (){ created++; })
       .destroy(function(){ destroyed++; }),
-    renderFruit = function (d){
-      d3.select(this)
+    renderFruit = function (selection, d){
+      selection
         .call(apple, d.type === "apple" ? true : [])
         .call(orange, d.type === "orange" ? true : []);
     },
