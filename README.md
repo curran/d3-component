@@ -5,7 +5,7 @@ A lightweight component abstraction for [D3.js](d3js.org).
 **Features:**
 
  * Encapsulates the [General Update Pattern](https://github.com/d3/d3-selection#selection_merge).
- * Composable (even recursive!) stateless components.
+ * Composable (even recursive!) stateless functional components.
  * Reliable `destroy` hook for cleaning things up.
  * Works great with [Redux](http://redux.js.org/).
 
@@ -104,37 +104,29 @@ If you use NPM, `npm install d3-component`. Otherwise, download the [latest rele
 <script src="https://unpkg.com/d3@4"></script>
 <script src="https://unpkg.com/d3-component@2"></script>
 <script>
-
-  var myComponent = d3.component("div", "some-class")
-    .create(function (selection, d){ // Invoked for entering component instances.
-      selection
-          .style("font-size", "0px")
-        .transition()
-          .style("font-size", "80px");
-    })
-    .render(function (selection, d){ // Invoked for entering AND updating instances.
-      selection.text(d);
-    })
-    .destroy(function (selection, d){ // Invoked for exiting component instances.
-      return selection // You can return a transition here to delay node removal.
-        .transition()
-          .style("font-size", "0px");
-    });
-
-  // Render a single instance of the component.
-  d3.select("body").call(myComponent, "Hello d3-component!");
-
-  // Destroy the component instance after 3 seconds.
-  setTimeout(function (){
-    d3.select("body").call(myComponent, []);
-  }, 3000);
-
+  var myComponent = d3.component("div")
+    .render((selection, d) => selection.text(d));
+  d3.select("body")
+    .call(myComponent, "Hello d3-component!");
 </script>
 ```
 
-[Run the above example](https://bl.ocks.org/curran/c3d9783e641636479fa8e07a480e7233).
-
 ## API Reference
+
+In summary, the API looks like this:
+
+```js
+var myComponent = d3.component("div", "some-class")
+  .create((selection, d) => { ... }) // Invoked for entering component instances.
+  .render((selection, d) => { ... }) // Invoked for entering AND updating component instances.
+  .destroy((selection, d) => { ... }); // Invoked for exiting instances, may return a transition.
+
+// To invoke the component,
+d3.select("body") // create a selection with a single element,
+  .call(myComponent, "Hello d3-component!"); // then use selection.call.
+```
+
+To see the full API in action, check out this ["Hello d3-component" example](https://bl.ocks.org/curran/c3d9783e641636479fa8e07a480e7233).
 
 <a href="#component" name="component">#</a> <b>component</b>(<i>tagName</i>[, <i>className</i>]))
 
