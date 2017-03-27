@@ -5,7 +5,7 @@ A lightweight component abstraction for [D3.js](d3js.org).
 **Features:**
 
  * Encapsulates the [General Update Pattern](https://github.com/d3/d3-selection#selection_merge).
- * Composable (even recursive!) stateless functional components.
+ * Composable (even [recursive](https://bl.ocks.org/curran/2aafab81bb2029e1f4f24d258b790ce4)!) stateless functional components.
  * Reliable `destroy` hook for cleaning things up.
  * Works great with [Redux](http://redux.js.org/).
 
