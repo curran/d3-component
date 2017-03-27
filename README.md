@@ -96,7 +96,7 @@ A lightweight component abstraction for [D3.js](d3js.org).
     <!-- Fractal Pie Chart -->
     <td>
       <a href="http://bl.ocks.org/curran/2aafab81bb2029e1f4f24d258b790ce4">
-        <div>Fractal Pie Chart</div>
+        <div>Fractal Pie Chart (ES6)</div>
         <img width="230" height="120" src="http://bl.ocks.org/curran/raw/2aafab81bb2029e1f4f24d258b790ce4/thumbnail.png">
       </a>
     </td>
