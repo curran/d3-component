@@ -22,16 +22,16 @@ function dataArray(data, context) {
 function destroyDescendant() {
   const instance = getInstance(this);
   if (instance) {
-    const { selection, datum, destroy } = instance;
-    destroy(selection, datum);
+    const { selection, datum, destroy, index } = instance;
+    destroy(selection, datum, index);
   }
 }
 
 // Destroys the component instance and its descendant component instances.
 function destroyInstance() {
-  const { selection, datum, destroy } = getInstance(this);
+  const { selection, datum, destroy, index } = getInstance(this);
   selection.selectAll('*').each(destroyDescendant);
-  const transition = destroy(selection, datum);
+  const transition = destroy(selection, datum, index);
   (transition || selection).remove();
 }
 
@@ -58,17 +58,17 @@ export default function (tagName, className) {
   }
 
   // Creates a new component instance and stores it on the DOM node.
-  function createInstance(datum) {
+  function createInstance(datum, index) {
     const selection = select(this);
-    setInstance(this, { component, selection, destroy, datum });
-    create(selection, datum);
+    setInstance(this, { component, selection, destroy, datum, index });
+    create(selection, datum, index);
   }
 
   // Renders the component instance, and stores its datum for later use (in destroy).
-  function renderInstance(datum) {
+  function renderInstance(datum, index) {
     const instance = getInstance(this);
     instance.datum = datum;
-    render(instance.selection, datum);
+    render(instance.selection, datum, index);
   }
 
   // The returned component instance.
