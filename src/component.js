@@ -22,14 +22,18 @@ function dataArray(data, context) {
 function destroyDescendant() {
   const instance = getInstance(this);
   if (instance) {
-    const { selection, datum, destroy, index } = instance;
+    const {
+      selection, datum, destroy, index,
+    } = instance;
     destroy(selection, datum, index);
   }
 }
 
 // Destroys the component instance and its descendant component instances.
 function destroyInstance() {
-  const { selection, datum, destroy, index } = getInstance(this);
+  const {
+    selection, datum, destroy, index,
+  } = getInstance(this);
   selection.selectAll('*').each(destroyDescendant);
   const transition = destroy(selection, datum, index);
   (transition || selection).remove();
@@ -60,7 +64,9 @@ export default function (tagName, className) {
   // Creates a new component instance and stores it on the DOM node.
   function createInstance(datum, index) {
     const selection = select(this);
-    setInstance(this, { component, selection, destroy, datum, index });
+    setInstance(this, {
+      component, selection, destroy, datum, index,
+    });
     create(selection, datum, index);
   }
 
@@ -79,13 +85,13 @@ export default function (tagName, className) {
       .data(dataArray(data, context), key);
     instances
       .exit()
-        .each(destroyInstance);
+      .each(destroyInstance);
     return instances
       .enter().append(tagName)
-        .attr('class', className)
-        .each(createInstance)
+      .attr('class', className)
+      .each(createInstance)
       .merge(instances)
-        .each(renderInstance);
+      .each(renderInstance);
   }
 
   // Chainable setters.
