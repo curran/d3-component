@@ -75,9 +75,9 @@ tape("Livecycle arguments should be only (selection, d).", function(test) {
   var div = d3.select(jsdom.jsdom().body).append("div");
   div.call(argsTester, ["a", "b"]);
   div.call(argsTester, ["a"]);
-  test.equal(createArgs.length, 2)
-  test.equal(renderArgs.length, 2)
-  test.equal(destroyArgs.length, 2);
+  test.equal(createArgs.length, 3)
+  test.equal(renderArgs.length, 3)
+  test.equal(destroyArgs.length, 3);
   test.end();
 });
 

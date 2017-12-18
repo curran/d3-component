@@ -125,9 +125,9 @@ In summary, the API looks like this:
 
 ```js
 var myComponent = d3.component("div", "some-class")
-  .create((selection, d) => { ... }) // Invoked for entering component instances.
-  .render((selection, d) => { ... }) // Invoked for entering AND updating component instances.
-  .destroy((selection, d) => { ... }); // Invoked for exiting instances, may return a transition.
+  .create((selection, d, i) => { ... }) // Invoked for entering component instances.
+  .render((selection, d, i) => { ... }) // Invoked for entering AND updating component instances.
+  .destroy((selection, d, i) => { ... }); // Invoked for exiting instances, may return a transition.
 
 // To invoke the component,
 d3.select("body") // create a selection with a single element,
@@ -142,17 +142,17 @@ Creates a new component generator that manages and renders into DOM elements of 
 
 The optional parameter *className* determines the value of the `class` attribute on the DOM elements managed.
 
-<a href="#component_create" name="component_create" >#</a> <i>component</i>.<b>create</b>(<i>function</i>)
+<a href="#component_create" name="component_create" >#</a> <i>component</i>.<b>create</b>(<i>function(selection, d, i)</i>)
 
-Sets the create *function* of this component generator, which will be invoked whenever a new component instance is created, being passed a *selection* containing the current DOM element and the current datum (*d*).
+Sets the create *function* of this component generator, which will be invoked whenever a new component instance is created, being passed a *selection* containing the current DOM element, the current datum (*d*), and the index of the current datum (*i*).
 
-<a href="#component_render" name="component_render" >#</a> <i>component</i>.<b>render</b>(<i>function</i>)
+<a href="#component_render" name="component_render" >#</a> <i>component</i>.<b>render</b>(<i>function(selection, d, i)</i>)
 
-Sets the render *function* of this component generator. This *function* will be invoked for each component instance during rendering, being passed a *selection* containing the current DOM element and the current datum (*d*).
+Sets the render *function* of this component generator. This *function* will be invoked for each component instance during rendering, being passed a *selection* containing the current DOM element, the current datum (*d*), and the index of the current datum (*i*).
 
-<a href="#component_destroy" name="component_destroy" >#</a> <i>component</i>.<b>destroy</b>(<i>function</i>)
+<a href="#component_destroy" name="component_destroy" >#</a> <i>component</i>.<b>destroy</b>(<i>function(selection, d, i)</i>)
 
-Sets the destroy *function* of this component generator, which will be invoked whenever a component instance is destroyed, being passed a *selection* containing the current DOM element and the current datum (*d*).
+Sets the destroy *function* of this component generator, which will be invoked whenever a component instance is destroyed, being passed a *selection* containing the current DOM element, the current datum (*d*), and the index of the current datum (*i*).
 
 When a component instance gets destroyed, the destroy *function* of all its children is also invoked (recursively), so you can be sure that this *function* will be invoked before the compoent instance is removed from the DOM.
 
