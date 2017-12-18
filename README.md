@@ -125,9 +125,9 @@ In summary, the API looks like this:
 
 ```js
 var myComponent = d3.component("div", "some-class")
-  .create((selection, d) => { ... }) // Invoked for entering component instances.
-  .render((selection, d) => { ... }) // Invoked for entering AND updating component instances.
-  .destroy((selection, d) => { ... }); // Invoked for exiting instances, may return a transition.
+  .create((selection, d, i) => { ... }) // Invoked for entering component instances.
+  .render((selection, d, i) => { ... }) // Invoked for entering AND updating component instances.
+  .destroy((selection, d, i) => { ... }); // Invoked for exiting instances, may return a transition.
 
 // To invoke the component,
 d3.select("body") // create a selection with a single element,
